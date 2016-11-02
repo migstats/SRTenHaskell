@@ -2,6 +2,7 @@
 *.aux
 *.bbl
 *.blg
+*.djvu
 *.el
 *.gz
 *.idx
