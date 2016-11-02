@@ -1,0 +1,495 @@
+\chapter{Terminación}
+
+Como hemos podido comprobar en los anteriores capítulos, es importante
+que nuestros sistemas de reescritura tengan la propiedad de la
+terminación. Sin embargo, en la primera sección de este capítulo
+demostraremos que el problema de decidir si un sistema de reescritura
+es terminante, es indecidible. Aunque en casos mas restringidos si
+podremos decidir sobre la terminación del sistema de reescritura. En
+la segunda sección definiremos los órdenes de reducción, obteniendo
+una propiedad con ellos para verificar la terminación. En el resto
+daremos diferentes maneras de definir los órdenes de reducción.
+
+\section{El problema de decisión}
+
+\subsection{La indecibilidad para el caso general}
+
+En esta sección vamos a introducir conceptos generales de las Ciencias
+de la Computación, aplicados a los sistemas de reescritura. Uno de los
+problemas generales de las Ciencias de la Computación es afirmar si un
+problema es decidible. Usaremos algunos de sus resultados sobre
+máquinas de Turing. Supondremos, sin perdida de generalidad, que el
+modelo es no determinista de una banda finita en ambas direcciones.
+
+\begin{defi} 
+  Una máquina de Turing no determinista $M$ viene dada por,
+  \begin{enumerate}
+  \item Un alfabeto $\Gamma := \{s_0, \dots, s_n \}$ de símbolos,
+    donde $s_0$ es considerado el espacio en blanco.
+  \item Un conjunto finito $Q = \{q_0, \dots, q_p \}$ de estados.
+  \item Una relación de transición
+    $\Delta \subseteq Q \times \Gamma \times Q \times \Gamma \times \{
+    l,r \} $.
+  \end{enumerate}
+\end{defi}
+% Dibujo de una maquina de turing 
+
+Una maquina de Turing se puede interpretar de la siguiente
+manera. Imaginemos que tenemos una tira de papel dividida en infinitos
+cuadrados en ambas direcciones, y en cada cuadrado se encuentra un símbolo del
+alfabeto. Además de la tira de papel, se encuentra un marcador en uno
+de los cuadrados. A partir de la relación de transición que escojamos,
+el marcador se moverá de un lado a otro y cambiará los símbolos del
+papel. 
+
+Un ejemplo de relación de transición es $\{ q_1, s_1, q_2, s_2, l
+\}$. El marcador empieza por el cuadrado inicial de la tira de
+papel. Si el marcador posee el estado $q_1$ y en ese cuadrado de
+papel se encuentra $s_1$, procedemos a aplicar el algoritmo. Cambiamos
+el estado del marcador por $q_2$ y el símbolo del trozo de papel por
+$s_1$. A continuación movemos el marcador a la izquierda (si fuera
+$l$) o derecha (si fuera $r$).
+
+%EJEMPLO
+
+Llamaremos a un estado de la computación de la máquina,
+configuración. En la configuración de una máquina se incluye, la tira
+de papel, la posición y el estado del marcador. Podemos expresar
+$K \vdash_M K'$ si la configuración de $K'$ se puede obtener mediante
+$K$ con una computación de la máquina de Turing $M$.
+
+De aquí surge el problema de la parada. Nos interesa saber si dado una
+maquina de Turing $M$ y una configuración de la máquina $K$,
+termina. Es decir, que no ocurre $K \vdash_M K_1 \vdash_M K_2 \dots$.
+
+Volviendo al tema de la reescritura, en nuestro es caso el problema es
+un poco más difícil. Como podemos aplicar toda regla en cada momento,
+no tenemos una configuración $K$ como en el problema de la
+parada. Pero si planteamos el problema suponiendo que no partimos de
+una configuración inicial $K$, la pregunta pasa a ser; ¿qué
+configuraciones $K$ hace que el problema termine o no? A esto se le
+denota por el problema de la parada uniforme. 
+
+Para extrapolar lo que ya sabemos sobre máquinas de Turing a la
+reescritura, vamos a codificar las configuraciones como términos con
+una signatura $\Sigma_M$.
+
+\begin{defi}
+Sea $M$ una máquina de Turing, definimos 
+\[
+  \Sigma_M := \{ \overrightarrow{s_0}, \dots, \overrightarrow{s_n},
+  \overleftarrow{s_0}, \dots, \overleftarrow{s_n} \} \cup \{q_0,
+  \dots, q_p \} \cup \{\overrightarrow{l}, r \}
+\]
+donde cada función es de aridad 1.
+\end{defi}
+
+A continuación, enunciamos una definición que relaciona términos con
+máquinas de Turing.
+
+\begin{defi}
+  Sea $x_0$ una variable fija. Un término de configuración en
+  $\Sigma_M$ es cualquier término de la forma,
+\[
+  \overrightarrow{l}(\overrightarrow{s_{i_k}}(\dots
+  \overrightarrow{s_{i_1}}(q(\overleftarrow{s_{j_1}}(\dots
+  \overrightarrow{s_{j_h}}(\overleftarrow{r}(x_0))\dots)))\dots))
+\]
+donde $k,h \geq 0$, $\{i_1, \dots, i_k, j_1, \dots, j_h \} \subseteq \{0, \dots, n \}$, y $q \in Q$.
+\end{defi}
+
+Para entender mejor esta definición, debemos hacer las siguientes
+consideraciones. El marcador se encuentra en $s_{j_1}$ con el estado
+$q$. Los elementos que se encuentran a la derecha del marcador son
+$s_{j_2}, \dots s_{j_h}$, y los elementos que se encuentran a su
+derecha, son $s_{i_1}, \dots, s_{i_k}$. 
+
+Como la tira es infinita, $\overrightarrow{l}, \overleftarrow{r}$ nos
+ayudan a controlar los espacios vacíos. Si durante la computación de
+la máquina de Turing hiciese falta un espacio en blanco, estas
+funciones se lo proporcionan.
+
+%Insertar dibujo con la transformación
+
+Acabamos de transformar una máquina de Turing en un término. En la
+siguiente definición, adaptaremos un sistema de reescritura para una
+máquina de Turing.
+
+\begin{defi}
+  Un sistema de reescritura $R_M$ consiste en las siguientes reglas de
+  reescritura,
+\begin{itemize}
+\item Para cada transición $(q, s_i, q', s_j, r) \in \Delta$, $R_M$
+  contiene la regla,
+\[
+  q(\overleftarrow{s_i}(x)) \rightarrow \overrightarrow{s_j}(q'(x))
+\]
+Si $i=0$, entonces $R_M$ contiene la siguiente regla,
+\[
+  q(\overleftarrow{r}(x)) \rightarrow
+  \overrightarrow{s_j}(q'(\overleftarrow{r}(x)))
+\]
+\item Para cada transición $(q,s_i,q',s_j,l) \in \Delta$, $R_M$
+  contiene la regla,
+\[
+  \overrightarrow{l}(q(\overleftarrow{s_i}(x))) \rightarrow
+  \overrightarrow{l}(q'(\overleftarrow{s_0}(\overleftarrow{s_j}(x))))
+\]
+y para cada $s_k \in \Gamma$ la regla,
+\[
+  \overrightarrow{s_k}(q(\overleftarrow{s_i}(x))) \rightarrow
+  q'(\overleftarrow{s_k}(\overleftarrow{s_j}(x)))
+\]
+Si $i=0$, entonces $R_M$ contiene una regla adicional,
+\[
+  \overrightarrow{l}(q(\overleftarrow{r}(x))) \rightarrow
+  \overrightarrow{l}(q'(\overleftarrow{s_0}(\overleftarrow{s_j}(\overleftarrow{r}(x)))))
+\]
+y para cada $s_k \in \Gamma$ la regla
+\[
+  \overrightarrow{s_k}(q(\overleftarrow{r}(x))) \rightarrow
+  q'(\overleftarrow{s_0}(\overleftarrow{s_j}(\overleftarrow{r}(x)))))
+\]
+\end{itemize}
+\end{defi}
+
+Con estas reglas podemos llegar a la conclusión de que para todo par
+de términos de configuración $t, t'$, que verifiquen
+$t \rightarrow_{R_M} t'$, implica $K_t \vdash K_{t'}$. E igual ocurre
+en sentido contrario, si tenemos dos configuraciones $K, K'$ y un
+término de configuración $t$, si $K \vdash K'$ y $K \equiv K_t$, esto
+implica que existe un término de configuración $t'$ tal que
+$K' \equiv K_{t'}$ y $t \rightarrow_{R_M} t'$. \label{prop:4}
+
+De aquí podemos razonar una propiedad. Como el problema de la parada
+de las máquinas de Turing es indecidible, y acabamos de probar que una
+máquina de Turing es equivalente a un sistema de reescritura (con las
+reglas que hemos pedido), aseguramos que dado un sistema de
+reescritura finito $R$ y un término $t$, el problema de ver si todas
+las reducciones son terminantes empezando por $t$ es indecidible.
+
+Sin embargo, el problema que acabamos de resolver no es el original
+que queríamos. El problema de la terminación pide que todas las
+reducciones desde todos los posibles términos sean terminantes. Puede
+darse el caso que tengamos una configuración de términos que termine,
+pero una reducción no terminante que empiece por un término que no
+este en la configuración inicial. Por tanto el problema no esta
+resuelto todavía. El siguiente lema asegura que este caso no puede
+ocurrir.
+
+\begin{lema} \label{lema:4.1}
+  Sea  $t$  un  término  de   $\Sigma_M$.   Si  existe  una  reducción
+  $t \rightarrow_{R_M}  t_1 \rightarrow_{R_M} t_2  \rightarrow \dots$,
+  entonces existe  un término  de configuración  $t'$ y  una reducción
+  infinita $R_M$ empezando por $t'$.
+\end{lema}
+
+\begin{demo}
+  Vamos a considerar
+  $\Sigma_M = \overrightarrow{\Gamma} \cup \overleftarrow{\Gamma} \cup
+  Q \{ \overleftarrow{r} , \overrightarrow{l} \} $, donde
+  $\overrightarrow{\Gamma} := \{\overrightarrow{s_1}, \dots,
+  \overrightarrow{s_n} \}$ y
+  $\overleftarrow{\Gamma} := \{ \overleftarrow{s_1}, \dots,
+  \overleftarrow{s_n} \}$. Cualquier elemento $w$ de $\Sigma_M$ puede
+  ser escrito como composición de funciones tal que,
+  $w = u_1 v_1 u_2 v_2 \dots u_q v_q u_{q+1}$, ya que $u_i, v_j$ son
+  funciones de aridad 1.
+
+  Como todas las reglas de reescritura de $R_M$ contienen un símbolo
+  de $Q$, cualquier reducción aplicada a $w$, se hace dentro de las
+  funciones $v$.
+
+  Es decir, que si tomamos $w(x) \rightarrow_{R_M} w'(x)$, entonces
+  existe un índice $j$, $1 \leq j \leq q$, y una palabra
+  $v'_j \in \overrightarrow{\Gamma}^{*} Q \overleftarrow{\Gamma}^{*}$
+  tal que
+  $w'= u_1 v_1 u_2 v_2 \dots u_j v'_j u_{j+1} \dots u_q v_1 u_{q+1}$,
+  y que
+  $\overrightarrow{l} v_j \overleftarrow{r} (x_0) \rightarrow_{R_M}
+  \overrightarrow{l} v'_j \overleftarrow{r}$
+  
+  Como $q$ es finito, esto implica que la reducción infinita que
+  empieza por $w(x)$ produce una reducción infinita empezando por
+  $\overrightarrow{l} v_j \overleftarrow{r} (x_0)$. Como
+  $\overrightarrow{l} v_j \overleftarrow{r} (x_0)$ es un término de
+  configuración, queda demostrado el lema.
+\end{demo}
+
+Finalmente, por el lema \ref{lema:4.1}, obtenemos el objetivo principal
+de esta sección, la indecibilidad para el problema de terminación de
+los sistemas de reescritura.
+
+
+\subsection{Sistemas de reescritura básicos hacia la derecha}
+
+En esta subsección vamos a analizar un SRT particular $R$, donde sus
+reglas hacia la derecha son términos básicos. A estos SRT les
+llamaremos básicos hacia la derecha, y probaremos que son terminantes.
+
+\begin{lema}
+  Sea $R$ un SRT finito básico hacia la derecha. Entonces son
+  equivalentes,
+  \begin{enumerate}
+  \item $R$ no termina.
+  \item Existe una regla $l \rightarrow r \in R$ y un término $t$ de
+    manera que $r \xrightarrow{+}_R t$ y $t$ contiene a $r$ como
+    subtérmino.
+  \end{enumerate}
+\end{lema}
+
+\begin{demo}
+  $(2 \Rightarrow 1)$ es cierto pues obtenemos una reducción finita;
+  $r\xrightarrow{+}_R t = t[r]_p \xrightarrow{+}_R t[t]_p =
+  t[t[r]_p]_p \xrightarrow{+}_R \dots$, donde $p$ es la posición $t|_p = r$.
+  
+  $(1 \Rightarrow 2)$ se demuestra mediante inducción por el cardinal
+  de $R$.
+
+  Suponemos que $|R| >0>$ y consideramos una reducción infinita
+  $t_1 \rightarrow t_2 \rightarrow t_3 \rightarrow \dots$. Tenemos que
+  probar que esta cadena no termina. Sin perdida de generalidad al
+  menos una reducción ocurre en la posición $\epsilon$. Esto significa
+  que existe un índice $i$, una regla $l \rightarrow r \in R$, y una
+  sustitución $\sigma$, tal que $t_i = \sigma(l)$ y
+  $t_{i+1} = \sigma(r) = r$. Luego hay una reducción infinita
+  $r \rightarrow_R t_{i+2} \rightarrow_R t_{i+3} \rightarrow_R \dots$
+  que empieza por $r$.
+
+  Si la regla $l \rightarrow r$ no es usada en la reducción, entonces
+  aplicamos la inducción a $R - \{l \rightarrow r\}$. En el caso en
+que sí sea usada, eso significa que existe $j$ tal que $r$ ocurre en
+$t_{i+j}$ y por tanto, obtenemos la segunda proposición.
+\end{demo}
+
+Luego si $R$ termina entonces $\rightarrow_R$ es globalmente finita,
+ya que es una ramificación finita por el corolario \ref{globfin} y el
+lema \ref{ramfin}. Por tanto todas las reducciones terminarían y, al
+ser finitas, lo hacen en un numero finito de pasos. Con esta idea,
+obtenemos el resultado clave de esta subsección.
+
+\begin{teor}
+  Para un SRT finito básico hacia la derecha, el problema de la
+  terminación es decidible.
+\end{teor}
+
+\section{Órdenes de reducción}
+
+En esta sección relacionaremos la definición de orden bien fundado con
+el problema de la terminación.
+
+En la sección previa, hemos probado que el problema de la terminación
+es indecidible. Sin embargo podemos dar varios métodos para resolver
+el problema. Estos métodos no son totalmente automatizados.
+
+La idea básica para probar la terminación, se hace mediante un orden
+bien fundado. Supongamos que $R$ es un sistema de reescritura finito,
+$>$ es un orden estricto bien fundado en $T(\Sigma, X)$. Relacionando
+los sistemas de reescritura con los órdenes, si $R$ es terminante,
+diremos que $s \rightarrow_R t$ implica $s > t$. En vez de decidir $s > t$,
+tan solo tendremos que comprobar las reglas de $R$. Para considerar
+este nuevo acercamiento al problema necesitamos pedir ciertas
+propiedades a $>$.
+
+\begin{defi}
+  Sea $\Sigma$ una signatura y $V$ un conjunto numerable de
+  variables. Un orden estricto $>$ es un orden de reescritura syss
+  \begin{enumerate}
+  \item Es compatible con las $Sigma$-operaciones: para todo
+    $s_1,s_2 \in T(\Sigma, V)$, todo $n \geq 0$ y
+    $f \in \Sigma^{(n)}$, $s_1 > s_2$ implica
+    \[ f(t_1, \dots, t_{n-1}, s_1, t_{i+1}, \dots, t_n) > f(t_1,
+      \dots, t_{n-1}, s_2, t_{i+1}, \dots, t_n) \]
+    $\forall i, 1 \leq i \leq n$ y
+    $\forall t_1, \dots, t_{i-1}, t_{i+1}, \dots, t_n \in T(\Sigma,
+    V)$. %Hay una condición equivalente
+  \item Es cerrado bajo sustituciones:
+    $\forall \sigma \in \Sub(T(\Sigma,V))$, si $s_1 > s_2$ entonces
+    $\sigma(s_1) > \sigma(s_2)$.
+  \end{enumerate}
+  Un orden de reducción es un orden de reescritura bien fundado.
+\end{defi}
+
+%Ejemplo
+
+El siguiente teorema es de especial importancia para los órdenes de
+reducción.
+
+\begin{teor} 
+  Un sistema de reescritura $R$ termina syss existe un orden de
+  reducción $>$ que satisface $l>r$ para toda regla
+  $l \rightarrow r \in R$.
+\end{teor}
+
+\begin{demo}
+  $(\Rightarrow)$ Suponiendo que $R$ termina, entonces
+  $\xrightarrow{+}_R$ es un orden de reducción ya que satisface
+  $l \xrightarrow{x}_R r$ para todo $l \rightarrow r \in R$.
+
+  $(\Leftarrow)$ Como $>$ es un orden de reescritura, para $l > r$ se
+  verifica $t [ \sigma(l) ]_p > t [ \sigma(r) ]_p$ para todo
+  término $t$, sustitución $\sigma$ y posición $p$. Como $>$ esta bien
+  fundada, y para toda regla de $R$, $s_1 \rightarrow_R s_2$ implica
+  $s_1 > s_2$, entonces no puede ocurrir una reducción infinita
+  $s_1 \rightarrow_R s_2 \rightarrow_R s_3 \dots$.
+\end{demo}
+
+%\begin{defi}
+%  Un orden de reducción $>$ en $T(\Sigma, V)$ es total en términos
+%  básicos, si restringido a $T(\Sigma, \emptyset)$ es un orden linear
+%  estricto.
+%\end{defi}
+
+A partir de aquí podemos dar varios métodos para dar una repuesta al
+problema. En las secciones posteriores nos centraremos en los ordenes
+de simplificación, orden de camino lexicográfico y orden de camino
+recursivo, y daremos una implementación de ambos.
+
+\section{Órdenes de simplificación}
+
+En esta sección definiremos que son los órdenes de simplificación y
+daremos dos órdenes construidos a partir de estos a modo de ejemplo en
+las siguientes subsecciones. Empezamos por la definición,
+
+\begin{defi}
+  Sea $>$ un orden estricto en $T(\Sigma, V)$ es un orden de
+  simplificación, syss es un orden de reescritura que para todo
+  término $t \in T(\Sigma, V)$ y todas las posiciones
+  $p \in \Pos(t) - \{ \epsilon \}$ entonces $t > t|_p$.
+\end{defi}
+
+La definición es equivalente a pedir que, para todo $n \leq 1$, todos
+los símbolos de funciones $f \in \Sigma^{(n)}$, todas las variables
+$x_1, \dots, x_n \in V$, tenemos que
+$f(x_1, \dots, x_i, \dots, x_n) > x_i$. Usando esta nueva definición e
+introduciendo algunos conceptos de álgebra de homomormismos, se puede
+demostrar que los órdenes de simplificación son equivalentes a los
+ordenes de reducción para $\Sigma$ finito.
+
+\subsection{Órdenes de caminos lexicográficos}
+
+La idea de los caminos recursivos reside en comparar las raíces de los
+términos, y en comparar recursivamente sus subtérminos. Estos
+subtérminos se pueden comparar mediante multiconjuntos (orden de
+caminos de multiconjuntos), tuplas (orden de caminos lexicográficos),
+o una mezcla de ambos (orden de caminos recursivos). Nos interesaremos
+por estos dos últimos.
+
+\begin{defi}
+  Sea $\Sigma$ una signatura finita y $>$ un orden estricto de
+  $\Sigma$. El orden de caminos lexicográficos $>_{ocl}$, se define
+  como, $s>_{ocl}t$ syss ocurre alguno de los siguientes casos,
+  \begin{itemize}
+  \item (OCL1) $t \in \Var(s)$ y $s \not = t$ ó
+  \item (OCL2) $s = f(s_1, \dots, s_m)$, $t = g(t_1, \dots, t_n)$, y
+    \begin{itemize}
+    \item (OCL2a) existe $i$, $1 \leq i \leq m$, con
+      $s_i \geq_{lpo} t$ ó
+    \item (OCL2b) $f > g$ y $s >_{ocl} t_j$ para todo $j$ en
+      $1 \leq j \leq n$ ó
+    \item (OCL2c) $f = g$, $s >_{lpo} t_j$ para todo $j$ en
+      $1 \leq j \leq n$, y exista $i$, $1 \leq i \leq m$ tal que
+      $s_1 = t_1, \dots, s_{i-1} = t_{i-1}$ y $s_i >_{ocl} t_i$
+    \end{itemize}
+  \end{itemize}
+\end{defi}
+
+La definición es recursiva y esta bien definida.
+
+% INTRODUCIR EJEMPLO
+
+\begin{teor}
+  Para cualquier orden estricto $>$ en $\Sigma$, el orden de camino
+  lexicográfico inducido es un orden de simplificación en
+  $T(\Sigma, V)$.
+\end{teor}
+
+% FALTA DEMOSTRACIÓN
+
+A continuación implementaremos el orden de caminos lexicográfico en
+Haskell. Para realizar los ejemplos de esta función, primero
+implementaremos \texttt{ordenPorLista xs a b}, que es el resultado de
+comparar $a$ y $b$, tal que $a > b$ syss $a$ aparece antes en $x$s que
+$b$. Por ejemplo,
+
+\begin{sesion}
+ghci> ordenPorLista ["a","b","c"] "a" "c"
+GT
+ghci> ordenPorLista ["a","b","c"] "c" "b"
+LT
+ghci> ordenPorLista ["a","b","c"] "b" "b"
+EQ
+\end{sesion}
+
+Su código es,
+
+\begin{codigo}
+ordenPorLista :: Ord a => [a] -> a  -> a -> Ordering
+ordenPorLista [] _ _ =
+  error("Ninguno de los dos elementos se encuentran
+         en la lista")
+ordenPorLista (x:xs) a b
+  | a == x = if a == b
+             then EQ
+             else GT
+  | b == x = LT
+  | otherwise = ordenPorLista xs a b
+\end{codigo}
+
+Definiremos \texttt{ordCamLex ord s t}, que es el resultado de
+comparar $s$ y $t$ términos, con el orden de caminos lexicográfico
+inducido por \texttt{ord}. Por ejemplo
+
+\begin{sesion}
+ghci> let ord = ordenPorLista ["i","f","e"]
+ghci> ordenCamLex ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
+GT
+ghci> ordenCamLex ord (T "i" [T "e" []]) (T "e" [])
+GT
+ghci> ordenCamLex ord (T "i" [T "f" [V("x",1),V("y",1)]])
+                      (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
+GT
+ghci> ordenCamLex ord (T "f" [V("y",1),V("z",1)])
+                      (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
+LT
+\end{sesion}
+
+Su código es,
+
+\begin{codigo}
+ ordenCamLex:: ([Char] -> [Char] -> Ordering)
+                -> Termino -> Termino -> Ordering
+ordenCamLex _ s (V x)
+  | s == (V x) = EQ
+  | ocurre x s = GT --OCL1
+  | otherwise = LT
+ordenCamLex _ (V _) (T _ _) = LT
+ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
+  | all (\x -> ordenCamLex ord x t == LT) ss
+    = case ord f g of
+      GT -> if all (\x -> ordenCamLex ord s x == GT) ts
+            then GT --OCL2b
+            else LT
+      EQ -> if all (\x -> ordenCamLex ord s x == GT) ts
+            then ordLex (ordenCamLex ord) ss ts --OCL2c
+            else LT
+      LT -> LT  
+  | otherwise = GT --OCL1a
+\end{codigo}
+
+\subsection{Órdenes de caminos recursivos}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Apéndices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\addappheadtotoc
+\appendix
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "SRT_en_Haskell"
+%%% End:

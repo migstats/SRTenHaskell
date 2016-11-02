@@ -1,0 +1,21 @@
+﻿
+Orden de evaluación:
+
+
+library.ml
+
+orders.ml
+
+trs.ml
+
+termorders.ml
+
+criticalpairs.ml
+
+completion.ml
+
+
+=================
+
+combination.ml
+boolunif.ml

@@ -1,0 +1,88 @@
+Índice de librerías
+========================================================================
+
+* Grafo de dependencia
+         library
+        /       \
+  orders         trs 
+   \   \        /  \
+    \   termorders  criticalpairs
+     \              |
+      ------------- completion 
+
+* [[./library.ML][library]]: A library of standard functions for Standard ML
+** Depende de ninguna.
+** Define las funciones:
+   + concat: 'a list list -> 'a list
+   + exists: ('a -> bool) -> 'a list -> bool
+   + forall: ('a -> bool) -> 'a list -> bool
+   + null:   'a list -> bool
+   + zip:    'a list * 'b list -> ('a * 'b) list   
+
+* [[./orders.ML][orders]]: A library of SML functions for partial/strict/quasi orders
+** Depende de 
+   + library (forall, exists).
+** Define el tipo 
+   + order con constructores GR, EQ y NGE.
+** Define las funciones:
+   + lex:   ('a * 'b -> order) -> 'a list * 'b list -> order
+   + Lex:   ('a * 'b -> order) -> 'a list * 'b list -> order
+   + rem1:  ('a * 'b -> order) -> 'a list -> 'b -> 'a list
+   + mdiff: ('a * 'b -> order) -> 'a list -> 'b list -> 'a list
+   + mul:   ('a * 'a -> order) -> 'a list * 'a list -> order
+
+* [[./trs.ML][trs]]: The basics of term rewriting: terms, unification, matching, normalization
+** Depende de
+   + library (exists).
+** Define los tipos 
+   + vname.
+   + term con constructores V y T.
+** Define las funciones:
+   + indom:   vname -> subst -> bool
+   + app:     subst -> vname -> term
+   + lift:    subst -> term -> term
+   + occurs:  vname -> term -> bool
+   + solve:   (term * term)list * subst -> subst
+   + elim:    vname * term * (term * term) list * subst -> subst
+   + unify:   term * term -> subst
+   + matchs:  (term * term) list * subst -> subst
+   + match:   term * term -> subst
+   + rewrite: (term * term) list -> term -> term
+   + norm:    (term * term) list -> term -> term
+
+* [[./termorders.ML][termorders]]: Recursive path orders in SML
+** Depende de
+   + library (forall)
+   + orders (EQ, GR, NGE, lex)
+   + trs (V, T, occurs)  
+** Define las funciones
+   + lpo: (string * string -> order) -> term * term -> order
+   + rpo: (string -> (term * term -> order) -> term list * term list -> order)
+          -> (string * string -> order) -> term * term -> order   
+
+* [[./criticalpairs.ML][criticalpairs]]: Computation of critical pairs in SML
+** Depende de
+   + trs (V, T)  
+** Define las funciones
+   + max: int * int -> int
+   + maxs: int list -> int
+   + maxindex: term -> int
+   + rename: int -> term -> term
+   + CP: (term -> term) -> term * term -> term * term -> (term * term) list
+   + CPs: (term * term) list -> term * term -> (term * term) list
+   + CriticalPairs2: (term * term) list -> (term * term) list -> (term * term) list
+   + CriticalPairs: (term * term) list -> (term * term) list
+
+* [[./completion.ML][completion]]: Completion a la Huet in SML
+** Depende de
+   + trs (V, T)
+   + orders (GR)
+   + criticalpairs (CriticalPairs2)
+** Define los tipos 
+** Define las funciones
+   + size: term -> int
+   + minRule: (term * term) * int * ids * ids -> (term * term) * ids
+   + chose: (term * term) list -> (term * term) * (term * term) list
+   + addRule: term * term * ids * ids * ids -> ids * ids * ids
+   + orient: (term * term -> order) -> ids * ids * ids -> ids * ids
+   + complete: (term * term -> order) -> ids -> ids

@@ -1,0 +1,26 @@
+| Original | Traducción      |
+|----------+-----------------|
+| rem1     | borraElem       |
+| mdiff    | difMulticonj    |
+| mul      | ordenMulticonj  |
+| indom    | contenido       |
+| app      | aplicaSust      |
+| lift     | aplicaTerm      |
+| occurs   | contenidoVar    |
+| solve    | resuelve        |
+| elim     | reglaElimina    |
+| unify    | unificaEjem     |
+| matchs   | empareja        |
+| match    | emparejaEjem    |
+| lpo      | ordenCamLex     |
+| rpo      | ordenCamRec     |
+| maxindex | indiceMaximo    |
+| rename   | renombraTermino |
+| CP       | parCritico      |
+
+| Ocaml | Haskell | Matemático |
+|-------+---------+------------|
+| EQ    | EQ      | =          |
+| GR    | GT      | >          |
+| NGE   | LT      | <          |
+

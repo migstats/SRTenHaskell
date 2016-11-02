@@ -1,0 +1,57 @@
+\chapter{Funciones auxiliares para Haskell}
+
+Usaremos las siguientes funciones de la libreria Data.List
+
+\begin{itemize}
+\item \texttt{(xs ++ ys)} es la concatenación de \texttt{xs} e \texttt{ys}. Por ejemplo,
+        
+\begin{sesion}
+> [2,5] ++ [3,7,6]
+[2,5,3,7,6]
+\end{sesion}
+        
+\item \texttt{(any p xs)} se verifica si algún elemento de \texttt{xs} cumple
+  la propiedad \texttt{p}. Por ejemplo,
+
+\begin{sesion}
+> any even [3,2,5]
+True
+> any even [3,1,5]
+False
+\end{sesion}      
+
+\item \texttt{(all p xs)} se verifica si todos los elementos de \texttt{xs}
+  cumplen la propiedad \texttt{p}. Por ejemplo,
+
+\begin{sesion}
+> all even [2,6,8]
+True
+> all even [2,5,8]
+False
+\end{sesion}      
+
+\item \texttt{(null xs)} se verifica si \texttt{xs} es la lista vacía. Por
+  ejemplo, 
+
+\begin{sesion}    
+> null []
+True
+> null [3]
+False
+\end{sesion}      
+
+\item \texttt{(zip xs ys)} es la lista de pares formado por los
+  correspondientes elementos de \texttt{xs} e \texttt{ys}.
+
+\begin{sesion}    
+> zip [3,5,2] [4,7]
+[(3,4),(5,7)]
+> zip [3,5] [4,7,2]
+[(3,4),(5,7)]
+\end{sesion}              
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "SRT_en_Haskell"
+%%% End:

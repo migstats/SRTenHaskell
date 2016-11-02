@@ -1,0 +1,626 @@
+\chapter{El problema de la unificación y normalización de términos}
+
+En este capítulo vamos definir los problemas de decisión en el
+razonamiento ecuacional. Nos centraremos en los sistemas de
+reescritura de términos y la unificación.  Para ello consideraremos la
+siguiente definición.
+
+\begin{defi}
+  Dado un conjunto de identidades $E$ y una ecuación $s \approx t$, diremos que la ecuación es, \\
+  $\begin{array}{llll}
+    $\textbf{Válida}$        &  $ en $E$ syss s $s \approx_E t  \\
+    $\textbf{Satisfacible}$  &  $ en $E$ syss hay una sustitución $\sigma$ tal que $\sigma(s) \approx_E \sigma(t) \\
+   \end{array} 
+  $
+\end{defi}
+
+En la siguiente sección obtendremos varias propiedades interesantes sobre $\approx_E$.
+
+\section{Estudio de $\approx_E$}
+
+%FALTA REFERENCIA AQUI
+En el teorema 1.2, vimos que $\xleftrightarrow{*}$ era
+decidible si $\rightarrow_E$ si es convergente. De esta manera
+podíamos computar $\downarrow_E$. Por ello es importante saber si
+podemos decidir si un término implica a otro término. Esto se llama el
+problema del emparejamiento, dado dos términos $s$ y $l$, ver si
+existe una sustitución $\sigma(l) = s$, y computar $\sigma$ si
+existe. 
+
+Comprobaremos que el problema del emparejamiento y de la
+satisfacibilidad están muy relacionados.
+
+\begin{teor} \label{teor:3.1}
+  Si $E$ es finito y $\rightarrow_E$ es covergente, entonces
+  $\approx_E$ es decidible.
+\end{teor}
+
+\begin{demo}
+%REFERENCIA
+  Por el teorema 1.2, sabemos que $s \xleftrightarrow{*}_E t$ syss
+  $s\downarrow_E = t\downarrow_E$.  La forma normal del operador
+  $\downarrow_E$ es computable, pues podemos decidir si un termino $u$
+  es forma normal, y si no lo fuese, podemos computar un $u'$ tal que
+  $u \rightarrow_E u'$, y $u'$ fuese una forma normal.
+	
+  Para ver si $u$ es una forma normal, tenemos que comprobar para
+  todas las identidades de $E$ y todas la posiciones $p \in Pos(u)$ si
+  hay una sustitución $\sigma$ tal que $u|_p = \sigma l$. Como el
+  problema del emparejamiento es decidible y $E$ es finito, $u$ es una
+  forma normal o podemos reducir $u$ en un proceso iterativo finito a
+  una formal normal. Este proceso termina pues $\rightarrow_E$ es
+  terminante.
+\end{demo}
+
+Por este resultado, surge un interés en las reducciones convergentes.
+El problema de la palabra para $E$ trata de decidir $s \approx t$ para
+arbitrarios $s,t, \in T(\Sigma, V)$. También tenemos el problema de
+las palabras básicas para $E$, que no es más que el problema de la
+palabra restringido a términos básicos $s,t$.
+
+\begin{ejem}
+  Considerando la signatura $\Sigma = \{*, S, K\}$ donde $*$ es una
+  función binaria y $S$ y $K$ son constantes. El conjunto de
+  identidades considerado es,
+
+  \[E := \{((S \cdot x) \cdot y) \cdot z \approx (x \cdot z) \cdot (y
+    \cdot z),(K \cdot x) \cdot y \approx x \} \]
+
+  Como se puede dar cualquier término a partir de uno básico, esto
+  implica que el problema de la palabra para E sea indecidible.
+\end{ejem}
+
+\section{Sistemas de reescritura de terminos}
+
+En esta sección vamos a introducir la definición de regla y sistema de
+reescritura, así como una propiedad.
+
+\begin{defi}
+  Una regla de reescritura es una identidad $l \approx r$ tal que $l$
+  no es una variable y $\Var(l) \supseteq \Var(r)$. En ese caso,
+  escribiremos $l \rightarrow r$. Un sistema de reescritura de
+  términos (SRT) es un conjunto de reglas de escritura. Una expresión
+  reducible es una instancia del lado derecho de una regla de
+  reescritura. Contraer la expresión reducible significa sustituirla
+  por la instancia del lado derecho de la regla.
+\end{defi}
+
+Como cualquier SRT es un conjunto de identidades, $\rightarrow_R$ está
+bien definido.
+
+A partir del teorema \ref{teor:3.1}, deducimos el siguiente resultado,
+
+\begin{teor}
+  Si $R$ es un SRT convergente finito, $\approx_R$ es decidible: $s
+  \approx_R t$ syss $s \downarrow_R = t \downarrow_R$.
+\end{teor}
+
+Veamos ahora una de las propiedades básicas de $\rightarrow_R$.
+
+\begin{defi}
+  Una relación en $T(\Sigma, V)$ es una relación de reescritura syss
+  es compatible con las $\Sigma$-operaciones y cerrada bajo
+  sustitución.
+\end{defi}
+
+Por el \ref{lema:2.2}, sabemos que $\rightarrow_R$ es una relación de
+reescritura. Por inducción de las reglas de derivación,
+$\xrightarrow{*}_R$ y $\xrightarrow{+}_R$ también son relaciones de
+reescritura. Para $\xleftrightarrow{*}_R$ lo demuestra el teorema \ref{teor:2.1}
+
+\section{Unificación sintática}
+
+En esta sección nos centraremos en estudiar la unificación. La
+unificación es el proceso de resolver la satisfacibilidad de un
+problema. Dado $E$, $s$ y $t$, hay que encontrar una sustitución
+$\sigma$ tal que $\sigma s \approx _E \sigma t$. Si $s$ y $t$ son
+básicos, el problema pasaría a ser un problema de palabras básicas. En
+esta sección estudiaremos el caso especial $E = \emptyset$ que es
+importante para algunos algorítmos simbólicos de computación. El que
+especialmente nos importa es un algoritmo que comprueba la confluencia
+a partir de pares críticos, que veremos mas adelante.
+
+La sustitución o el unificador que busquemos va a
+depender del caso en el que nos encontremos. Por ejemplo $x \approx^?
+f(y)$ tiene varios unificadores $\{x \mapsto f(y) \}$, $\{x \mapsto
+f(a), y \mapsto a\}$. No siempre puede existir uno o varios
+unificadores por ejemplo, $f(x) \approx^? g(x)$ no tiene
+unificador. Para el caso en el que existan varios unificadores, nos
+gustaría encontrar el más general,
+
+\begin{defi}
+  Una sustitución $\sigma$ es mas general que una sustitución
+  $\sigma'$ si hay una sustitución $\delta$ tal que $ \sigma' = \delta
+  \sigma$. En este caso escribimos $\sigma \lesssim \sigma'$. Diremos
+  que $\sigma'$ es una instancia de $\sigma$.
+\end{defi}
+
+En el ejemplo anterior, si $\sigma = \{x \mapsto f(y) \}$ y
+$\sigma' = x \mapsto f(a), y \mapsto a\}$ entonces
+$\sigma \lesssim \sigma'$ porque $\sigma' = \delta \sigma$ donde
+$\delta = \{ y \mapsto a \}$.
+
+Una propiedad inmediata de la definición es,
+%escribir intr de \sim
+\begin{lema} \label{lema:3.1}
+  $\sigma \sim \sigma '$ syss existe una sustitución inyectiva $p$ que
+  sea biyectiva para las variables tal que $\sigma = p \sigma '$
+\end{lema}
+
+Como nuestro objetivo es resolver conjuntos de ecuaciones,
+formalizaremos el problema de la unificación con la siguiente definición,
+
+\begin{defi}
+  Un \textbf{unificador} de un conjunto finito de ecuaciones
+  $S = \{ s_1 =^? t_1, \dots, s_n =^? t_n\}$ es una sustitución $\sigma$
+  tal que $\sigma s_i = \sigma t_i$ para $i = 1, \dots, n.$ Por $U(S)$
+  se denota el conjunto de todos los unificadores de $S$. Se dice que
+  $S$ es \textbf{unificable} si $U(S) \neq \emptyset$. El
+  \textbf{problema de la unificación} de $S$ consiste en calcular sus
+  unificadores.
+\end{defi}
+
+Otra definición importante es,
+
+\begin{defi} 
+  Una sustitución $\sigma$ es el \textbf{unificador de máxima
+    generalidad} (UMG) de $S$ si $\sigma$ es el menor elemento de
+  $U(S)$; es decir,
+  \begin{enumerate}
+  \item $\sigma \in U(s)$
+  \item $\forall \sigma' \in U(s) \sigma \lesssim \sigma'$
+  \end{enumerate}
+\end{defi}
+
+Por ejemplo, $\sigma ' := \{ x \mapsto z, y \mapsto z \}$ es un
+unificador de $x=f =^? y$, pero no es UMG, pues es menos general que
+$\sigma = {x \mapsto y}$.
+
+\begin{defi}
+  Una sustitución $\sigma$ es \textbf{idempotente} si $\sigma = \sigma \sigma$.
+\end{defi}
+
+\begin{lema} \label{lema:3.2} Una sustitución $\sigma$ es indempotente
+  syss $\Dom(\sigma) \cap \VRan(\sigma) = \emptyset $
+\end{lema}
+
+El ultimo resultado de este capítulo se usará en la implementación del
+problema de la unificación.
+
+\begin{teor}
+  Si un problema de unificación $S$ tiene solución, entonces tiene un
+  UMG idempotente.
+\end{teor}
+
+\begin{demo} %volver a mirar esta demo
+  El lema \ref{lema:3.1} nos dice que los UMG son unicos respecto a
+  una sustitución $p$ inyectiva y biyectiva para las variables. Por
+  ello, incluso para los idempotentes UMGs no serán únicos.
+\end{demo}
+
+\section{Unificación por transformación}
+
+La unificación puede ser representada como la aplicación iterada de
+transformaciones en un conjunto de ecuaciones. Por ejemplo el
+algoritmo que seguimos para resolver sistemas lineales,
+
+% HACER EJEMPLO
+
+\begin{defi}
+  El problema de la unificación de 
+  $S = \{ x_1 =^? t_1, \dots, x_n =^? t_n \}$ 
+  está en su \textbf{forma resuelta}, si las variables $x_i$ son distintas
+  entre sí y ninguna $x_i$ ocurre en $t_i$. En este caso definimos, 
+  $\vec{S} := \{x_1 \mapsto t_1, \dots, x_n \mapsto t_n \}$.
+\end{defi}
+
+Varias propiedades básicas de $\vec{S}$ son,
+
+\begin{lema} \label{lema:3.3}
+  Si $S$ está en un su forma resuelta entonces, 
+  $\sigma = \sigma \vec{S}$ 
+  para todo $\sigma \in U(S)$.
+\end{lema}
+
+\begin{demo}
+  Sea $S = \{ x_1 =^? t_1, \dots, x_n =^? t_n \}$. Probaremos por
+  casos que $\forall x \in V. \sigma x = \sigma \vec{S} x$
+
+  Para el caso $x \in \{x_1, \dots, x_n \}$, supongamos sin perdida de
+  generalidad que $x = x_m$. Entonces
+  $\sigma x = \sigma t_k = \sigma \vec{S} x$ pues $\sigma \in U(S)$.
+
+  Para el caso $x \not \in \{x_1, \dots, x_n \}$. Entonces
+  $\sigma x = \sigma \vec{S} x$, pues $\vec{S} x = x$.
+\end{demo}
+
+\begin{lema}
+  Si $S$ está en su forma resuelta entonces $\vec{S}$ es un UMG
+  idempotente de $S$.
+\end{lema}
+
+\begin{demo}
+  Usando el lema \ref{lema:3.2}, deducimos que ninguno de los $x_i$
+  ocurren en $t_i$. Por la misma razón tenemos que
+  $\vec{S} x_i = t_i = \vec{S} t_i$, es decir $\vec{S} \in U(S)$.
+  Finalmente $\vec{S}$ es un UMG por el lema \ref{lema:3.3},
+  $\vec{S} \lesssim \sigma$ para todo $\sigma \in U(S)$.
+\end{demo}
+
+Es decir, una vez que tengamos la forma resuelta de $S$, podemos extraer
+un UMG idempotente.
+
+Vamos a dar una serie de reglas de transformación para conseguirlo.
+\\
+$
+\begin{array}{ll}
+  $Borrar$       & $Elimina ecuaciones triviales$ \\ 
+  $Descomponer$  & $Reemplaza ecuaciones entre términos por ecuaciones entre $ \\
+                 & $sus subtérminos$ \\ 
+  $Orientar$     & $Mueve variables hacia el lado izquierdo$ \\ 
+  $Resuelve$     & $Afianza las soluciones, eliminando la variable resuelta en el$ \\
+                 & $resto del problema$
+\end{array} 
+$
+\\
+\\
+Que formalmente significan,
+\\
+\\
+$
+\begin{array}{llll}
+  $Borrar$      
+    & \{t =^? t  \} \sqcup S                             
+    & \Longrightarrow & S \\ 
+  $Descomponer$ 
+    & \{f(\overline{t_n}) =^? f(\overline{u_n}) \} \sqcup S  
+    & \Longrightarrow & \{t_1 =^? u_1, \dots, t_n =^? u_n\} \cup S\\ 
+  $Orientar$    
+    & \{t =^? x \} \sqcup S                              
+    & \Longrightarrow & \{x=^? t \} \cup S$ si $t \not\in V \\ 
+  $Resuelve$    
+    & \{x =^? t \} \sqcup S                              
+    & \Longrightarrow & \{x=^? t \} \cup \{x \mapsto t \}(S) \\
+    &                                                    
+    &                 & $si $ x \in \Var(S) - \Var(t) \\
+\end{array} 
+\\
+$ Donde $\sqcup$ denota la unión disjunta.
+
+%Ejemplo
+
+\begin{defi} 
+  La función $\Unify(S)$ devuelve un unificador de máxima generalidad si
+  existe, y falla si no. Tiene la siguiente definición, \\ 
+  $\begin{array}{lll}
+    $\textbf{\Unify(S)}$      
+    & = & $Mientras exista un $T$ tal que $S \Longrightarrow T, S:= T$.$ \\
+    & & $Si $S$ es una forma resuelta entonces devuelve $\vec{S}$, si no, falla.$ \\
+   \end{array} 
+  $
+\end{defi}
+
+Este algoritmo es no determinista, pues siempre se puede aplicar más
+de una regla de transformación. Por ello, el algoritmo escogerá una
+regla arbitraria. La terminación de $\Unify$ dependerá de la
+terminación de $\Longrightarrow$.
+
+\begin{lema} 
+  $\Unify$ termina para todos las entradas.
+\end{lema}
+
+\begin{lema}
+  Si $S \Longrightarrow T$ entonces $U(S) = U(T)$
+\end{lema}
+
+\begin{lema} 
+  Si \Unify(S) devuelve una sustitución $\sigma$, $\sigma$ es un UMG
+  idempotente de $S$
+\end{lema}
+
+% La prueba de S es resoluble, necesita de los dos siguientes
+% enunciados
+
+\begin{lema}
+  Una ecuación $f(\sigma(\overline{s_m})) =^?  g(\overline{t_n})$
+  donde $f \not = g$, no tiene solución.
+\end{lema}
+
+\begin{lema}
+  Una ecuación $x =^ t$, donde $x \in \Var(t)$ y $x \not = t$, no
+  tiene solución.
+\end{lema}
+
+\begin{lema} 
+  Si $S$ es resoluble, $\Unify(S)$ no falla.
+\end{lema}
+
+% HAY UN PARRAFO AQUI, PERO CREO QUE NO SE USARA MAS ADELANTE
+\section{Implementación de la unificación y la reescritura de términos
+  en Haskell}
+
+En esta sección vamos a implementar en el lenguaje de programación
+funcional Haskell los algorítmos de este capítulo. Usaremos algunas
+funciones del capítulo anterior, que se encuentran en la libreria
+\texttt{Terminos.hs}.
+
+Empezamos implementando los errores. Estos son causados por
+\texttt{UNIFICACION} (si el sistema no tiene solución) o
+\texttt{REGLA} (si durante la reescritura no se puede aplicar ninguna
+regla más).
+\begin{codigo}
+data ERROR = UNIFICACION
+           | REGLA
+           deriving (Eq, Show)
+\end{codigo}
+
+Una ecuación es un par de términos
+\begin{codigo}
+type Ecuacion = (Termino,Termino)
+\end{codigo}
+
+Un sistema de ecuaciones es una lista de ecuaciones
+\begin{codigo}
+type Sistema = [Ecuacion]
+\end{codigo}
+
+\subsection{Algorítmo de unificiación}
+
+\index{\texttt{(unificacion t1 t2)}} \texttt{(unificacion t1 t2)} es
+\begin{itemize}
+\item \texttt{(Right s)} si los términos \texttt{t1} y \texttt{t2} son
+  unificables y \texttt{s} es un unificador del máxima generalidad de
+  \texttt{t1} y \texttt{t2}.
+\item \texttt{(Left UNIFICACION)} si \texttt{t1} y \texttt{t2} no son
+  unificables.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> unificacion (T "f" [V ("x",0), T "g" [V ("z",0)]])
+                  (T "f" [T "g" [V ("y",0)], V ("x",0)])
+Right [(("z",0),V ("y",0)),(("x",0),T "g" [V ("y",0)])]
+ghci> unificacion (T "f" [V ("x",0),T "b" []])
+                  (T "f" [T "a" [],V ("y",0)])
+Right [(("y",0),T "b" []),(("x",0),T "a" [])]
+ghci> unificacion (T "f" [V ("x",0),V ("x",0)])
+                  (T "f" [T "a" [],T "b" []])
+Left UNIFICACION
+ghci> unificacion (T "f" [V ("x",0),T "g" [V ("y",0)]])
+                  (T "f" [V ("y",0),V ("x",0)])
+Left UNIFICACION
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+unificacion :: Termino -> Termino -> Either ERROR Sustitucion
+unificacion t1 t2 = unificacionS [(t1,t2)] []
+\end{codigo}
+ 
+
+
+\index{\texttt{(unificacionS es s)}} \texttt{(unificacionS es s)} es
+\begin{itemize}
+\item \texttt{(Right s')} si el sistema \texttt{s(es)}, obtenido
+  aplicando la sustitución \texttt{s} a la ecuaciones de \texttt{es},
+  es unificable y \texttt{s'} es un unificador del máxima generalidad
+  de \texttt{s(es)}.
+\item \texttt{(Left UNIFICACION)} si \texttt{s(es)} no es unificable.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> unificacionS [(T "f" [V ("x",0), T "g" [V ("z",0)]],
+                   T "f" [T "g" [V ("y",0)], V ("x",0)])]
+                   []
+Right [(("z",0),V ("y",0)),(("x",0),T "g" [V ("y",0)])]
+ghci> unificacionS [(T "f" [V ("x",0),T "b" []],
+                   T "f" [T "a" [],V ("y",0)])]
+                   []
+Right [(("y",0),T "b" []),(("x",0),T "a" [])]
+ghci> unificacionS [(T "f" [V ("x",0),V ("x",0)],
+                   T "f" [T "a" [],T "b" []])]
+                   []
+Left UNIFICACION
+ghci> unificacionS [(T "f" [V ("x",0),T "g" [V ("y",0)]],
+                   T "f" [V ("y",0),V ("x",0)])]
+                   []
+Left UNIFICACION
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+unificacionS :: Sistema -> Sustitucion -> Either ERROR Sustitucion
+unificacionS [] s = Right s
+unificacionS ((V x,t):ts) s 
+  | V x == t  = unificacionS ts s
+  | otherwise = reglaElimina x t ts s
+unificacionS ((t,V x):ts) s = 
+  reglaElimina x t ts s
+unificacionS ((T f ts1, T g ts2):ts) s 
+  | f == g    = unificacionS (zip ts1 ts2 ++ ts) s
+  | otherwise = Left UNIFICACION
+\end{codigo}
+
+\index{\texttt{(reglaElimina x t es s)}} \texttt{(reglaElimina x t es s)} es
+\begin{itemize}
+\item \texttt{(Left UNIFICACION)}, si \texttt{x} ocurre en \texttt{t}.
+\item \texttt{(Right s')} es la solución del sistema obtenido al
+  aplicarle a \texttt{es} la sustitución [x/t] en el entorno obtenido
+  componiendo la sustitución \texttt{s} con [x/t], en caso
+  contrario.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> reglaElimina ("x",0) (T "f" [V ("x",0)]) [] []
+Left UNIFICACION
+ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] []
+Right [(("x",0),T "f" [V ("x",1)])]
+ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] [(("y",2),V ("x",0))]
+Right [(("x",0),T "f" [V ("x",1)]),(("y",2),T "f" [V ("x",1)])]
+ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("x",0))] []
+Left UNIFICACION
+ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("y",0))] []
+Right [(("x",1),V ("y",0)),(("x",0),T "f" [V ("y",0)])]
+ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("y",1),V ("x",0))] []
+Right [(("y",1),T "f" [V ("x",1)]),(("x",0),T "f" [V ("x",1)])]
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+reglaElimina :: Nvariable -> Termino -> Sistema -> Sustitucion 
+             -> Either ERROR Sustitucion
+reglaElimina x t es s 
+  | ocurre x t = Left UNIFICACION
+  | otherwise  = unificacionS es' s'
+  where es' = [(aplicaTerm [(x,t)] t1, aplicaTerm [(x,t)] t2) 
+                 | (t1,t2) <- es] 
+        s'  = (x,t) : map (\(y,u) -> (y, aplicaTerm [(x,t)] u)) s
+\end{codigo}
+ 
+%¿Incluyo a modo de ejemplo lo obtenido con el Debug.Trace?
+
+\subsection{Equiparación de términos}
+
+\index{\texttt{(equiparacion t1 t2)}} \texttt{(equiparacion t1 t2)} es
+\begin{itemize}
+\item \texttt{(Right s)} si \texttt{t1} y es una instancia de \texttt{t1} y \texttt{s} es un equiparador
+  del máxima generalidad de \texttt{t1} con \texttt{t2}.
+\item \texttt{(Left UNIFICACION)} en caso contrario.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> let t1 = T "f" [V ("x",0), T "a" []]
+ghci> let t2 = T "f" [T "b" [],  T "a" []]
+ghci> equiparacion t1 t2
+Right [(("x",0),T "b" [])]
+ghci> equiparacion t2 t1
+Left UNIFICACION
+ghci> let t3 = T "f" [V ("x",0), V ("y",0)]
+ghci> equiparacion t1 t3
+Left UNIFICACION
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+equiparacion :: Termino -> Termino -> Either ERROR Sustitucion
+equiparacion t1 t2 = equiparacionS [(t1,t2)] []
+\end{codigo}
+
+\index{\texttt{(equiparacionS es s)}} \texttt{(equiparacionS es s)} es
+\begin{itemize}
+\item \texttt{(Right s')} si la derecha de las ecuaciones de
+  \texttt{s(es)} y es una instancia de la izquierda y \texttt{s'} es
+  un equiparador de máxima generalidad de la izquierda con la derecha
+\item \texttt{(Left UNIFICACION)} en caso contrario.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> let t1 = T "f" [V ("x",0), T "a" []]
+ghci> let t2 = T "f" [T "b" [],  T "a" []]
+ghci> equiparacionS [(t1,t2)] []
+Right [(("x",0),T "b" [])]
+ghci> equiparacionS [(t2,t1)] []
+Left UNIFICACION
+ghci> let t3 = T "f" [V ("x",0), V ("y",0)]
+ghci> equiparacionS [(t1,t3)] []
+Left UNIFICACION
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+equiparacionS :: Sistema -> Sustitucion -> Either ERROR Sustitucion
+equiparacionS [] s = Right s
+equiparacionS ((V x,t):es) s 
+    | not (enDominio x s)   = equiparacionS es ((x,t):s)
+    | aplicaVar s x == t    = equiparacionS es s
+    | otherwise             = Left UNIFICACION
+equiparacionS ((_,V _):_) _ = Left UNIFICACION
+equiparacionS ((T f ts1, T g ts2):es) s 
+    | f == g    = equiparacionS (zip ts1 ts2 ++ es) s
+    | otherwise = Left UNIFICACION
+\end{codigo}
+
+\subsection{Reescritura de términos}
+
+\index{\texttt{(reescribe es t)}} \texttt{(reescribe es t)} es
+\begin{itemize}
+\item \texttt{(Right s')}, donde \texttt{s'} es el término obtenido
+  reescribiendo \texttt{t} con la primera regla de es que con la que
+  se pueda reescribir.
+\item \texttt{(Left REGLA)} en caso contrario.
+\end{itemize}
+Por ejemplo,
+\begin{sesion}
+ghci> reescribe [(V ("x",1), V ("y",1)),
+                 (V ("x",2), V ("y",2))]
+                 (V("x",2))
+Right (V ("y",2))
+ghci> reescribe [(V ("x",1), V ("y",1)),
+                 (V ("x",1), V ("y",2))]
+                 (V("x",2))
+Left REGLA
+ghci> reescribe [(V ("x",2),T "f" [V ("x",3)]),
+                 (V ("x",3),T "f" [V ("x",4)])]
+                 (V("x",2))
+Right (T "f" [V ("x",3)])
+ghci> reescribe [(V ("x",1),T "a" [])]
+                 (T "f" [V ("x",1), T "b" []])
+Right (T "f" [T "a" [],T "b" []])
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+reescribe :: Sistema -> Termino -> Either ERROR Termino
+reescribe [] _ = Left REGLA
+reescribe ((l,r):es) t
+    | a == Left UNIFICACION = reescribe es t
+    | b == t = reescribe es t
+    | otherwise = Right b
+    where a = equiparacion l r
+          b = aplicaTerm (elimR a) t
+          elimR (Right x) = x
+\end{codigo}
+ 
+\index{\texttt{(formaNormal es t)}} \texttt{(formaNormal es t)} es la forma normal de \texttt{t} respecto
+de \texttt{es}. Por ejemplo,
+
+\begin{sesion}
+ghci> formaNormal [(V ("x",1), V ("y",1)),
+                   (V ("x",2), V ("y",2))]
+                   (V("x",2))
+V ("y",2)
+ghci> formaNormal [(V ("x",1), V ("y",1)),
+                   (V ("x",2), V ("y",2))]
+                   (V("x",3))
+V ("x",3)
+ghci> formaNormal [(V ("z",1), V ("a",1)),
+                   (V ("x",1), T "g" [V ("z",1)])]
+                   (T "f" [V ("x",1)])
+T "f" [T "g" [V ("a",1)]]
+\end{sesion}
+
+Su código es,
+\begin{codigo}
+formaNormal :: Sistema -> Termino -> Termino
+formaNormal es (V x)
+  | isRight a = elimR a
+  | otherwise = V x
+  where a = reescribe es (V x)
+        elimR (Right r) = r
+formaNormal es (T f ts)
+  | a == Left REGLA = u
+  | otherwise       = formaNormal es (elimR a)
+  where u = T f (map (formaNormal es) ts)
+        a = reescribe es u
+        elimR (Right r) = r
+\end{codigo}
+
+
+
+
+
+
+ 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "SRT_en_Haskell"
+%%% End:
