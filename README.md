@@ -6,7 +6,7 @@ Hidalgo.
 
 ## Breve introducción
 
-Supongamos que tenemos la ecuación $2x - 2 = 0`. Para resolverla
+Supongamos que tenemos la ecuación `2x - 2 = 0`. Para resolverla
 utilizaremos varias reglas, para simplificar tomaremos dos; `Dividir
 por constante` y `Despejar`. La primera divide los dos miembros de la
 ecuación por la constante que multiplica a `x`, la segunda despeja
@@ -25,7 +25,7 @@ esto no siempre puede ocurrir. Si entre nuestras reglas tuvieramos
 `Despejar hacia Izq` el proceso no terminaría,
 
 + `2x - 2 = 0` ~ `Despejar` ~ `2x = 2` ~ `Despejar hacia Izq` ~ `2x -
-2 = 0` ` ~ `Despejar` `2x = 2` ...
+2 = 0` ~ `Despejar` ~ `2x = 2` ...
 
 Y si añadieramos la regla `Acaba con cero` que transforma una ecuación
 sin resolver a `x= 0`, el orden a la hora de aplicar es fundamental,
