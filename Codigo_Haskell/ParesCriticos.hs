@@ -1,6 +1,6 @@
 -- ParesCriticos.hs
--- Implementación de relaciones de orden del capítulo 1
--- Sevilla, 4 de Mayo de 2016
+-- Implementación de los pares críticos
+-- Sevilla, 6 de Noviembre de 2016
 -- ------------------------------------------------------------------
 
 import Terminos

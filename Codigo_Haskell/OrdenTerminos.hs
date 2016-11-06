@@ -26,8 +26,7 @@ ordenPorLista (x:xs) a b
              else GT
   | b == x = LT
   | otherwise = ordenPorLista xs a b
-
-
+                
 -- (ordenCamLex ord s t) es el resultado de comparar s y t con el
 -- orden de caminos lexicográfico inducido por ord.
 --    λ> let ord = ordenPorLista ["i","f","e"]
@@ -57,8 +56,33 @@ ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
       LT -> LT  
   | otherwise = GT --OCL1a
 
--- (ordenCamRec ord t s) es el resultado de comparar s y t con el
--- orden de caminos recursivo, inducido por orden ord.
+-- (ordenTerminoLex t s) es el resultado de comparar el nombre del
+-- elemento de la posición vacía mediante el orden alfabético. Por
+-- ejemplo,
+--    λ> ordenTermino (V ("a",2)) (V ("b",1))
+--    LT
+--    λ> ordenTermino (V ("x",2)) (T "f" [V ("b",1)])
+--    GT
+--    λ> ordenTermino (T "g" [V("x",2)]) (T "f" [V("b",1)])
+--    GT
+ordenTermino::  Termino -> Termino -> Ordering
+ordenTermino (V (a,_)) (V (b,_)) = compare a b
+ordenTermino (V (a,_)) (T b _) = compare a b
+ordenTermino (T a _) (V (b,_)) = compare a b
+ordenTermino (T a _) (T b _) = compare a b
+                
+-- (ordenCamRec stat ord t s) es el resultado de comparar s y t con el
+-- orden de caminos recursivo, inducido por orden ord. Por ejemplo,
+--    λ> let stat f (ordenTermino) t s = ordLex ordenTermino t s 
+--    λ> let ord = ordenPorLista ["i","f","e"]
+--    λ> ordenCamRec stat ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
+--    GT
+--    λ> ordenCamRec stat ord (T "i" [T "e" []]) (T "e" [])
+--    GT
+--    λ> ordenCamRec stat ord (T "i" [T "f" [V("x",1),V("y",1)]]) (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
+--    GT
+--    λ> ordenCamRec stat ord (T "f" [V("y",1),V("z",1)])  (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
+--    LT
 ordenCamRec:: ([Char] -> (Termino -> Termino -> Ordering) -> [Termino] -> [Termino] -> Ordering)
            ->  ([Char] -> [Char] -> Ordering)
            -> Termino -> Termino -> Ordering

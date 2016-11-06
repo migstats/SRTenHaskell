@@ -398,11 +398,11 @@ La definición es recursiva y esta bien definida.
 
 % INTRODUCIR EJEMPLO
 
-\begin{teor}
-  Para cualquier orden estricto $>$ en $\Sigma$, el orden de camino
-  lexicográfico inducido es un orden de simplificación en
-  $T(\Sigma, V)$.
-\end{teor}
+%\begin{teor}
+%  Para cualquier orden estricto $>$ en $\Sigma$, el orden de camino
+%  lexicográfico inducido es un orden de simplificación en
+%  $T(\Sigma, V)$.
+%\end{teor}
 
 % FALTA DEMOSTRACIÓN
 
@@ -477,7 +477,79 @@ ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
   | otherwise = GT --OCL1a
 \end{codigo}
 
-\subsection{Órdenes de caminos recursivos}
+\subsubsection{Órdenes de caminos recursivos}
+
+La implementación de la anterior sección se puede generalizar, a lo
+que llamaremos órdenes de caminos recursivos. Para mayor claridad
+crearemos la función \texttt{ordenTerminoLex t s}, que es es el
+resultado de comparar el nombre delelemento de la posición vacía
+mediante el orden alfabético. Por ejemplo,
+
+\begin{sesion}
+ghci> ordenTermino (V ("a",2)) (V ("b",1))
+LT
+ghci> ordenTermino (V ("x",2)) (T "f" [V ("b",1)])
+GT
+ghci> ordenTermino (T "g" [V("x",2)]) (T "f" [V("b",1)])
+GT
+\end{sesion}
+
+Su código es,
+
+\begin{codigo}
+ordenTermino::  Termino -> Termino -> Ordering
+ordenTermino (V (a,_)) (V (b,_)) = compare a b
+ordenTermino (V (a,_)) (T b _) = compare a b
+ordenTermino (T a _) (V (b,_)) = compare a b
+ordenTermino (T a _) (T b _) = compare a b
+\end{codigo}
+
+La generalización se basa en añadir un argumento adiccional a la
+función, éste se encarga de especificar que orden se aplica en el
+apartado (OCL2c). Por ejemplo,
+
+\begin{sesion}
+ghci> let stat f (ordenTermino) t s = ordLex ordenTermino t s 
+ghci> let ord = ordenPorLista ["i","f","e"]
+ghci> ordenCamRec stat ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
+GT
+ghci> ordenCamRec stat ord (T "i" [T "e" []]) (T "e" [])
+GT
+ghci> ordenCamRec stat ord (T "i" [T "f" [V("x",1),V("y",1)]])
+                           (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
+GT
+ghci> ordenCamRec stat ord (T "f" [V("y",1),V("z",1)])
+                           (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
+LT
+\end{sesion}
+
+Su código es,
+
+\begin{codigo}
+ordenCamRec:: ([Char] -> (Termino -> Termino -> Ordering)
+                      -> [Termino] -> [Termino] -> Ordering)
+           ->  ([Char] -> [Char] -> Ordering)
+           -> Termino
+           -> Termino
+           -> Ordering
+ordenCamRec _ _ s (V x)
+  | s == (V x) = EQ
+  | ocurre x s = GT --OCR1
+  | otherwise = LT
+ordenCamRec _ _ (V _) (T _ _) = LT
+ordenCamRec est ord s@(T f ss) t@(T g ts) --OCR2
+  | all (\x -> ordenCamRec est ord x t == LT) ss
+    = case ord f g of
+      GT -> if all (\x -> ordenCamRec est ord s x == GT) ts
+            then GT --OCR2b
+            else LT
+      EQ -> if all (\x -> ordenCamRec est ord s x == GT) ts
+            then est f (ordenCamRec est ord) ss ts --OCR2c
+            else LT
+      LT -> LT
+  | otherwise = GT --OCR2a
+\end{codigo}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
