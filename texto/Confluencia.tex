@@ -1,0 +1,103 @@
+\chapter{Confluencia}
+
+En este capítulo estudiaremos el problema de determinar si un sistema
+de reescritura es confluente. En la primera sección vamos a demostrar
+que este problema es indecidible, sin embargo en las secciones
+posteriores, estudiaremos que si el sistema es terminante entonces el
+problema es decidible. Por último veremos que ocurre para el caso de
+los sistemas que no terminan.
+
+\section{Estudio sobre el problema de decisión}
+  
+En esta sección veremos la indecibilidad para comprobar si un sistema
+es confluente mediante el siguiente resultado,
+
+\begin{teor}
+  El problema de decidir si un sistema de reescritura finito $R$ es
+  confluente, es indecidible.
+\end{teor}
+
+\begin{demo}
+  El objetivo de esta demostración es reducir el problema de las
+  palabras básicas para $E$ (que sabemos que es indecidible), a un
+  sistema de reescritura de términos.
+
+  Sea un conjunto de identidades $E$ tal que $\Var(l) = \Var(r)$ para
+  todo $l \approx r \in E$. Sea $R := E \cup E^{-1}$, entonces al
+  tener $\rightarrow_R = \leftrightarrow_E$ es confluente. Además $R$
+  es un sistema de reescritura (por $\Var(l) = \Var(r)$).
+
+  Dados dos términos básicos $s$ y $t$, y una constante $a$, vamos a
+  probar que $R_{st} := R \cup \{ a \rightarrow s, a \rightarrow t \}$
+  es confluente syss $s \approx_E t$.
+
+  \begin{itemize}
+  \item $(\Rightarrow)$ Si $R_{st}$ es confluente, entonces ni $s$, ni
+    $t$ poseen una constante $a$, luego $s \downarrow_{R_{st}} t$. Esto
+    significa que las reglas $a \rightarrow s, a \rightarrow t$ no
+    pueden ser usadas. Por tanto $\rightarrow_R = \leftrightarrow_E$ y
+    $s \approx_E t$.
+
+  \item $(\Rightarrow)$ Vamos a probar que para términos $u, v$, si
+    $u \rightarrow_{R_{st}} v$ entonces $v^t \xrightarrow{*}_R u^t$,
+    donde $u^t$ denota el resultado de sustituir las constantes $a$ en
+    $u$ por $t$.
+
+    Supongamos que $u \rightarrow_{R{_st}} v$. Distinguimos que reglas
+    se usan.
+    \begin{itemize}
+    \item Si usamos $u \rightarrow_R v$, reemplazamos $a$ por $t$ para
+      conseguir $u^t \rightarrow_R v^t$ y por tanto
+      $v^t \rightarrow_R u^t$ al ser $R$ simétrico.
+    \item Si usamos $a \rightarrow s$, entonces $u|_p = a$ y
+      $v = u[s]_p$ para alguna posición $p$. Como $s \approx_E t$
+      entonces $s \xrightarrow{*}_R t$. Obtenemos
+      $v \xrightarrow{*}_R u[t]_p$ que conlleva a
+      $v^t \xrightarrow{*}_R (u[t]_p)^t$. Pero $(u[t]_p)^t =
+      u^t[t^t]_p = u^t[t]_p = u^t$.
+    \item Si usamos $a \rightarrow t$ en la posición $p$, entonces
+      $v^t = (u[t]_p)^t = u^t \xrightarrow{*}_R u^t$.
+    \end{itemize}
+    Por tanto, si $u \xrightarrow{*}_{R_{st}} u_i$, para $i= 1,2$,
+    entonces $u_i \xrightarrow{*}_{R_{st}} u_i^t \xrightarrow{*}_R u^t$
+    y obtenemos $u_1 \downarrow_{R_{st}}$
+  \end{itemize}
+\end{demo}
+
+\section{Pares críticos}
+
+En esta sección estudiaremos la decibilidad para sistemas de
+reescritura finitos que sean localmente confluentes.
+
+%%%% DIBUJOS SOBRE EL RAZONAMIENTO DE LA DEF DE LOS PARES CRITICOS
+
+\begin{defi}
+  Sea $l_i \rightarrow r_i$, $i = 1,2$ dos reglas cuyas variables han
+  sido renombradas tal que
+  $\Var(l_1,r_1) \cap \Var(l_2,r_2) = \emptyset$. Sea
+  $p \in \Pos(l_1)$ tal que $l_1|_p$ no es una variable, y $\theta$ un
+  umg de $l_1|_p =^? l_2$. Esto determinará el par crítico $\langle
+  \theta r_1, (\theta l_1) [\theta r_2 ]_p \rangle$.
+  % DIBUJO DEL ARBOL
+  Si dos reglas dan lugar a un par crítico, diremos que se solapan.
+\end{defi}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Apéndices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\addappheadtotoc
+\appendix
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "SRT_en_Haskell"
+%%% End:
