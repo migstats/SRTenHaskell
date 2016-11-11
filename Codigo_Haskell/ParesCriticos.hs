@@ -36,7 +36,7 @@ parCritico :: (Termino -> Termino)
 parCritico c l1 r1 l2 r2
     | sigma1 == Left UNIFICACION = []
     | otherwise = [(sigma r1, sigma (c r2))]
-    where sigma1 = unificaEjem l1 l2
+    where sigma1 = unificacion l1 l2
           sigma = aplicaTerm (elimR(sigma1))
           elimR (Right a) = a
                             
