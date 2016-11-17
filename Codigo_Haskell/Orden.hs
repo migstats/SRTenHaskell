@@ -12,12 +12,13 @@ module Orden where
 -- + "Data.MultiSet Functions" http://bit.ly/1YitFkk
 import Data.Ord()
 import qualified Data.MultiSet as M
+import Test.DocTest
 
 -- Funciones útiles
 -- ================
 
--- vacio es el multiconjunto vacío. Por ejemplo,
---    λ> vacio
+-- | vacio es el multiconjunto vacío. Por ejemplo,
+--    >>> vacio
 --    fromOccurList []
 vacio :: M.MultiSet a
 vacio = M.empty

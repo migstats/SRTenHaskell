@@ -94,17 +94,18 @@ la segunda, obtendremos un nuevo término $t$.
 
 Sea $p_i$ las posiciones y $\sigma_i$ las sustituciones tal que
 $s|_{p_i} = \sigma_i l_i$ y $t_i = s[\sigma_i r_i ]_{p_i}, i
-=1,2$. Tenemos que estudiar como de relacionados estan $p_1$ y $p_2$.
+=1,2$. Tenemos que estudiar como de relacionados están $p_1$ y $p_2$.
 
 \begin{itemize}
-\item Caso 1, $p_1$ y $p_2$ estan en árboles separados. En este caso,
+\item Caso 1, $p_1$ y $p_2$ están en árboles separados. En este caso,
   de da la convergencia local.
 
   % FALTA UNIR LOS 4 PRIMEROS EN UN ARBOL
   % AÑADIR COLOR
   % POSICIONAR MEJOR LOS SUBINDICES
   % FALTA POR ESCRIBIR UN GRAFICO
-  % AÑADIR DESCRIPCIONES DE CADA UNO
+  % COMENTAR CON LOS DIBUJOS
+  
   
   \centering
 \begin{tikzpicture}
@@ -197,7 +198,23 @@ $s|_{p_i} = \sigma_i l_i$ y $t_i = s[\sigma_i r_i ]_{p_i}, i
 \fill (a2.center) -- (b2.center) -- (c2.center);
 \end{tikzpicture}
   
-\item Caso 2, $p_1$ es un prefijo de $p_2$
+\item Caso 2, $p_1$ es un prefijo de $p_2$.
+  % Despues del dibujo
+
+  Podemos distinguir dos casos según como de separadas estén los
+  términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
+
+  \begin{itemize}
+
+  \item Caso 2.1. La reducción $\sigma_2 l_2$ no se solapa con $l_1$
+    pero está contenido en $\sigma_1$. A esta situación la llamaremos
+    solapamiento no crítico, pues en esta situación ocurre una
+    confluencia local.
+
+  \item Caso 2.2. En este caso $l_1$ y $l_2$ se solapan. A este caso
+    lo llamaremos solapamiento crítico, y es la peor situación que
+    podemos tener.
+  \end{itemize}
 
   \usetikzlibrary{decorations.pathreplacing}
 \begin{tikzpicture}
@@ -237,8 +254,6 @@ $p_2$};
 
 \end{tikzpicture}
 
-\item Caso 3
-
   \usetikzlibrary{decorations.pathreplacing}
 \begin{tikzpicture}
 
@@ -277,8 +292,6 @@ $p_2$};
 \end{itemize}
 
 
-
-
 \begin{defi}
   Sea $l_i \rightarrow r_i$, $i = 1,2$ dos reglas cuyas variables han
   sido renombradas tal que
@@ -292,7 +305,9 @@ $p_2$};
 
 % EJEMPLO
 
-A continuación enunciamos el Teorema de los Pares Críticos.
+A continuación enunciamos el Teorema de los Pares Críticos. Este
+resultado así como la idea de la demostración, también se usará en la
+siguiente sección.
 \begin{teor}
   Un sistema de reescritura es localmente confluente syss todos sus
   pares críticos se vuelven a unir.
@@ -304,12 +319,12 @@ A continuación enunciamos el Teorema de los Pares Críticos.
   $\langle u_1, u_2 \rangle$ proviene de algún par crítico
   $\langle v_1, v_2 \rangle$, es decir $u_1 = \delta v_i$. Entonces
   $\xrightarrow{*}t$ para algún término, y por tanto
-  $u_i \xrightarrow \delta t$ es tambień cierto. Esto implica
+  $u_i \xrightarrow \delta t$ es también cierto. Esto implica
   $t_i \xrightarrow s[\delta t]_p$ para $i = 1,2$.
 
   ($\Rightarrow$) Como el sistema de reescritura es localmente
   confluente, esto significa que cuando lleguemos a un par crítico
-  este volvera a converger a un término. Luego todos sus pares
+  este volverá a converger a un término. Luego todos sus pares
   críticos se vuelven a unir.
 \end{demo}
 
@@ -329,7 +344,7 @@ siguiente resultado.
 \end{coro}
 
 \begin{demo}
-  El algorítmo que seguiremos será el siguiente:
+  El algoritmo que seguiremos será el siguiente:
 
   Para cada par de reglas $l_1 \rightarrow r_1$ y
   $l_2 \rightarrow r_2$, y para cada $p \in \Pos(l_1)$, tal que
@@ -402,8 +417,131 @@ renombraTermino n (T f ts) = T f (map (renombraTermino n) ts)
 
 % FALTA CP y CPS
 \end{itemize}
-    
 
+\section{Ortogonalidad}
+
+En la sección anterior hemos analizado una técnica para determinar la
+confluencia para sistemas terminantes. En esta nos dedicaremos a
+analizar el problema para sistemas no terminantes. Para ello la
+estudiaremos desde otra perspectiva usando nuevamente los pares
+críticos.
+
+\begin{defi}
+  Una regla de reescritura $l \rightarrow r$ es lineal por la
+  izquierda (respectivamente lineal por la derecha) si ninguna
+  variable ocurre dos veces en $l$ (respectivamente $r$). Si una regla
+  es lineal por la izquierda y por la derecha diremos que es lineal. 
+\end{defi}
+
+Y ampliamos la definición para sistemas de reescritura.
+
+\begin{defi}
+  Un sistema de reescritura es lineal por la izquierda
+  (respectivamente por la derecha) si todas sus reglas son lineales por
+  la izquierda (respectivamente por la derecha)
+\end{defi}
+
+Por último, antes de dar el principal resultado de la sección,
+definimos una restricción que nos servirá para demostrar la
+confluencia fuerte.
+
+\begin{defi}
+  Los términos $s_1$ y $s_2$ es fuertemente unible respecto
+  $\rightarrow$ si existen términos $t_1$ y $t_2$ tal que
+  $s_1 \xrightarrow{=} t_1 \xleftarrow{*} s_2$ y $s_1 \xrightarrow{*}
+  t_2 \xleftarrow{=} s_2$
+\end{defi}
+
+% AÑADIR DIBUJO DEL ESTILO:
+%    /s1\ 
+%  t1    t2
+%    \s2/
+
+El siguiente resultado se conoce como el lema de confluencia fuerte.
+
+\begin{defi}
+  Si $R$ es lineal y cada par crítico de $R$ es fuertemente unible,
+  entonces $R$ es fuertemente confluente.
+\end{defi}
+
+\begin{demo}
+  La prueba se hará reduciendo cada uno de los casos que estudiamos en
+  la sección anterior.
+  
+  \begin{itemize}
+    
+  \item Caso 1. Es trivial.
+
+  \item Caso 2.1. Se simplifica mediante la restricción de linealidad
+    % DIBUJO
+
+  \item Caso 2.2. Como todos los pares críticos son fuertemente
+    unible, la instancia de un par crítico es fuertemente unible
+
+  \end{itemize}
+
+\end{demo}
+
+Si un sistema es fuertemente confluente, en particular, también es
+confluente. Por tanto acabamos de probar una condición suficiente para la
+confluencia.
+
+% EJEMPLO
+
+\begin{defi}
+  Un sistema de reescritura es ortogonal si es lineal por la izquierda
+  y no tiene pares críticos
+\end{defi}
+
+Probar la confluencia para un sistema ortogonal posee el siguiente
+problema; al no poseer linealidad por la derecha, en el caso 2.1 es
+posible que se aplique mas de una vez la reducción $l_2 \rightarrow r_2$,
+y por tanto, lo único que podemos deducir es la confluencia
+local. Para evitar este problema, usaremos una relación de reescritura
+que posea la propiedad del diamante, que recordemos que el
+cumplimiento de esta propiedad implica la confluencia.
+
+Volviendo al caso 2.1, para conseguir la propiedad del diamante
+tenemos que arreglar el problema de aplicar repetidas veces la
+reducción $l_2 \rightarrow r_2$. Para ello vamos a considerar
+reducciones paralelas para los subárboles
+
+% DIBUJO
+
+\begin{defi}
+  Diremos que un conjunto de posiciones es paralelo si $p||q$ para
+  todo $p, q \in P$, donde $P$ es un subconjunto de todas las posibles
+  posiciones paralelas.
+\end{defi}
+
+Dado un término $t_p$ para cada $p \in P$, definimos la notación,
+\[ s[t_p]_{p\in P} : = s[t_{p_1}]_{p_1} \dots [t_{p_n}]_{p_n} \]
+
+\begin{defi}
+  Si para cada $p \in P$ tenemos la regla $l_p \rightarrow r_p in R$ y
+  para cada sustitución $\sigma_p$ tal que $s|_p = \sigma_p l_p$
+  llamaremos reducción paralela a
+  $s \rightrightarrows^P_R s[\sigma_p r_p]_{p \in P}$
+\end{defi}
+
+A partir de esta definición, enunciamos el teorema de los sistemas
+ortogonales
+
+\begin{teor}
+Si $R$ es ortogonal entonces $\rightrightarrows_R$ tiene la propiedad del diamante
+\end{teor}
+
+\begin{demo}
+  Sea $s \rightrightarrows^{P_i} t_i, i = 0,1$. Para esta prueba vamos
+  a considerar una partición de $P_i = A_i \cup B_i \cup C$ donde
+\begin{itemize}
+\item $A_i := \{ p \in P_i | \not \exists q \in P_{1-i}, q \leq p \}$
+\item $B_i := \{ p \in P_i | \exists q \in P_{1-i}, q < p \}$
+\item $P_0 \cap P_1$
+\end{itemize}
+%NECESITA DIBUJOS PARA ENTENDERSE BIEN
+
+\end{demo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Apéndices
