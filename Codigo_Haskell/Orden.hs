@@ -12,7 +12,6 @@ module Orden where
 -- + "Data.MultiSet Functions" http://bit.ly/1YitFkk
 import Data.Ord()
 import qualified Data.MultiSet as M
-import Test.DocTest
 
 -- Funciones útiles
 -- ================
@@ -23,45 +22,45 @@ import Test.DocTest
 vacio :: M.MultiSet a
 vacio = M.empty
 
--- (unitario x) es el multiconjunto cuyo único elemento es x. Por
+-- | (unitario x) es el multiconjunto cuyo único elemento es x. Por
 -- ejemplo, 
---    λ> unitario 5
+--    >>> unitario 5
 --    fromOccurList [(5,1)]
 unitario :: a -> M.MultiSet a
 unitario = M.singleton
 
--- (inserta x m) es el multiconjunto obtenido añadiendo el elemento x al
+-- | (inserta x m) es el multiconjunto obtenido añadiendo el elemento x al
 -- multiconjunto m. Por ejemplo,
 --    λ> inserta 4 (unitario 5)
 --    fromOccurList [(4,1),(5,1)]
---    λ> inserta 4 it
+--    λ> inserta 4 (inserta 4 (unitario 5))
 --    fromOccurList [(4,2),(5,1)]
 inserta :: Ord a => a -> M.MultiSet a -> M.MultiSet a
 inserta = M.insert
 
--- (lista2Multiconj xs) es el multiconjunto cuyos elementos son los de la
+-- | (lista2Multiconj xs) es el multiconjunto cuyos elementos son los de la
 -- lista xs. Por ejemplo,
---    λ> lista2Multiconj [4,5,4]
+--    >>> lista2Multiconj [4,5,4]
 --    fromOccurList [(4,2),(5,1)]
 lista2Multiconj:: Ord a => [a] -> M.MultiSet a
 lista2Multiconj = M.fromList
 
--- (ordLex r xs ys) es el orden lexicográfico inducido por r sobre xs
+-- | (ordLex r xs ys) es el orden lexicográfico inducido por r sobre xs
 -- e ys. Por ejemplo,
---    λ> ordLex compare [1,2] [1,5]
+--    >>> ordLex compare [1,2] [1,5]
 --    LT
---    λ> ordLex compare [1,2] [1,2]
+--    >>> ordLex compare [1,2] [1,2]
 --    EQ
---    λ> ordLex compare [3,1] [2,4]
+--    >>> ordLex compare [3,1] [2,4]
 --    GT
---    λ> ordLex compare [1] [1,3]
+--    >>> ordLex compare [1] [1,3]
 --    LT
---    λ> ordLex compare [1,3] [1]
+--    >>> ordLex compare [1,3] [1]
 --    GT
---    λ> let r x y = compare (abs x) (abs y)
---    λ> ordLex compare [-4,3] [2,5]
+--    >>> let r x y = compare (abs x) (abs y)
+--    >>> ordLex compare [-4,3] [2,5]
 --    LT
---    λ> ordLex r       [-4,3] [2,5]
+--    >>> ordLex r       [-4,3] [2,5]
 --    GT
 ordLex :: (a -> b -> Ordering) -> [a] -> [b] -> Ordering
 ordLex _ [] []  = EQ
@@ -73,20 +72,20 @@ ordLex r (x:xs) (y:ys) =
       _  -> a 
     where a = r x y
 
--- (borraelem a mult) es la lista obtenida eliminando el primer
+-- | (borraelem a mult) es la lista obtenida eliminando el primer
 -- elemento de xs igual a x. Por ejemplo,
---    λ> borraElem 2 (lista2Multiconj [3,2,5,2])
+--    >>> borraElem 2 (lista2Multiconj [3,2,5,2])
 --    fromOccurList [(2,1),(3,1),(5,1)]
---    λ> borraElem 4 (lista2Multiconj [3,2,5,2])
+--    >>> borraElem 4 (lista2Multiconj [3,2,5,2])
 --    fromOccurList [(2,2),(3,1),(5,1)]
 borraElem :: Ord a => a -> M.MultiSet a -> M.MultiSet a
 borraElem = M.delete
 
--- (difMulticonj xs ys) es la diferencia de los multiconjuntos xs e ys
+-- | (difMulticonj xs ys) es la diferencia de los multiconjuntos xs e ys
 -- Por ejemplo,
---    λ> difMulticonj (lista2Multiconj [1,2,3,2,5]) (lista2Multiconj [2,7,5,7])
+--    >>> difMulticonj (lista2Multiconj [1,2,3,2,5]) (lista2Multiconj [2,7,5,7])
 --    fromOccurList [(1,1),(2,1),(3,1)]
---    λ> difMulticonj (lista2Multiconj [2,7,5,7]) (lista2Multiconj [1,2,3,2,5])
+--    >>> difMulticonj (lista2Multiconj [2,7,5,7]) (lista2Multiconj [1,2,3,2,5])
 --    fromOccurList [(7,2)]
 difMulticonj :: Ord a => M.MultiSet a -> M.MultiSet a -> M.MultiSet a
 difMulticonj  = M.difference
@@ -104,11 +103,11 @@ difMulticonj  = M.difference
 --    2. {4,3,3,1} = ({5,3,1,1} - {5,1}) ∪ {4,3} 
 --    3. (∀y∈{4,3})(∃x∈{5,1})[x > y]            
 
--- (ordenMulticonj ms ns) es la comparación de los multiconjuntos ms y ns.
+-- | (ordenMulticonj ms ns) es la comparación de los multiconjuntos ms y ns.
 -- Por ejemplo,
---    ghci> let ms = lista2Multiconj [5,3,1,1] 
---    ghci> let ns = lista2Multiconj [4,3,3,1]
---    ghci> ordenMulticonj ms ns
+--    >>> let ms = lista2Multiconj [5,3,1,1] 
+--    >>> let ns = lista2Multiconj [4,3,3,1]
+--    >>> ordenMulticonj ms ns
 --    GT
 ordenMulticonj :: Ord a => M.MultiSet a -> M.MultiSet a -> Ordering
 ordenMulticonj ms ns
@@ -117,3 +116,6 @@ ordenMulticonj ms ns
   | otherwise                             = LT  
   where xs = ms `difMulticonj` ns
         ys = ns `difMulticonj` ms
+
+-- Comprobación doctest
+-- Examples: 18  Tried: 18  Errors: 0  Failures: 0

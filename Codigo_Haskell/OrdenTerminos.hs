@@ -9,13 +9,13 @@ import Orden    ( ordLex )
 import Terminos ( Termino (..)
                 , ocurre) 
 
--- (ordenPorLista xs a b) es el resultado de comparar a y b, tal que
+-- | (ordenPorLista xs a b) es el resultado de comparar a y b, tal que
 -- a > b syss a aparece antes en xs que b
 --    λ> ordenPorLista ["a","b","c"] "a" "c"
 --    GT
---    λ> ordenPorLista ["a","b","c"] "c" "b"
+--    >>> ordenPorLista ["a","b","c"] "c" "b"
 --    LT
---    λ> ordenPorLista ["a","b","c"] "b" "b"
+--    >>> ordenPorLista ["a","b","c"] "b" "b"
 --    EQ
 ordenPorLista :: Ord a => [a] -> a  -> a -> Ordering
 ordenPorLista [] _ _ =
@@ -27,16 +27,16 @@ ordenPorLista (x:xs) a b
   | b == x = LT
   | otherwise = ordenPorLista xs a b
                 
--- (ordenCamLex ord s t) es el resultado de comparar s y t con el
+-- | (ordenCamLex ord s t) es el resultado de comparar s y t con el
 -- orden de caminos lexicográfico inducido por ord.
---    λ> let ord = ordenPorLista ["i","f","e"]
---    λ> ordenCamLex ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
+--    >>> let ord = ordenPorLista ["i","f","e"]
+--    >>> ordenCamLex ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
 --    GT
---    λ> ordenCamLex ord (T "i" [T "e" []]) (T "e" [])
+--    >>> ordenCamLex ord (T "i" [T "e" []]) (T "e" [])
 --    GT
---    λ> ordenCamLex ord (T "i" [T "f" [V("x",1),V("y",1)]]) (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
+--    >>> ordenCamLex ord (T "i" [T "f" [V("x",1),V("y",1)]]) (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
 --    GT
---    λ> ordenCamLex ord (T "f" [V("y",1),V("z",1)])  (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
+--    >>> ordenCamLex ord (T "f" [V("y",1),V("z",1)])  (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
 --    LT
 ordenCamLex:: ([Char] -> [Char] -> Ordering) -> Termino -> Termino -> Ordering
 ordenCamLex _ s (V x)
@@ -56,14 +56,14 @@ ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
       LT -> LT  
   | otherwise = GT --OCL1a
 
--- (ordenTerminoLex t s) es el resultado de comparar el nombre del
+-- | (ordenTerminoLex t s) es el resultado de comparar el nombre del
 -- elemento de la posición vacía mediante el orden alfabético. Por
 -- ejemplo,
---    λ> ordenTermino (V ("a",2)) (V ("b",1))
+--    >>> ordenTermino (V ("a",2)) (V ("b",1))
 --    LT
---    λ> ordenTermino (V ("x",2)) (T "f" [V ("b",1)])
+--    >>> ordenTermino (V ("x",2)) (T "f" [V ("b",1)])
 --    GT
---    λ> ordenTermino (T "g" [V("x",2)]) (T "f" [V("b",1)])
+--    >>> ordenTermino (T "g" [V("x",2)]) (T "f" [V("b",1)])
 --    GT
 ordenTermino::  Termino -> Termino -> Ordering
 ordenTermino (V (a,_)) (V (b,_)) = compare a b
@@ -71,17 +71,17 @@ ordenTermino (V (a,_)) (T b _) = compare a b
 ordenTermino (T a _) (V (b,_)) = compare a b
 ordenTermino (T a _) (T b _) = compare a b
                 
--- (ordenCamRec stat ord t s) es el resultado de comparar s y t con el
+-- | (ordenCamRec stat ord t s) es el resultado de comparar s y t con el
 -- orden de caminos recursivo, inducido por orden ord. Por ejemplo,
---    λ> let stat f (ordenTermino) t s = ordLex ordenTermino t s 
---    λ> let ord = ordenPorLista ["i","f","e"]
---    λ> ordenCamRec stat ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
+--    >>> let stat f (ordenTermino) t s = ordLex ordenTermino t s 
+--    >>> let ord = ordenPorLista ["i","f","e"]
+--    >>> ordenCamRec stat ord (T "f" [V ("x",1), T "e" []]) (V ("x",1))
 --    GT
---    λ> ordenCamRec stat ord (T "i" [T "e" []]) (T "e" [])
+--    >>> ordenCamRec stat ord (T "i" [T "e" []]) (T "e" [])
 --    GT
---    λ> ordenCamRec stat ord (T "i" [T "f" [V("x",1),V("y",1)]]) (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
+--    >>> ordenCamRec stat ord (T "i" [T "f" [V("x",1),V("y",1)]]) (T "f" [T "i" [V("y",1)], T "i" [V("x",1)]])
 --    GT
---    λ> ordenCamRec stat ord (T "f" [V("y",1),V("z",1)])  (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
+--    >>> ordenCamRec stat ord (T "f" [V("y",1),V("z",1)])  (T "f" [T "f" [V("x",1),V("y",1)], V("z",1)])
 --    LT
 ordenCamRec:: ([Char] -> (Termino -> Termino -> Ordering) -> [Termino] -> [Termino] -> Ordering)
            ->  ([Char] -> [Char] -> Ordering)
@@ -103,4 +103,6 @@ ordenCamRec est ord s@(T f ss) t@(T g ts) --OCR2
       LT -> LT
   | otherwise = GT --OCR2a
   
+-- Comprobación doctest
+-- Examples: 34  Tried: 34  Errors: 0  Failures: 0
 
