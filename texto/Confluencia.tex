@@ -2,10 +2,10 @@
 
 En este capítulo estudiaremos el problema de determinar si un sistema
 de reescritura es confluente. En la primera sección vamos a demostrar
-que este problema es indecidible, sin embargo en las secciones
-posteriores, estudiaremos que si el sistema es terminante, entonces el
-problema es decidible. Por último veremos que ocurre para el caso de
-los sistemas que no terminan.
+que este problema es indecidible para el caso general. Sin embargo en
+las secciones posteriores, estudiaremos que ocurre para un sistema
+terminante. Para este caso el problema será decidible. Por último
+veremos que podemos decir para los sistemas que no terminan.
 
 \section{Estudio sobre el problema de decisión}
   
@@ -97,88 +97,14 @@ $s|_{p_i} = \sigma_i l_i$ y $t_i = s[\sigma_i r_i ]_{p_i}, i
 =1,2$. Tenemos que estudiar como de relacionados están $p_1$ y $p_2$.
 
 \begin{itemize}
-\item Caso 1, $p_1$ y $p_2$ están en árboles separados. En este caso,
-  de da la convergencia local.
 
-  % FALTA UNIR LOS 4 PRIMEROS EN UN ARBOL
-  % AÑADIR COLOR
-  % POSICIONAR MEJOR LOS SUBINDICES
-  % FALTA POR ESCRIBIR UN GRAFICO
-  % COMENTAR CON LOS DIBUJOS
-  
-  
-  \centering
-\begin{tikzpicture}
-\draw (0,0) node[anchor=north]{}
-  -- (10,0) node[anchor=north]{}
-  -- (5,5) node[below]{$s$}
-  -- cycle
-   (2,0) node[anchor=north]{}
-  -- (4,0) node[anchor=north]{}
-  -- (3,1) node[below]{$\sigma_1 l_1$}
-  -- cycle
-     (8,0) node[anchor=north]{}
-  -- (6,0) node[anchor=north]{}
-  -- (7,1) node[below]{$\sigma_2 l_2$}
-  -- cycle
-  ;
-\end{tikzpicture}
+\item \textbf{Caso 1}, $p_1$ y $p_2$ están en árboles separados. En este caso,
+  se da la convergencia local. Por ejemplo, supongamos que partimos de
+  la figura \ref{fig:caso1a}.
 
-\begin{tikzpicture}
-\node(a) at (2,0) {};
-\node (b) at (4,0) {};
-\node (c) at (3,1) {};
-
-\draw (0,0) node[anchor=north]{}
-  -- (10,0) node[anchor=north]{}
-  -- (5,5) node[below]{$t_1$}
-  -- cycle
-   (2,0) node[anchor=north]{}
-  -- (4,0) node[anchor=north]{}
-  -- (3,1) node[below]{}
-  -- cycle
-
-  
-     (8,0) node[anchor=north]{}
-  -- (6,0) node[anchor=north]{}
-  -- (7,1) node[below]{$\sigma_2 l_2$}
-  -- cycle
-  ;
-\fill (a.center) -- (b.center) -- (c.center);
-
-\end{tikzpicture}
-
-\begin{tikzpicture}
-\node(a) at (8,0) {};
-\node (b) at (6,0) {};
-\node (c) at (7,1) {};
-
-\draw (0,0) node[anchor=north]{}
-  -- (10,0) node[anchor=north]{}
-  -- (5,5) node[below]{$t_2$}
-  -- cycle
-   (2,0) node[anchor=north]{}
-  -- (4,0) node[anchor=north]{}
-  -- (3,1) node[below]{$\sigma_1 l_1$}
-  -- cycle
-
-  
-     (8,0) node[anchor=north]{}
-  -- (6,0) node[anchor=north]{}
-  -- (7,1) node[below]{}
-  -- cycle
-  ;
-\fill (a.center) -- (b.center) -- (c.center);
-
-\end{tikzpicture}
-
-\begin{tikzpicture}
-\node(a) at (8,0) {};
-\node (b) at (6,0) {};
-\node (c) at (7,1) {};
-\node(a2) at (2,0) {};
-\node (b2) at (4,0) {};
-\node (c2) at (3,1) {};
+  \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
 \draw (0,0) node[anchor=north]{}
   -- (10,0) node[anchor=north]{}
   -- (5,5) node[below]{}
@@ -187,108 +113,269 @@ $s|_{p_i} = \sigma_i l_i$ y $t_i = s[\sigma_i r_i ]_{p_i}, i
   -- (4,0) node[anchor=north]{}
   -- (3,1) node[below]{}
   -- cycle
-
   
      (8,0) node[anchor=north]{}
   -- (6,0) node[anchor=north]{}
   -- (7,1) node[below]{}
   -- cycle
   ;
+\node[below] at (3,0.8) {\LARGE $\sigma_1 l_1$};
+\node[below] at (7,0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (5,4.7) {\huge $s$};
+\end{tikzpicture}
+\caption{Término del caso 1 sin aplicar ninguna regla}
+\label{fig:caso1a}
+\end{figure}
+
+Si aplicamos $l_1 \rightarrow r_1$ o $l_2 \rightarrow r_2$ obtenemos
+las figuras \ref{fig:caso1b} y \ref{fig:caso1c} respectivamente.
+
+  \begin{figure}[h]
+    \centering
+
+\begin{tikzpicture}
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+   (2,0) node[anchor=north]{}
+  -- (4,0) node[anchor=north]{}
+  -- (3,1) node[below]{}
+  -- cycle
+  
+     (8,0) node[anchor=north]{}
+  -- (6,0) node[anchor=north]{}
+  -- (7,1) node[below]{}
+  -- cycle
+  ;
+\node[below] at (3,0.8) {\LARGE $\sigma_1 l_1$};
+\node[below] at (7,0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (5,4.7) {\huge $s$};
+
+\node(a) at (2,0) {};
+\node (b) at (4,0) {};
+\node (c) at (3,1) {};
+\fill (a.center) -- (b.center) -- (c.center);
+
+\end{tikzpicture}
+\caption{Término del caso 1 tras aplicar $l_1 \rightarrow r_1$}
+\label{fig:caso1b}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+   (2,0) node[anchor=north]{}
+  -- (4,0) node[anchor=north]{}
+  -- (3,1) node[below]{}
+  -- cycle
+  
+     (8,0) node[anchor=north]{}
+  -- (6,0) node[anchor=north]{}
+  -- (7,1) node[below]{}
+  -- cycle
+  ;
+\node[below] at (3,0.8) {\LARGE $\sigma_1 l_1$};
+\node[below] at (7,0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (5,4.7) {\huge $s$};
+
+\node(a) at (8,0) {};
+\node (b) at (6,0) {};
+\node (c) at (7,1) {};
+\fill (a.center) -- (b.center) -- (c.center);
+
+\end{tikzpicture}
+\caption{Término del caso 1 tras aplicar $l_2 \rightarrow r_2$}
+\label{fig:caso1c}
+\end{figure}
+
+Y si usamos la regla que no se ha aplicado antes, para ambos términos
+llegamos a la figura \ref{fig:caso1d}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+   (2,0) node[anchor=north]{}
+  -- (4,0) node[anchor=north]{}
+  -- (3,1) node[below]{}
+  -- cycle
+  
+     (8,0) node[anchor=north]{}
+  -- (6,0) node[anchor=north]{}
+  -- (7,1) node[below]{}
+  -- cycle
+  ;
+\node[below] at (3,0.8) {\LARGE $\sigma_1 l_1$};
+\node[below] at (7,0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (5,4.7) {\huge $s$};
+
+\node(a) at (8,0) {};
+\node (b) at (6,0) {};
+\node (c) at (7,1) {};
+\node(a2) at (2,0) {};
+\node (b2) at (4,0) {};
+\node (c2) at (3,1) {};
 \fill (a.center) -- (b.center) -- (c.center);
 \fill (a2.center) -- (b2.center) -- (c2.center);
+
 \end{tikzpicture}
+\caption{Término en el caso 1, donde no se produce solapamiento}
+\label{fig:caso1d}
+\end{figure}
+
   
-\item Caso 2, $p_1$ es un prefijo de $p_2$.
-  % Despues del dibujo
+\item \textbf{Caso 2}. Si $p_1$ es un prefijo de $p_2$, tal y como se
+  muestra en la figura \ref{fig:caso2}
 
-  Podemos distinguir dos casos según como de separadas estén los
-  términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
-
-  \begin{itemize}
-
-  \item Caso 2.1. La reducción $\sigma_2 l_2$ no se solapa con $l_1$
-    pero está contenido en $\sigma_1$. A esta situación la llamaremos
-    solapamiento no crítico, pues en esta situación ocurre una
-    confluencia local.
-
-  \item Caso 2.2. En este caso $l_1$ y $l_2$ se solapan. A este caso
-    lo llamaremos solapamiento crítico, y es la peor situación que
-    podemos tener.
-  \end{itemize}
-
-  \usetikzlibrary{decorations.pathreplacing}
+\begin{figure}[h]
+  \centering
 \begin{tikzpicture}
-
 \draw[dotted](5,3)--(10,3);
+\draw[dotted](5,5)--(10,5);
 \draw[dotted](5,1)--(10,1);
 
 \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(10,1) -- (10,3) node [black,midway,xshift=0.8cm] {\footnotesize
-$p_1$};
-
+(10,1) -- (10,3) node [black,midway,xshift=0.8cm] {};
 
 \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(10,0) -- (10,1) node [black,midway,xshift=0.8cm] {\footnotesize
-$p$};
+(10,3) -- (10,5) node [black,midway,xshift=0.8cm] {};
 
 \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(11,0) -- (11,3) node [black,midway,xshift=0.8cm] {\footnotesize
-$p_2$};
+(11,1) -- (11,5) node [black,midway,xshift=0.8cm] {};
 
 
 \draw (0,0) node[anchor=north]{}
   -- (10,0) node[anchor=north]{}
-  -- (5,5) node[below]{$s$}
+  -- (5,5) node[below]{}
   -- cycle
    (2,0) node[anchor=north]{}
   -- (8,0) node[anchor=north]{}
-  -- (5,3) node[below]{$\sigma_1 l_1$}
+  -- (5,3) node[below]{}
   -- cycle
-
   
      (4,0) node[anchor=north]{}
   -- (6,0) node[anchor=north]{}
-  -- (5,1) node[below]{$\sigma_2 l_2$}
+  -- (5,1) node[below]{}
   -- cycle
   ;
 
+\node[below] at (5,4.7) {\huge $s$};
+\node[below] at (5,2.7) {\LARGE $\sigma_1 l_1$};
+\node[below] at (5,0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (10.9,4.3) {\LARGE $p_1$};
+\node[below] at (10.8,2.3) {\LARGE $p$};
+\node[below] at (11.9,3.3) {\LARGE $p_2$};
 \end{tikzpicture}
+\label{fig:caso2}
+\caption{Situación del caso 2.}
+\end{figure}
 
-  \usetikzlibrary{decorations.pathreplacing}
+
+A partir del dibujo, podemos distinguir dos casos según como de
+separadas estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
+
+  \begin{itemize}
+
+  \item \textbf{Caso 2.1}. La reducción $\sigma_2 l_2$ no se solapa
+    con $l_1$ pero está contenido en $\sigma_1$ (figura
+    \ref{caso2a}). A esta situación la llamaremos solapamiento no
+    crítico, pues en esta situación ocurre una confluencia local.
+
+\begin{figure}[h]
+  \centering
+\usetikzlibrary{decorations.pathmorphing}
+  \begin{tikzpicture}
+\draw[dotted](5,3)--(10,3);
+\draw[dotted](5,5)--(10,5);
+\draw[dotted](5,2)--(10,2);
+
+\draw(3,3)--(7,3);
+
+\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
+(10,2) -- (10,3) node [black,midway,xshift=0.8cm] {};
+
+\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
+(10,3) -- (10,5) node [black,midway,xshift=0.8cm] {};
+
+\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
+(11,2) -- (11,5) node [black,midway,xshift=0.8cm] {};
+
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+  
+     (3,0) node[anchor=north]{}
+  -- (7,0) node[anchor=north]{}
+  -- (5,2) node[below]{}
+  -- cycle
+  ;
+  
+\node[below] at (5,4.3) {\huge $l_1$};
+\node[below] at (5,2.8) {\LARGE $\sigma_1$};
+\node[below] at (5,1.2) {\LARGE $\sigma_2 l_2$};
+\node[below] at (10.9,4.3) {\LARGE $q_1$};
+\node[below] at (10.9,2.8) {\LARGE $q_2$};
+\node[below] at (11.9,3.3) {\LARGE $p$};
+\end{tikzpicture}
+\label{fig:caso2a}
+\caption{Caso 2.1.}
+\end{figure}
+    
+\item \textbf{Caso 2.2}. En este caso $l_1$ y $l_2$ se solapan (figura
+  \ref{caso2b}). A este caso lo llamaremos solapamiento crítico, y es
+  la peor situación que podemos tener.
+
+    \begin{figure}
+      \centering
 \begin{tikzpicture}
 
-\draw[dotted](8,2)--(10,2);
-\draw[dotted](5,1)--(10,1);
+
+\draw[dotted](5,3)--(10,3);
 \draw[dotted](5,5)--(10,5);
-\draw(2,2)--(8,2);
+
+
+\draw(4,2)--(2,2);
+\draw(6,2)--(8,2);
+\draw(3.5,1.5)--(6.5,1.5);
+
 
 \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(10,1) -- (10,3) node [black,midway,xshift=0.8cm] {\footnotesize
-$p_1$};
-
-
-\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(10,0) -- (10,1) node [black,midway,xshift=0.8cm] {\footnotesize
-$p$};
-
-\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt]
-(11,0) -- (11,3) node [black,midway,xshift=0.8cm] {\footnotesize
-$p_2$};
+(10,3) -- (10,5) node [black,midway,xshift=0.8cm] {};
 
 
 \draw (0,0) node[anchor=north]{}
   -- (10,0) node[anchor=north]{}
-  -- (5,5) node[below]{$l_1$}
+  -- (5,5) node[below]{}
   -- cycle
   
-     (4,0) node[anchor=north]{}
-  -- (6,0) node[anchor=north]{}
-  -- (5,1) node[below]{$\sigma_2 l_2$}
+     (2,0) node[anchor=north]{}
+  -- (8,0) node[anchor=north]{}
+  -- (5,3) node[below]{}
   -- cycle
   ;
-
-\end{tikzpicture}
   
+\node[below] at (5,4.3) {\huge $l_1$};
+\node[below] at (5,2.5) {\LARGE $l_2$};
+\node[below] at (5,1) {\LARGE $\sigma_2$};
+\node[below] at (2.25,1.5) {\LARGE $\sigma_1$};
+\node[below] at (7.75,1.5) {\LARGE $\sigma_1$};
+\node[below] at (10.9,4.3) {\LARGE $p$};
+
+\end{tikzpicture}     
+\caption{Caso 2.2.}
+    \end{figure}    
+  \end{itemize}
+
+
 \end{itemize}
 
 
@@ -504,9 +591,88 @@ cumplimiento de esta propiedad implica la confluencia.
 Volviendo al caso 2.1, para conseguir la propiedad del diamante
 tenemos que arreglar el problema de aplicar repetidas veces la
 reducción $l_2 \rightarrow r_2$. Para ello vamos a considerar
-reducciones paralelas para los subárboles
+reducciones paralelas para los subárboles. Es decir, si tenemos la
+figura \ref{fig:pararb1}, consideramos la reducción
+$\rightrightarrows$ con la que obtenemos \ref{fig:pararb2}.
 
-% DIBUJO
+\begin{figure}
+\centering
+\usetikzlibrary{decorations.pathreplacing}
+\begin{tikzpicture}
+
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+    
+       (0,-2) node[anchor=north]{}
+  -- (3.33,-2) node[anchor=north]{}
+  -- (1.665,0) node[below]{}
+  -- cycle
+  
+       (3.33,-2) node[anchor=north]{}
+  -- (6.66,-2) node[anchor=north]{}
+  -- (5,0) node[below]{}
+  -- cycle
+  
+        (6.66,-2) node[anchor=north]{}
+  -- (10,-2) node[anchor=north]{}
+  -- (8.33,0) node[below]{}
+  -- cycle
+  ;
+  
+
+\node[below] at (1.665,-0.8) {\LARGE $\sigma_1 l_1$};
+\node[below] at (5,-0.8) {\LARGE $\sigma_2 l_2$};
+\node[below] at (8.33,-0.8) {\LARGE $\sigma_3 l_3$};
+
+\end{tikzpicture}
+\label{pararb1}
+\end{figure}
+
+\begin{figure}
+
+\usetikzlibrary{decorations.pathreplacing}
+\begin{tikzpicture}
+
+\draw (0,0) node[anchor=north]{}
+  -- (10,0) node[anchor=north]{}
+  -- (5,5) node[below]{}
+  -- cycle
+    
+       (0,-2) node[anchor=north]{}
+  -- (3.33,-2) node[anchor=north]{}
+  -- (1.665,0) node[below]{}
+  -- cycle
+  
+       (3.33,-2) node[anchor=north]{}
+  -- (6.66,-2) node[anchor=north]{}
+  -- (5,0) node[below]{}
+  -- cycle
+  
+        (6.66,-2) node[anchor=north]{}
+  -- (10,-2) node[anchor=north]{}
+  -- (8.33,0) node[below]{}
+  -- cycle
+  ;
+
+\node(a) at (0,-2) {};
+\node (b) at (3.33,-2) {};
+\node (c) at (1.665,0) {};
+\node(a2) at (3.33,-2) {};
+\node (b2) at (6.66,-2) {};
+\node (c2) at (5,0) {};
+\node(a3) at (6.66,-2) {};
+\node (b3) at (10,-2) {};
+\node (c3) at (8.33,0) {};
+\fill (a.center) -- (b.center) -- (c.center);
+\fill (a2.center) -- (b2.center) -- (c2.center);
+\fill (a3.center) -- (b3.center) -- (c3.center);
+
+\end{tikzpicture}
+  
+\label{parab2}
+\end{figure}
 
 \begin{defi}
   Diremos que un conjunto de posiciones es paralelo si $p||q$ para
@@ -528,7 +694,8 @@ A partir de esta definición, enunciamos el teorema de los sistemas
 ortogonales
 
 \begin{teor}
-Si $R$ es ortogonal entonces $\rightrightarrows_R$ tiene la propiedad del diamante
+  Si $R$ es ortogonal entonces $\rightrightarrows_R$ tiene la
+  propiedad del diamante
 \end{teor}
 
 \begin{demo}
@@ -539,9 +706,33 @@ Si $R$ es ortogonal entonces $\rightrightarrows_R$ tiene la propiedad del diaman
 \item $B_i := \{ p \in P_i | \exists q \in P_{1-i}, q < p \}$
 \item $P_0 \cap P_1$
 \end{itemize}
-%NECESITA DIBUJOS PARA ENTENDERSE BIEN
 
+Analizamos que elementos hay en cada partición; $A_i$ contiene todas
+las posiciones contraídas que estén por encima de
+$s \rightrightarrows t_{1-i}$, $B_i$ contiene las que están por debajo
+estrictamente de las contraídas en $s \rightrightarrows t_{1-i}$, y
+$C$ un conjunto de posiciones contraídas en ambas reducciones.
+
+Como no tenemos pares críticos, todos los $b_i$ son el resultado de
+aplicar una regla de reducción hacia la derecha a $a_{1-i}$.
+
+La reducción $t_{1-i} \rightrightarrows u$ tiene las mismas reglas que
+las posiciones $B_i$. Lo mismo ocurre para $s \rightrightarrows
+t_i$. Nuestro objetivo es llegar a que $t_{1-i} \rightrightarrows u$
+también usa las posiciones de $A_i$, para llegar a formar el diamante.
+
+Una reducción en la posición $a_i \in A_i$, no puede ser destruida por
+una reducción de algún $b_{1-i} \in B_{1-i}$ porque $R$ es lineal por
+la izquierda. Por tanto la reducción $t_{1-i} \rightrightarrows u$ usa
+las mismas reglas en las posiciones $A_i$ en la reducción
+$s \rightrightarrows t_i$ (que aplicadas en las posiciones de $B_i$).
 \end{demo}
+
+Y en particular, tenemos el siguiente corolario.
+
+\begin{coro}
+Todo sistema de reescritura ortogonal es confluente.
+\end{coro}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Apéndices
