@@ -130,9 +130,8 @@ $s|_{p_i} = \sigma_i l_i$ y $t_i = s[\sigma_i r_i ]_{p_i}, i
 Si aplicamos $l_1 \rightarrow r_1$ o $l_2 \rightarrow r_2$ obtenemos
 las figuras \ref{fig:caso1b} y \ref{fig:caso1c} respectivamente.
 
-  \begin{figure}[h]
+\begin{figure}[h]
     \centering
-
 \begin{tikzpicture}
 \draw (0,0) node[anchor=north]{}
   -- (10,0) node[anchor=north]{}
@@ -274,8 +273,8 @@ llegamos a la figura \ref{fig:caso1d}.
 \node[below] at (10.8,2.3) {\LARGE $p$};
 \node[below] at (11.9,3.3) {\LARGE $p_2$};
 \end{tikzpicture}
-\label{fig:caso2}
 \caption{Situación del caso 2.}
+\label{fig:caso2}
 \end{figure}
 
 
@@ -326,15 +325,15 @@ separadas estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
 \node[below] at (10.9,2.8) {\LARGE $q_2$};
 \node[below] at (11.9,3.3) {\LARGE $p$};
 \end{tikzpicture}
-\label{fig:caso2a}
 \caption{Caso 2.1.}
+\label{fig:caso2a}
 \end{figure}
     
 \item \textbf{Caso 2.2}. En este caso $l_1$ y $l_2$ se solapan (figura
   \ref{caso2b}). A este caso lo llamaremos solapamiento crítico, y es
   la peor situación que podemos tener.
 
-    \begin{figure}
+ \begin{figure}
       \centering
 \begin{tikzpicture}
 
@@ -370,8 +369,10 @@ separadas estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
 \node[below] at (7.75,1.5) {\LARGE $\sigma_1$};
 \node[below] at (10.9,4.3) {\LARGE $p$};
 
-\end{tikzpicture}     
+\end{tikzpicture}
+
 \caption{Caso 2.2.}
+\label{caso2b}
     \end{figure}    
   \end{itemize}
 
@@ -475,11 +476,11 @@ ghci> indiceMaximo (T "w" [V("x",4), V("z", 200), V("y", 1)])
 
 Su código es,
 
-\begin{code}
+\begin{codigo}
 indiceMaximo :: Termino -> Indice
 indiceMaximo (V (_,i)) = i
 indiceMaximo (T _ ts) = maximum (map indiceMaximo ts)
-\end{code}
+\end{codigo}
 
 \item \texttt{(renombraTermino n t)} es el termino resultante tras sumar a
   todos los índices de \texttt{t} el entero \texttt{n}. Por ejemplo,
@@ -501,8 +502,29 @@ renombraTermino n (T f ts) = T f (map (renombraTermino n) ts)
 \item \texttt{(parCritico c l1 r1 l2 r2)} calcula el par crítico de la
   regla $\texttt{l1} \rightarrow \texttt{r1}$ y
   $\texttt{l2} \rightarrow \texttt{r2}$. Por ejemplo,
+\begin{sesion}
+ghci> let c a = a
+ghci> parCritico c (V ("x",1)) (T "f" [V ("y",1)]) (V ("x",2))
+                 (T "g" [V("y",2)])
+[(T "f" [V ("y",1)],T "g" [V ("y",2)])]
+ghci> parCritico c (T "f" [V ("x",1)]) (T "f" [V ("y",1)])
+                 (V ("x",1)) (T "g" [V("y",2)])
+\end{sesion}
 
-% FALTA CP y CPS
+Su código es,
+
+\begin{codigo}
+parCritico :: (Termino -> Termino) -> Termino -> Termino
+               -> Termino -> Termino -> [(Termino, Termino)]
+parCritico c l1 r1 l2 r2
+    | sigma1 == Left UNIFICACION = []
+    | otherwise = [(sigma r1, sigma (c r2))]
+    where sigma1 = unificacion l1 l2
+          sigma = aplicaTerm (elimR(sigma1))
+          elimR (Right a) = a
+\end{codigo}
+
+  
 \end{itemize}
 
 \section{Ortogonalidad}
@@ -593,7 +615,7 @@ tenemos que arreglar el problema de aplicar repetidas veces la
 reducción $l_2 \rightarrow r_2$. Para ello vamos a considerar
 reducciones paralelas para los subárboles. Es decir, si tenemos la
 figura \ref{fig:pararb1}, consideramos la reducción
-$\rightrightarrows$ con la que obtenemos \ref{fig:pararb2}.
+$\rightrightarrows$ con la que obtenemos la situación \ref{fig:pararb2}.
 
 \begin{figure}
 \centering
@@ -627,11 +649,12 @@ $\rightrightarrows$ con la que obtenemos \ref{fig:pararb2}.
 \node[below] at (8.33,-0.8) {\LARGE $\sigma_3 l_3$};
 
 \end{tikzpicture}
-\label{pararb1}
+\caption{}
+\label{fig:pararb1}
 \end{figure}
 
 \begin{figure}
-
+\centering
 \usetikzlibrary{decorations.pathreplacing}
 \begin{tikzpicture}
 
@@ -670,8 +693,9 @@ $\rightrightarrows$ con la que obtenemos \ref{fig:pararb2}.
 \fill (a3.center) -- (b3.center) -- (c3.center);
 
 \end{tikzpicture}
-  
-\label{parab2}
+
+\caption{}
+\label{fig:pararb2}
 \end{figure}
 
 \begin{defi}
@@ -733,15 +757,6 @@ Y en particular, tenemos el siguiente corolario.
 \begin{coro}
 Todo sistema de reescritura ortogonal es confluente.
 \end{coro}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%Apéndices
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\clearpage
-\addappheadtotoc
-\appendix
-
 
 %%% Local Variables:
 %%% mode: latex

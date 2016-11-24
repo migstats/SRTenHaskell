@@ -11,7 +11,7 @@ import Terminos ( Termino (..)
 
 -- | (ordenPorLista xs a b) es el resultado de comparar a y b, tal que
 -- a > b syss a aparece antes en xs que b
---    λ> ordenPorLista ["a","b","c"] "a" "c"
+--    >>> ordenPorLista ["a","b","c"] "a" "c"
 --    GT
 --    >>> ordenPorLista ["a","b","c"] "c" "b"
 --    LT

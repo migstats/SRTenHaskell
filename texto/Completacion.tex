@@ -1,0 +1,91 @@
+\chapter{Completación}
+
+Durante los anteriores capítulos hemos estudiado la decibilidad para
+el problema de la terminación y confluencia. Hemos probado que ambos
+problemas son indecidibles para el caso general. En este capítulo
+vamos a estudiar un procedimiento, para que dado un sistema de
+reescritura, modificar sus elementos para lograr que sea terminante y
+confluente. Formalmente queremos construir un prodecimiento para el
+problema de la palabra para un sistema finito de identidades $E$.
+
+Supongamos que tenemos un conjunto
+$E := \{ x + 0 \equiv x, x + s(y) \equiv s(x+y) \}$. El sistema de
+reescritura generado por $E$ es
+$R := \{ x + 0 \rightarrow x, x + s(y) \rightarrow s(x+y)\}$.  Para
+probar la termianción usamos el camino de orden lexicográfico inducido
+por $>$. La confluencia se verifica pues $R$ no tiene pares críticos.
+
+Para estudiar este conjunto hemos aplicado condiciones suficientes, es
+decir, podemos tener un sistema de identidades al que no podamos
+aplicar las propiedades que hemos estudiado, y sin embargo sea
+terminante y/o confluente. La idea detrás de los algorítmos es añadir
+reglas que no cambien la estructura equacional de $E$.
+
+Por ejemplo, supongamos que tenemos un sistema $E$ que es terminante
+pero no confluente. Eso quiere decir que existen pares críticos en el
+sistema de reescritura $R$ asociado a $E$. Si añadimos alguna regla
+adiccional, podemos conseguir que esos pares críticos sean unibles.
+
+Hay que tener en cuenta que al añadir reglas adiccionales se crearán
+nuevos pares críticos. Este proceso continuará hasta que no existan
+más pares críticos.
+
+\section{Algorítmo de completación}
+
+Vamos a definir un proceso que empieza por un conjunto finito de
+indentidades $E$, que intenta encontrar un sistema de reescritura
+convergente $R$ que sea equivalente a $E$.
+
+\textbf{Algorítmo} \hrulefill
+
+\textbf{Input:} Un conjunto finito $E$ de $\Sigma$-identidades y un
+orden de reducción > en $T(\Sigma, V)$.
+
+\textbf{Output:} Si el procedimiento termina; un sistema de
+reescritura $R$ finito y convergente que es equivalente a $E$. En caso
+contrario devuelve un \texttt{Error}.
+
+\textbf{Inicialización:}
+Si existe una identidad $(s \equiv t) \in E$ tal que
+$s \not = t, s \not > t$ y $t \not > s$, entonces termina con
+\texttt{Error}.
+En otro caso,
+$i := 0$
+$R_0 := \{l \rightarrow r | (l \equiv r) \in E \cup E^{-1} \wedge l > r \}$.
+
+\texttt{Mientras} $R_i \not R_{i-1}$
+
+$R_{i+1} := R_i$;
+
+Para todo $\langle s, t \rangle \in$ \texttt{ParesCriticos($R_i$)}:
+
+$>$ Reducir $s,t$ a forma normal $s', t'$
+
+$>$ Si $s' \not = t'$, $s' \not > t'$ y $t' \not > s'$ terminar con \texttt{Error}
+
+$>$ Si $s' > t'$ entonces $R_{i+1} := R_{i+1} \cup \{s' \rightarrow t'\}$
+
+$>$ Si $t' > s'$ entonces $R_{i+1} := R_{i+1} \cup \{t' \rightarrow s'\}$
+
+$i := i+1$
+
+Devuelve $R_i$
+
+\hrulefill
+
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Apéndices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\addappheadtotoc
+\appendix
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "SRT_en_Haskell"
+%%% End:
