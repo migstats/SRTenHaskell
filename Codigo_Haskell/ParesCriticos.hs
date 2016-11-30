@@ -3,7 +3,7 @@
 -- Sevilla, 6 de Noviembre de 2016
 -- ------------------------------------------------------------------
 
-module Orden where
+module ParesCriticos where
     
 import Terminos
 

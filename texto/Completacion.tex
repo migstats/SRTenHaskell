@@ -30,13 +30,13 @@ Hay que tener en cuenta que al añadir reglas adiccionales se crearán
 nuevos pares críticos. Este proceso continuará hasta que no existan
 más pares críticos.
 
-\section{Algorítmo de completación}
+\section{Algoritmo de completación}
 
 Vamos a definir un proceso que empieza por un conjunto finito de
-indentidades $E$, que intenta encontrar un sistema de reescritura
+identidades $E$, que intenta encontrar un sistema de reescritura
 convergente $R$ que sea equivalente a $E$.
 
-\textbf{Algorítmo} \hrulefill
+\textbf{Algoritmo} \hrulefill
 
 \textbf{Input:} Un conjunto finito $E$ de $\Sigma$-identidades y un
 orden de reducción > en $T(\Sigma, V)$.
@@ -53,7 +53,7 @@ En otro caso,
 $i := 0$
 $R_0 := \{l \rightarrow r | (l \equiv r) \in E \cup E^{-1} \wedge l > r \}$.
 
-\texttt{Mientras} $R_i \not R_{i-1}$
+\texttt{Mientras} $R_i \not = R_{i-1}$
 
 $R_{i+1} := R_i$;
 
@@ -73,7 +73,277 @@ Devuelve $R_i$
 
 \hrulefill
 
- 
+Primero eliminamos todas las identidades $t = t$ y calculamos todos
+los pares críticos y vamos recorriendo la lista. Cada término
+$\langle s, t \rangle$ se reduce a su forma normal $s'$ y $t'$. Si
+estos últimos son iguales, el par crítico es unible y se pasa al
+siguiente. En caso contrario, transformamos el par crítico en una
+regla de reescritura. Se comprueba la terminación de esa regla con
+$>$. Si esta última se verifica, se añade al sistema de
+reescritura. El proceso termina cuando el sistema no tenga más pares
+críticos unibles, ó produzca un \texttt{Error}.
+
+El algoritmo puede producir varias situaciones; que devuelva un
+sistema de reescritura en la interacción donde todos los pares
+críticos son unibles, que produzca un \texttt{Error}, o que no pare
+pues se generen infinitas nuevas reglas.
+
+Por último, vamos a demostrar que el resultado del algoritmo es una
+solución para el problema de la palabra.
+
+\begin{teor}
+  Sea $E$ un conjunto finito de identidades, y $>$ un orden de
+  reducción.
+
+  \begin{enumerate}
+  \item Si el resultado del algoritmo aplicado a $E$ y al orden $>$
+    termina y devuelve $R_n$, entonces $R_n$ es un sistema de
+    reescritura finito convergente equivalente a $E$. Además $R_n$ es
+    un procedimiento para el problema de la parada de $E$.
+
+  \item Si el resultado del algoritmo aplicado a $E$ y al orden $>$ no
+    termina, entonces $R_\infty := \cap_{i \geq 0} R_i$ es un sistema
+    de reescritura infinito convergente que es equivalente a $E$.
+  \end{enumerate}
+
+\end{teor}
+
+\begin{demo}
+  (1) $R_n$ es finito pues se construye mediante iteraciones finitas,
+  donde cada interacción añade reglas $l \rightarrow r$ que satisfacen
+  $l > r$. Por tanto por construcción $R_n$ es terminante. Además es
+  confluente pues todos sus pares críticos son unibles.
+
+  Por doble inclusión probaremos $\approx_{R_n} = \approx_E$.  La
+  primera inclusión se da pues $\approx_{R_0} = \approx_E$ es cierto y
+  $R_0 \subseteq R_1 \subseteq \dots \subseteq R_n$.
+
+  La segunda se demuestra mediante inducción para
+  $\approx_{R_i} \subseteq \approx_E$ en $i$.  El caso base es
+  trivial. Para el paso de la inducción, usaremos que $s \approx_R t$
+  es cierto para cada par crítico $\langle s, t \rangle$ de $R_i$, y
+  como la forma normal $s'$, $t'$ de $s$ y $t$, verifica
+  $s \approx_{R_i} s'$ y $t \approx_{R_i} t'$. Por tanto, tenemos
+  $s' \approx_R t'$ que implica $s' \approx_E t'$ por la hipótesis de
+  inducción, y que $ \approx_{R_i} \subseteq \approx_E$ es decidible
+  por \ref{teor:3.1}.
+
+  (2) $R_{\infty }$ es un sistema infinito donde en cada interacción
+  se añade al menos una regla. La equivalencia de $R_{\infty }$ y $E$,
+  y la terminación de $R_{\infty }$ se prueba de manera análoga a (1).
+
+  Para probar la confluencia de $R_{\infty }$ vamos a probar que todos
+  los pares críticos son unibles. Sea $\langle s,t \rangle$ un par
+  crítico entre las reglas $l \rightarrow r$,
+  $g \rightarrow d \in R_{\infty }$. Como
+  $R_{\infty } = \cup_{i \geq 0} R_i$ y
+  $R_0 \subseteq R_1 \subseteq \dots$, esto significa que existe
+  $n \geq 0$ tal que $l \rightarrow r$, $g \rightarrow d \in R_n$, que
+  implica que $\langle s,t \rangle \in$
+  \texttt{paresCriticos($R_n$)}. Este par es unible en $R_n$ ó es
+  unible en $R_{n+1}$, pues se le habrá añadido la correspondiente
+  regla. Por tanto se da la convergencia.
+\end{demo}
+
+\section{Mejorando la completación}
+
+El anterior algoritmo suele generar un gran número de reglas. Solo hay
+que ver que para cada par crítico surgen varias. Además hay que hacer
+el calculo de los pares críticos en cada paso, lo que hace que el algoritmo sea muy costoso tanto para el tiempo como para la memoria.
+
+Para mejorar el algoritmo de completación, necesitamos varios
+resultados que nos aseguren de que el proceso es correcto. En la
+siguiente sección hablaremos del algoritmo de Huet. Este algoritmo es
+algo mas complejo que el anterior y necesitaremos estos resultados
+para comprobar que efectivamente, el proceso funciona.
+
+La idea se basa en extender las reglas de simplificación por un
+conjunto de reglas que nos resulten mas beneficiosas. Las reglas son
+las siguientes.
+
+\[
+  \begin{array}{lcl}
+    $\texttt{Deducir} $ & \dfrac{E,R}{E \cup \{s \approx t \}, R} & $Si $ s \leftarrow_R u \rightarrow_R t \\ \\
+    $\texttt{Orientar}$ & \dfrac{E \cup \{s \approx' t\},R}{E,R \cup \{s \rightarrow t\}} & $Si $ s > t \\ \\
+    $\texttt{Eliminar}$ & \dfrac{E \cup \{s \approx s\}, R}{E,R} & \\ \\
+    $\texttt{Simplificar identidad}$   & \dfrac{E \cup \{ s\approx' t\},R}{E \cup \{ u \approx t\},R} & $Si $ s \rightarrow_R\\ \\
+    $\texttt{D-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t}{E,R \cup \{s \rightarrow u\}} & $Si $ t \rightarrow_R u   \\ \\
+    $\texttt{I-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t}{E \cup \{u \approx t \}, R} & $Si $ s \xrightarrow{\sqsupset}_R u
+  \end{array} 
+\]
+
+La notación $s \approx' t$ indica que es un par no ordenado, es decir
+$s \approx t \in E$ ó $t \approx s \in R$. Denotaremos
+$(E,R) \vdash_C (E',R')$ si $(E,R)$ se puede transformar en $(E', R')$
+aplicando alguna regla anterior.
+
+Las reglas generan un sistema terminante de reescritura terminante,
+pues todas están orientadas con el orden de reducción $>$, de lo que
+deducimos el siguiente resultado.
+
+\begin{lema}
+ Si $R \subseteq >$ y $(E,R) \vdash_C (E',R')$ entonces $R' \subseteq >$.
+\end{lema}
+
+Una consecuencia directa de este lema es dado un sistema de
+reescritura $R$ del par $(E,R)$ es terminante si este par se ha
+obtenido por uno inicial de la forma $(E_0, \emptyset)$ aplicando las reglas.
+
+El siguiente resultado demuestra que las reglas no cambian la
+estructura ecuacional.
+
+\begin{lema}
+  $(E_1,R_1) \vdash_C (E_2,R_2)$ implica
+  $\approx_{E_1 \cup R_1} = \approx_{E_2 \cup R_2}$.
+\end{lema}
+
+\begin{demo}
+  La demostración es trivial para las tres primeras reglas, por lo que
+  nos centraremos en las tres últimas.
+  \begin{itemize}
+  \item Para \texttt{Simplificar identidad}, partiendo de que
+    $E_1 = E \cup \{s \approx' t\}$, $E_2 = E \cup \{ u \approx t \}$,
+    $R_1 = R = R_2$, y $s \rightarrow_R u$, que implica
+    $u \approx_{E_1 \cup R_1} t$ y
+    $\approx_{E_2 \cup R_2} \subseteq \approx_{E_1 \cup R_1}$. Para la
+    otra inclusión partimos de $u \equiv t \in E_2$,
+    $s \rightarrow_R u$ y $R = R_2$ implica
+    $s \approx_{E_2 \cup R_2} t$ y por tanto,
+    $\approx_{E_1 \cup R_1} \subseteq \approx_{E_2 \cup R_2}$.
+  \item Para \texttt{D-simplificar regla}, tenemos $E_1 = E = E_2$,
+    $R_1 = R \cup \{s \rightarrow t \}, R_2 = R \cup \{s \rightarrow
+    u\}$ y $t \rightarrow_R u$. Con $s \rightarrow t \in R_1$,
+    $t \rightarrow_R u$ y $R \subseteq R_1$ conseguimos
+    $s \approx_{E_1 \cup R_1} u$, y con $s \rightarrow u \in R_2$,
+    $t \rightarrow_R u$, y $R \subseteq R_2$ implica
+    $s \approx_{E_2 \cup R_2} t$. Esto demuestra
+    $\approx_{E_1 \cup R_1} = \approx_{E_2 \cup R_2}$.
+  \item Para \texttt{I-simplificar regla} se demuestra de manera análoga
+\end{itemize}
+\end{demo}
+
+Usando la idea del procedimiento de completación que hemos comentado
+antes, formalizamos su definición.
+
+\begin{defi}
+  Un procedimiento de completación es un programa que acepta un
+  conjunto finito de identidades $E_0$, un orden de reducción $>$, y
+  usa las reglas para generar una secuencia (finita o infinita),
+
+  \[
+    (E_0,R_0) \vdash_C (E_1,R_1) \vdash_C (E_2,R_2) \vdash_C (E_3,
+    R_3) \vdash_C \dots
+  \]
+  donde $R_0 := \emptyset$.  Además definimos $E_\omega$ como el
+  conjunto de identidades persistentes y $R_\omega$ como el conjunto
+  de reglas persistentes,
+
+  \[
+    E_\omega := \bigcup_{i \geq 0} \bigcap_{j \geq i} E_j
+  \]
+
+  \[
+R_\omega :=  \bigcup_{i \geq 0} \bigcap_{j \geq i} R_j
+  \]
+  
+\end{defi}
+
+Diremos que la secuencia es un éxito syss $E_\omega = \emptyset$ y
+$R_\omega$ es convergente y equivalente a $E_0$. Diremos que falla
+syss $E_\omega \not = \emptyset$. Un procedimiento de completación es
+correcto syss cada secuencia que no falle, sea un éxito.
+
+Por último, la definición siguiente recoge la importancia de los pares
+críticos a la hora de analizar los procedimientos de completación.
+
+\begin{defi}
+  Una secuencia de completación se dirá justa syss
+
+  \[
+\texttt{paresCriticos}(R_\omega) \subseteq \bigcup_{i\geq 0} E_i
+\]
+Un procedimiento de completación es justo syss cada secuencia de éxito
+es justa.
+\end{defi}
+
+Y enunciamos el resultado que nos ayudará a probar que el algoritmo de
+Huet resuelve el problema de completación.
+
+\begin{teor}
+  Cada procedimiento de completación justo es correcto.
+\end{teor}
+
+
+\section{Algoritmo de Huet}
+
+El algoritmo que vamos a enunciar es una extensión no trivial del
+algorítmo básico de completación.
+
+\textbf{Algoritmo de Huet} \hrulefill
+
+\textbf{Input:} Un conjunto finito $E$ de $\Sigma$-identidades y un
+orden de reducción > en $T(\Sigma, V)$.
+
+\textbf{Output:} Si el procedimiento termina; un sistema de
+reescritura $R$ infinito limitado y convergente que es equivalente a
+$E$. En caso contrario devuelve un \texttt{Error}.
+
+\textbf{Inicialización:}
+$R_0 := \emptyset, E_O := E, i:= 0;$
+
+\texttt{Mientras} $E_i \not = \emptyset$ ó exista una regla no marcada
+en $R_i$
+
+\hspace{0.5cm} \texttt{Mientras} $E_i \not = \emptyset$
+
+\hspace{0.5cm} (a) Escoge una identidad $s \approx t \in E_i$
+
+\hspace{0.5cm} (b) Reduce $s,t$ a una forma $R_i$-normal $s',t'$
+
+\hspace{0.5cm} (c) Si $s' = t'$ entonces,
+
+\hspace{1.4cm} $R_{i+1} := R_i$
+
+\hspace{1.4cm} $E_{i+1} := E_i - \{s \approx t\}$
+
+\hspace{1.4cm} $i := i+1$
+
+\hspace{0.5cm} (d) Si no, si $s' \not > t'$ y $t' \not s'$, entonces
+terminar con un output \texttt{Error}.
+
+\hspace{0.5cm} (e) Si no, sea $l,r$ tal que $\{l,r \} = \{ s',t' \}$ y
+$l >r$;
+
+\hspace{1.4cm}
+$R_{i+1} := \{g \rightarrow d'$ $|$ $g \rightarrow d \in R_i,$ $g$ no
+puede reducirse con $l \rightarrow r$, y $d'$ es una forma normal de
+$d$ respecto $R_i \cup \{l \rightarrow r\} \}$
+
+\hspace{1.4cm}
+$E_{i+1} := (E_i - \{s \approx t \}) \cup \{g' \approx d$ $|$
+$g \rightarrow d \in R_i$ y $g$ puede ser reducido a $g'$ con $l \rightarrow r \}$.
+
+\hspace{1.4cm} i := i + 1
+
+\hspace{0.5cm} Si existe una regla no marcada en $R_i$, sea
+$l \rightarrow r$ esa regla.
+
+\hspace{1.4cm} $R_{i+1} := R_i$
+
+\hspace{1.4cm} $E_{i+1} := \{s \approx t$ $|$ $\langle s, t \rangle$
+es un par crítico de $l \rightarrow r$ ó una regla marcada en $R_i \}$
+
+\hspace{1.4cm} $i := i+1$
+
+\hspace{1.4cm} Marca $l \rightarrow r$.
+
+Devuelve $R_i$
+
+\hrulefill
+
+% FALTAN DOS RESULTADOS
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

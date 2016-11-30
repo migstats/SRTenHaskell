@@ -110,7 +110,7 @@ frame=single}
 % = Datos importantes =
 % =====================
 
-\title{Sistemas de reescritura desde el punto de vista de la programación funcional. }
+\title{Sistemas de reescritura desde el punto de vista de la programación funcional}
 \author{Miguel Ángel Porras Naranjo}
 \date{\today}
 \newcommand{\tutores}[1]{\newcommand{\guardatutores}{#1}}
@@ -298,19 +298,19 @@ headpunct={.}
 \usepackage[explicit]{titlesec}
 
 \newcommand{\hsp}{\hspace{20pt}}
-\titleformat{\chapter}[hang]
-    {\Huge\sffamily\bfseries}
-    {\thechapter\hsp\textcolor{USred}{\vrule width 2pt}\hsp}{0pt}
-    {#1}
-\titleformat{\section}
-  {\normalfont\Large\sffamily\bfseries}{\thesection\space\space}
-  {1ex}
-  {#1}
-\titleformat{\subsection}
-  {\normalfont\large\sffamily}{\thesubsection\space\space}
-  {1ex}
-  {#1}
-
+%\titleformat{\chapter}[hang]
+%    {\Huge\sffamily\bfseries}
+%    {\thechapter\hsp\textcolor{USred}{\vrule width 2pt}\hsp}{0pt}
+%    {#1}
+%\titleformat{\section}
+%  {\normalfont\Large\sffamily\bfseries}{\thesection\space\space}
+%  {1ex}
+%  {#1}
+%\titleformat{\subsection}
+%  {\normalfont\large\sffamily}{\thesubsection\space\space}
+%  {1ex}
+%  {#1}
+  
 % Abreviaturas matemáticas:
 % -------------------------
 \newcommand{\Pos}{\mbox{Pos }}
@@ -371,13 +371,14 @@ headpunct={.}
 
 \mainmatter
 
+\include{Introduccion}
 \include{Sistemas_de_reduccion_abstractos}
 \include{Formalizacion_del_concepto_de_terminos}
 \include{El_problema_de_la_unificacion}
 \include{Terminacion}
 \include{Confluencia}
 \include{Completacion}
-\include{Funciones_auxiliares_para_Haskell}
+%\include{Funciones_auxiliares_para_Haskell}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
