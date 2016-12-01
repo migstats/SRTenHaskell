@@ -376,16 +376,16 @@ type Sistema = [Ecuacion]
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> unificacion (T "f" [V ("x",0), T "g" [V ("z",0)]])
+>>> unificacion (T "f" [V ("x",0), T "g" [V ("z",0)]])
                   (T "f" [T "g" [V ("y",0)], V ("x",0)])
 Right [(("z",0),V ("y",0)),(("x",0),T "g" [V ("y",0)])]
-ghci> unificacion (T "f" [V ("x",0),T "b" []])
+>>> unificacion (T "f" [V ("x",0),T "b" []])
                   (T "f" [T "a" [],V ("y",0)])
 Right [(("y",0),T "b" []),(("x",0),T "a" [])]
-ghci> unificacion (T "f" [V ("x",0),V ("x",0)])
+>>> unificacion (T "f" [V ("x",0),V ("x",0)])
                   (T "f" [T "a" [],T "b" []])
 Left UNIFICACION
-ghci> unificacion (T "f" [V ("x",0),T "g" [V ("y",0)]])
+>>> unificacion (T "f" [V ("x",0),T "g" [V ("y",0)]])
                   (T "f" [V ("y",0),V ("x",0)])
 Left UNIFICACION
 \end{sesion}
@@ -408,19 +408,19 @@ unificacion t1 t2 = unificacionS [(t1,t2)] []
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> unificacionS [(T "f" [V ("x",0), T "g" [V ("z",0)]],
+>>> unificacionS [(T "f" [V ("x",0), T "g" [V ("z",0)]],
                    T "f" [T "g" [V ("y",0)], V ("x",0)])]
                    []
 Right [(("z",0),V ("y",0)),(("x",0),T "g" [V ("y",0)])]
-ghci> unificacionS [(T "f" [V ("x",0),T "b" []],
+>>> unificacionS [(T "f" [V ("x",0),T "b" []],
                    T "f" [T "a" [],V ("y",0)])]
                    []
 Right [(("y",0),T "b" []),(("x",0),T "a" [])]
-ghci> unificacionS [(T "f" [V ("x",0),V ("x",0)],
+>>> unificacionS [(T "f" [V ("x",0),V ("x",0)],
                    T "f" [T "a" [],T "b" []])]
                    []
 Left UNIFICACION
-ghci> unificacionS [(T "f" [V ("x",0),T "g" [V ("y",0)]],
+>>> unificacionS [(T "f" [V ("x",0),T "g" [V ("y",0)]],
                    T "f" [V ("y",0),V ("x",0)])]
                    []
 Left UNIFICACION
@@ -450,17 +450,17 @@ unificacionS ((T f ts1, T g ts2):ts) s
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> reglaElimina ("x",0) (T "f" [V ("x",0)]) [] []
+>>> reglaElimina ("x",0) (T "f" [V ("x",0)]) [] []
 Left UNIFICACION
-ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] []
+>>> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] []
 Right [(("x",0),T "f" [V ("x",1)])]
-ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] [(("y",2),V ("x",0))]
+>>> reglaElimina ("x",0) (T "f" [V ("x",1)]) [] [(("y",2),V ("x",0))]
 Right [(("x",0),T "f" [V ("x",1)]),(("y",2),T "f" [V ("x",1)])]
-ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("x",0))] []
+>>> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("x",0))] []
 Left UNIFICACION
-ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("y",0))] []
+>>> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("x",1),V ("y",0))] []
 Right [(("x",1),V ("y",0)),(("x",0),T "f" [V ("y",0)])]
-ghci> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("y",1),V ("x",0))] []
+>>> reglaElimina ("x",0) (T "f" [V ("x",1)]) [(V ("y",1),V ("x",0))] []
 Right [(("y",1),T "f" [V ("x",1)]),(("x",0),T "f" [V ("x",1)])]
 \end{sesion}
 
@@ -488,14 +488,14 @@ reglaElimina x t es s
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> let t1 = T "f" [V ("x",0), T "a" []]
-ghci> let t2 = T "f" [T "b" [],  T "a" []]
-ghci> equiparacion t1 t2
+>>> let t1 = T "f" [V ("x",0), T "a" []]
+>>> let t2 = T "f" [T "b" [],  T "a" []]
+>>> equiparacion t1 t2
 Right [(("x",0),T "b" [])]
-ghci> equiparacion t2 t1
+>>> equiparacion t2 t1
 Left UNIFICACION
-ghci> let t3 = T "f" [V ("x",0), V ("y",0)]
-ghci> equiparacion t1 t3
+>>> let t3 = T "f" [V ("x",0), V ("y",0)]
+>>> equiparacion t1 t3
 Left UNIFICACION
 \end{sesion}
 
@@ -514,14 +514,14 @@ equiparacion t1 t2 = equiparacionS [(t1,t2)] []
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> let t1 = T "f" [V ("x",0), T "a" []]
-ghci> let t2 = T "f" [T "b" [],  T "a" []]
-ghci> equiparacionS [(t1,t2)] []
+>>> let t1 = T "f" [V ("x",0), T "a" []]
+>>> let t2 = T "f" [T "b" [],  T "a" []]
+>>> equiparacionS [(t1,t2)] []
 Right [(("x",0),T "b" [])]
-ghci> equiparacionS [(t2,t1)] []
+>>> equiparacionS [(t2,t1)] []
 Left UNIFICACION
-ghci> let t3 = T "f" [V ("x",0), V ("y",0)]
-ghci> equiparacionS [(t1,t3)] []
+>>> let t3 = T "f" [V ("x",0), V ("y",0)]
+>>> equiparacionS [(t1,t3)] []
 Left UNIFICACION
 \end{sesion}
 
@@ -550,19 +550,19 @@ equiparacionS ((T f ts1, T g ts2):es) s
 \end{itemize}
 Por ejemplo,
 \begin{sesion}
-ghci> reescribe [(V ("x",1), V ("y",1)),
+>>> reescribe [(V ("x",1), V ("y",1)),
                  (V ("x",2), V ("y",2))]
                  (V("x",2))
 Right (V ("y",2))
-ghci> reescribe [(V ("x",1), V ("y",1)),
+>>> reescribe [(V ("x",1), V ("y",1)),
                  (V ("x",1), V ("y",2))]
                  (V("x",2))
 Left REGLA
-ghci> reescribe [(V ("x",2),T "f" [V ("x",3)]),
+>>> reescribe [(V ("x",2),T "f" [V ("x",3)]),
                  (V ("x",3),T "f" [V ("x",4)])]
                  (V("x",2))
 Right (T "f" [V ("x",3)])
-ghci> reescribe [(V ("x",1),T "a" [])]
+>>> reescribe [(V ("x",1),T "a" [])]
                  (T "f" [V ("x",1), T "b" []])
 Right (T "f" [T "a" [],T "b" []])
 \end{sesion}
@@ -584,15 +584,15 @@ reescribe ((l,r):es) t
 de \texttt{es}. Por ejemplo,
 
 \begin{sesion}
-ghci> formaNormal [(V ("x",1), V ("y",1)),
+>>> formaNormal [(V ("x",1), V ("y",1)),
                    (V ("x",2), V ("y",2))]
                    (V("x",2))
 V ("y",2)
-ghci> formaNormal [(V ("x",1), V ("y",1)),
+>>> formaNormal [(V ("x",1), V ("y",1)),
                    (V ("x",2), V ("y",2))]
                    (V("x",3))
 V ("x",3)
-ghci> formaNormal [(V ("z",1), V ("a",1)),
+>>> formaNormal [(V ("z",1), V ("a",1)),
                    (V ("x",1), T "g" [V ("z",1)])]
                    (T "f" [V ("x",1)])
 T "f" [T "g" [V ("a",1)]]

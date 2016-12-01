@@ -572,18 +572,18 @@ Consideramos \texttt{EQ} si $a = b$, \texttt{LT} si $a < b $, y
 \index{\texttt{ordLex}}
     \texttt{(ordLex r xs ys)} es el orden lexicográfico inducido por \texttt{r} sobre \texttt{xs} e \texttt{ys}. 
 \begin{sesion}
-> ordLex compare [1,2] [1,5]
+>>> ordLex compare [1,2] [1,5]
 LT
-> ordLex compare [1,2] [1,2]
+>>> ordLex compare [1,2] [1,2]
 EQ
-> ordLex compare [3,1] [2,4]
+>>> ordLex compare [3,1] [2,4]
 GT
-> ordLex compare [1] [1,3]
+>>> ordLex compare [1] [1,3]
 LT
-> ordLex compare [1,3] [1]
+>>> ordLex compare [1,3] [1]
 GT
-> let r x y = compare (abs x) (abs y)
-> ordLex compare [-4,3] [2,5]
+>>> let r x y = compare (abs x) (abs y)
+>>> ordLex compare [-4,3] [2,5]
 LT
 > ordLex r       [-4,3] [2,5]
 GT
@@ -607,13 +607,13 @@ ordLex r (x:xs) (y:ys) =
     ys)} es la comparación de los multiconjuntos \texttt{xs} e
   \texttt{ys}. Por ejemplo,
 \begin{sesion}
-> ordenMulticonj (M.fromOccurList [(7,2)])  
+>>> ordenMulticonj (M.fromOccurList [(7,2)])  
   (M.fromOccurList [(7,2)])
 EQ
-> ordenMulticonj (lista2Multiconj [1,2,3,2,5]) 
+>>> ordenMulticonj (lista2Multiconj [1,2,3,2,5]) 
   (lista2Multiconj [4,5,6,3])
 LT
-> ordenMulticonj (lista2Multiconj [4,5,6,3]) 
+>>> ordenMulticonj (lista2Multiconj [4,5,6,3]) 
   (lista2Multiconj [1,2,3,2,5])
 GT
 \end{sesion}

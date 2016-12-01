@@ -105,11 +105,11 @@ Para su implementación en Haskell definiremos la función
 \texttt{t}.
 
 \begin{sesion}
-ghci> conjuntoVar (V ("x",2))
+>>> conjuntoVar (V ("x",2))
 [("x",2)]
-ghci> conjuntoVar (T "f" [T "e" []])
+>>> conjuntoVar (T "f" [T "e" []])
 []
-ghci> conjuntoVar (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
+>>> conjuntoVar (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
 [("x",1),("y",1)]
 \end{sesion}
 
@@ -140,11 +140,11 @@ En Haskell, creamos la función \texttt{longitudTerm t}\index{\texttt{longitudTe
 calcula la longitud del término \texttt{t}
 
 \begin{sesion}
-ghci> longitudTerm (V ("x",2))
+>>> longitudTerm (V ("x",2))
 1
-ghci> longitudTerm (T "f" [T "e" []])
+>>> longitudTerm (T "f" [T "e" []])
 2
-ghci> longitudTerm (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
+>>> longitudTerm (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
 5
 \end{sesion}
 
@@ -175,11 +175,11 @@ tamaño 5.  La función que calcula el tamaño de un término \texttt{t},
 la llamaremos \texttt{tamanoTerm t}\index{\texttt{tamanoTerm}}.
 
 \begin{sesion}
-ghci> tamanoTerm (V ("x",2))
+>>> tamanoTerm (V ("x",2))
 0
-ghci> tamanoTerm (T "f" [T "e" []])
+>>> tamanoTerm (T "f" [T "e" []])
 1
-ghci> tamanoTerm (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
+>>> tamanoTerm (T "f" [T "g" [V ("x",1)], T "h" [], V ("y",1)])
 2
 \end{sesion}
 
@@ -237,18 +237,18 @@ $$ \Pos(s) := \{\epsilon\} \cup \{1p | p \in Pos(s_1) \} \cup \dots \cup \{np | 
 \end{itemize}
 \end{defi}
 
-El conjunto de $\Pos(s)$ serán cadenas de numeros naturales
+El conjunto de $\Pos(s)$ serán cadenas de números naturales
 positivos. Por ejemplo,
 $\Pos f(f(i(i(e)),f(i(x),x))) = \{ \epsilon,1,11,111,2,21,211,22 \}$.
 
 La implementaremos en Haskell bajo el nombre de la función \texttt{conjuntoPos t}\index{\texttt{conjuntoPos}}.
 
 \begin{sesion}
-ghci> conjuntoPos (V ("x",1))
+>>> conjuntoPos (V ("x",1))
 [[]]
-ghci> conjuntoPos (T "f" [V("x",1)])
+>>> conjuntoPos (T "f" [V("x",1)])
 [[],[1]]
-ghci> conjuntoPos (T "f" [T "i" [T "i" [T "e" []]],
+>>> conjuntoPos (T "f" [T "i" [T "i" [T "e" []]],
                    T "f" [T "i" [V("x",1)], V("x",1)]])
 [[],[1],[1,1],[1,1,1],[2],[2,1],[2,1,1],[2,2]]
 \end{sesion}
@@ -282,13 +282,13 @@ De la misma manera, podemos extrapolar este concepto a los árboles. Un
 término $t$ es subtérmino del término $s$, si el árbol generado por el
 término $t$ es un subárbol para el árbol generado por $s$. 
 
-Implementamos la funcion \texttt{esSubtermino t s} \index{\texttt{esSubtermino}}que comprueba si $t$ es
+Implementamos la función \texttt{esSubtermino t s} \index{\texttt{esSubtermino}}que comprueba si $t$ es
 subtérmino de $s$. Por ejemplo,
 
 \begin{sesion}
-ghci> esSubtermino (V ("x",1)) (T "f" [V("x",1)])
+>>> esSubtermino (V ("x",1)) (T "f" [V("x",1)])
 True
-ghci> esSubtermino (V ("x",2)) (T "f" [V("x",1)])
+>>> esSubtermino (V ("x",2)) (T "f" [V("x",1)])
 False
 \end{sesion}
 
@@ -308,17 +308,17 @@ restringido a variables. A partir de ahora diremos que $v$ ocurre en
 $t$ si la variable $v$ es subtérmino de $t$. Por ejemplo,
 
 \begin{sesion}
-ghci> ocurre ("x",2) (V ("x",2)) 
+>>> ocurre ("x",2) (V ("x",2)) 
 True
-ghci> ocurre ("x",3) (V ("x",2)) 
+>>> ocurre ("x",3) (V ("x",2)) 
 False
-ghci> ocurre ("x",2) (T "f" [V ("x",2), T "g" [V ("x",2)]])
+>>> ocurre ("x",2) (T "f" [V ("x",2), T "g" [V ("x",2)]])
 True
-ghci> ocurre ("y",5) (T "f" [V ("x",2), T "g" [V ("x",2)]])
+>>> ocurre ("y",5) (T "f" [V ("x",2), T "g" [V ("x",2)]])
 False
 \end{sesion}
 
-Dado la naturaleza de la restriccióna variables, podriamos definir
+Dado la naturaleza de la restricción variables, podríamos definir
 \texttt{ocurre} como,
 
 \begin{codigo}
@@ -362,7 +362,7 @@ definición depende de la posición, por ello añadiremos una excepción
 si $p$ no esta bien definido. Por ejemplo,
 
 \begin{sesion}
-ghci> sustPosSubtermino (T "f" [V ("s",1),V ("s",2),V ("s",3)]) 
+>>> sustPosSubtermino (T "f" [V ("s",1),V ("s",2),V ("s",3)]) 
                         (V ("t",1)) [2,1]
 T "f" [V ("s",1),V ("t",1),V ("s",3)]
 sustPosSubtermino (T "f" [V ("s",1),V ("s",2),V ("s",3)]) 
@@ -370,7 +370,7 @@ sustPosSubtermino (T "f" [V ("s",1),V ("s",2),V ("s",3)])
 (V ("t",1))
 sustPosSubtermino (V ("s",1)) (V ("t",1)) [2]
 *** Exception: No se ha definido bien la lista de posiciones
-ghci> sustPosSubtermino (T "f" [V ("s",1),V("s",2),V("s",3)]) 
+>>> sustPosSubtermino (T "f" [V ("s",1),V("s",2),V("s",3)]) 
                         (V ("t",1)) [2,2]
 T "f" [V ("s",1),*** Exception: No se ha definido bien la 
                      lista de posiciones
@@ -433,16 +433,16 @@ la función \texttt{enDominio}\index{\texttt{enDominio}}, tal que \texttt{(enDom
 \texttt{x} está en el dominio de \texttt{s}. Por ejemplo,
 
 \begin{sesion}
-ghci> let s = [(("x",2),T "a" []),(("y",4),(V ("z",5)))]
-ghci> enDominio ("x",2) s
+>>> let s = [(("x",2),T "a" []),(("y",4),(V ("z",5)))]
+>>> enDominio ("x",2) s
 True
-ghci> enDominio ("x",3) s
+>>> enDominio ("x",3) s
 False
-ghci> enDominio ("y",2) s
+>>> enDominio ("y",2) s
 False
-ghci> enDominio ("y",4) s
+>>> enDominio ("y",4) s
 True
-ghci> enDominio ("z",5) s
+>>> enDominio ("z",5) s
 False
 \end{sesion}
 
@@ -459,15 +459,15 @@ obtenido tras aplicar una sustitución \texttt{s} a una variable
 
 \begin{sesion}
 let s = [(("x",2),T "a" []),(("y",4),(V ("z",5)))]
-ghci> aplicaVar s ("x",2)
+>>> aplicaVar s ("x",2)
 T "a" []
-ghci> aplicaVar s ("x",3)
+>>> aplicaVar s ("x",3)
 V ("x",3)
-ghci> aplicaVar s ("y",2)
+>>> aplicaVar s ("y",2)
 V ("y",2)
-ghci> aplicaVar s ("y",4)
+>>> aplicaVar s ("y",4)
 V ("z",5)
-ghci> aplicaVar s ("z",5)
+>>> aplicaVar s ("z",5)
 V ("z",5)
 \end{sesion}
 
@@ -481,7 +481,7 @@ aplicaVar ((x,y):s) z
   | otherwise = aplicaVar s z
 \end{codigo}
 
-La definifición de sustitución se puede extender para términos
+La definición de sustitución se puede extender para términos
 $t \in T(\Sigma, X)$. Sea la extensión $\tilde{\sigma}$ definida como,
 
 \begin{equation*}
@@ -504,10 +504,10 @@ Para la computación de esta definición usamos la función
 sustitución \texttt{s} al término \texttt{t}. Por ejemplo,
 
 \begin{sesion}
-ghci> let s = [(("x",2),T "a" []),(("y",4),(V ("z",5)))]
-ghci> aplicaTerm s (T "s" [V ("x",2), T "m" [V ("y",4)]])
+>>> let s = [(("x",2),T "a" []),(("y",4),(V ("z",5)))]
+>>> aplicaTerm s (T "s" [V ("x",2), T "m" [V ("y",4)]])
 T "s" [T "a" [],T "m" [V ("z",5)]]
-ghci> aplicaTerm s (T "s" [V ("x",4), T "m" [V ("y",2)]])
+>>> aplicaTerm s (T "s" [V ("x",4), T "m" [V ("y",2)]])
 T "s" [V ("x",4),T "m" [V ("y",2)]]
 \end{sesion}
 
@@ -544,16 +544,16 @@ A continuación, introducimos un nuevo concepto imprescindible para la reescritu
   derecho.
 \end{defi} 
 
-La idea de esta definicion es similar a lo que entendemos por
+La idea de esta definición es similar a lo que entendemos por
 equivalencia. Por ejemplo, en la definición de grupos tenemos la
 propiedad asociativa, $(a+b)+c =a+(b+c)$. De la misma manera podemos
-respresentar la propiedad como una identidad de $\Sigma_G$,
+representar la propiedad como una identidad de $\Sigma_G$,
 $f(f(a,b),c) \approx f(a,f(b,c))$.
 
 Podemos relacionar este concepto con lo que hemos visto en el capítulo 1.
 
 \begin{defi}
-  Sea $E$ un conjuto de identidades de $\Sigma$. La relación de
+  Sea $E$ un conjunto de identidades de $\Sigma$. La relación de
   reducción $\rightarrow_E \subseteq T(\Sigma, V) \times T(\Sigma, V)$
   se define como,
   \[
@@ -616,7 +616,7 @@ Una consecuencia directa a partir de la definición de $\rightarrow_E$ es,
   Es trivial pues si sabemos que $s_i \equiv t_i \forall i$, entonces
   $\sigma(s_i) \equiv \sigma(t_i) \forall i$, y
   $f(s_1, \dots, s_n) \equiv f(t_1, \dots, t_n)$ por la propia
-  definición de relacción de reducción.
+  definición de relación de reducción.
 \end{demo}
 
 Otro lema importante para la caracterización es,
@@ -635,7 +635,7 @@ Otro lema importante para la caracterización es,
 
 \begin{demo}
   La primera propiedad de derecha a izquierda es trivial por la
-  definición de posición. De izquerda a derecha se realiza mediante
+  definición de posición. De izquierda a derecha se realiza mediante
   una inducción de $p$, como para $p= \epsilon$ la afirmación es
   cierta, también lo será para $p=p_1$, por tanto también para
   $p=p_1 p_2 \dots$.  La segunda propiedad de izquierda a derecha es
@@ -678,7 +678,7 @@ Otro lema importante para la caracterización es,
 La demostración del teorema \ref{teor:2.1}, nos indica una manera de
 calcular $\xleftrightarrow{*}_E$ a partir de $E$ mediante las
 relaciones de reflexividad, simetría, transitividad, sustituciones,
-y $\Sigma$--operaciones. La aplicacion de estas reglas en este
+y $\Sigma$--operaciones. La aplicación de estas reglas en este
 contexto, es lo que llamamos lógica ecuacional. Las reglas se pueden escribir así,
 
 \[

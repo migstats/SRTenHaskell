@@ -37,7 +37,8 @@ minRegla rl n ((l,r):r1) r2
 --    >>> escogeRegla [(V ("y",1),V ("y",2)),(T "f" [V("z",1),V("z",2)], V ("x",2))]
 --    ((V ("y",1),V ("y",2)),[(T "f" [V ("z",1),V ("z",2)],V ("x",2))])
 
-escogeRegla :: [(Termino, Termino)] -> ((Termino, Termino), [(Termino, Termino)])
+escogeRegla :: [(Termino, Termino)]
+            -> ((Termino, Termino), [(Termino, Termino)])
 escogeRegla [] = error("No se puede aplicar ninguna regla")
 escogeRegla ((l,r):r1) = minRegla (l,r) (longitudTerm l + longitudTerm r) r1 []
 

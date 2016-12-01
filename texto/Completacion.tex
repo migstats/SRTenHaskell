@@ -341,10 +341,197 @@ Devuelve $R_i$
 
 \hrulefill
 
-% FALTAN DOS RESULTADOS
+Comprobamos que el algoritmo efectivamente realiza un procedimiento de
+completación sobre $E$
 
+\begin{lema}
+El algoritmo de completación de Huet es un procedimiento de completación.
+\end{lema}
 
+\begin{demo}
+  El objetivo de la prueba es comprobar que cada paso del algoritmo es
+  una de las reglas de la anterior sección.
+  
+  La computación de los pares críticos en el primer \texttt{Mientras}
+  se puede realizar mediante \texttt{Deducir}, el paso (b) con
+  \texttt{Simplificar identidad}, (c) con \texttt{Eliminar} y (e) con
+  \texttt{Orienta}, \texttt{R-simplificar regla} y
+  \texttt{L-simplificar regla}.
+\end{demo}
 
+Debemos comprobar que si el algoritmo devuelve un \texttt{Error}, el
+procedimiento de completación falla
+
+\begin{lema}
+Una cadena del algoritmo de Huet falla syss termina con output \texttt{Fail}.
+\end{lema}
+
+\begin{demo}
+  Si el procedimiento de Huet termina con \texttt{Error}, entonces hay
+  una identidad que no puede transformarse por la regla de
+  simplificación y orientación, entonces $E_\omega \not = \emptyset$.
+  Si el procedimiento no termina con \texttt{Error}, entonces no hay
+  identidades y por ello, el bucle interior siempre termina. Por ello
+  vamos a asociar cada iteracción del bucle como un multiconjunto de
+  pares,
+
+  \[
+    K_i := \{ ( \{s,t \},1) | s \approx t \in E_i \} \cup \{ ( \{l,r
+    \},0) | l \rightarrow r \in R_i \}
+  \]
+  Donde la primera componente esta ordenada usando el orden de
+  multiconjuntos inducido por el orden de reducción $>$, y la segunda
+  componente por el producto del orden lexicográfico.
+
+  Como los multiconjuntos $K_i$ están ordenados usando una extensión
+  de este orden de pares, este esta bien fundando y $K_i >
+  K_{i+1}$. Por tanto el bucle termina y se demuestra el resultado.
+\end{demo}
+
+\section{Implementación del algoritmo de Huet}
+
+La implementación del algoritmo de Huet se realizará por partes.
+
+\begin{itemize}
+
+\item \texttt{(minRegla rl n r1 r2)} \index{minRegla} divide un
+  conjunto de reglas en dos, donde uno tiene el tamaño de \texttt{r1}. Por
+  ejemplo,
+  \begin{sesion}
+>>> minRegla (V("x",1),V("x",2)) 2 [(V("y",1),V("y",2))] []
+((V ("x",1),V ("x",2)),[(V ("y",1),V ("y",2))])
+>>> minRegla (V("x",1),V("x",2)) 1 [(V("y",1),V("y",2))] []
+((V ("x",1),V ("x",2)),[(V ("y",1),V ("y",2))])
+>>> minRegla (V ("x",1),V ("x",2)) 2
+             [(V ("y",1),V ("y",2)),
+              (T "f" [V("z",1),V("z",2)], V ("x",2))] []
+((V ("x",1),V ("x",2)),
+ [(T "f" [V ("z",1),V ("z",2)],V ("x",2)),(V ("y",1),V ("y",2))])
+>>> minRegla (V ("x",1),V ("x",2)) 4 [(V ("y",1),V ("y",2)),
+             (T "f" [V("z",1),V("z",2)], V ("x",2))] []
+((V ("y",1),V ("y",2)),
+ [(T "f" [V ("z",1),V ("z",2)],V ("x",2)),(V ("x",1),V ("x",2))])
+  \end{sesion}
+
+  Su código es,
+
+  \begin{codigo}
+minRegla :: (Termino, Termino) -> Int -> [(Termino, Termino)]
+     -> [(Termino, Termino)]
+     -> ((Termino, Termino), [(Termino, Termino)])
+minRegla rl _ [] r2 = (rl,r2)
+minRegla rl n ((l,r):r1) r2
+    | m < n = minRegla (l,r) m r1 (rl:r2)
+    | otherwise = minRegla rl n r1 ((l,r):r2)
+    where m = longitudTerm l + longitudTerm r
+  \end{codigo}
+
+\item \texttt{(escogeRegla r)} \index{escogeRegla} calcula la regla
+  que hay que aplicar durante el algoritmo de Huet. Por ejemplo,
+
+  \begin{sesion}
+>>> escogeRegla [(V("y",1),V("y",2))]
+((V ("y",1),V ("y",2)),[])
+>>> escogeRegla [(V ("y",1),V ("y",2)),
+                 (T "f" [V("z",1),V("z",2)], V ("x",2))]
+((V ("y",1),V ("y",2)),[(T "f" [V ("z",1),V ("z",2)],V ("x",2))])
+  \end{sesion}
+
+  Su código es,
+
+  \begin{codigo}
+escogeRegla :: [(Termino, Termino)]
+            -> ((Termino, Termino), [(Termino, Termino)])
+escogeRegla [] = error("No se puede aplicar ninguna regla")
+escogeRegla ((l,r):r1) = minRegla (l,r)
+                         (longitudTerm l + longitudTerm r)
+                         r1 []
+  \end{codigo}
+
+\item \texttt{(anadeRegla (l,r) e s r)} \index{anadeRegla} es el paso
+  (e) del algoritmo de Huet.
+
+  \begin{codigo}
+anadeRegla :: (Termino, Termino) -> [(Termino, Termino)]
+              -> [Ecuacion] -> [Ecuacion]
+              -> ([(Termino, Termino)], [(Termino, Termino)],
+                 [(Termino, Termino)])
+anadeRegla (l,r) e s r1 = (e2, (l,r):s1, r2)
+    where (e1,s1) = simpl l r s r1 s e []
+          (e2,r2) = simpl l r s r1 r1 e1 []
+simpl
+  :: Termino
+     -> Termino
+     -> [Ecuacion]
+     -> [Ecuacion]
+     -> [(Termino, Termino)]
+     -> [(Termino, Termino)]
+     -> [(Termino, Termino)]
+     -> ([(Termino, Termino)], [(Termino, Termino)])
+simpl _ _ _ _ [] a b = (a,b)
+simpl l r s r1 ((g,d):u) e1 u1 
+    | g1 == g =
+        simpl l r s r1 u e1 ((g, d1):u1)
+    | otherwise = simpl l r r1 s u ((g1,d):e1) u1
+       where g1 = formaNormal [(l,r)] g
+             d1 = formaNormal ((l,r):(r1++s)) d
+\end{codigo}
+
+\item \texttt{(orienta ord trip)} \index{orienta} es el segundo bucle
+  del algoritmo de Huet.
+
+  \begin{codigo}
+orienta :: (Termino -> Termino -> Ordering)
+           -> ([(Termino, Termino)],  [(Termino, Termino)],
+               [(Termino, Termino)])
+           -> ([(Termino, Termino)], [(Termino, Termino)])
+orienta _ ([],ss,rr) = (ss,rr)
+orienta ord ((s,t):ee,ss,rr)
+    | s1 == t1 = orienta ord (ee,ss,rr)
+    | ord s1 t1 == GT = orienta ord (anadeRegla (s1,t1)
+                                              ee ss rr)
+    | ord t1 s1 == GT = orienta ord (anadeRegla (t1,s1)
+                                              ee ss rr)
+    | otherwise = error("Error con la funcion ord")
+    where s1 = formaNormal (rr++ss) s
+          t1 = formaNormal (rr++ss) t
+  \end{codigo}
+
+\item \texttt{(completa ord ee)} \index{completa} es el resultado de aplicar a ee, el algoritmo de completación de Huet. Por ejemplo,
+
+  \begin{sesion}
+>>> let ord = ordenCamLex (ordenPorLista ["a","b","c","x","y","z"])
+>>> completa ord [(V("x",1),V("x",1))]
+[]
+>>> completa ord [(V ("y",1),V ("y",2)),(T "f" [V("y",1),V("y",2)], V ("x",2))]
+*** Exception: Error con la funcion ord
+>>> completa ord [(T "f" [V("x",1),V("x",2)], V ("x",2))]
+[(T "f" [V ("x",1),V ("x",2)],V ("x",2))]
+\end{sesion}
+
+Su código es,
+
+\begin{codigo}
+completa :: (Termino -> Termino -> Ordering)
+            -> [(Termino, Termino)] -> [(Termino, Termino)]
+completa ord ee = compl ord (ee,[],[])
+compl :: (Termino -> Termino -> Ordering)
+         -> ([(Termino, Termino)], [(Termino, Termino)],
+             [(Termino, Termino)])
+         -> [(Termino, Termino)]
+compl ord (ee,ss,tt) = case orienta ord (ee,ss,tt) of
+                         ([],rr1)  -> rr1
+                         (ss1,rr1) -> compl ord
+                                      (paCr,ss2,rl:rr1)
+      where (rl, ss2) = escogeRegla ss1
+            paCr = (paresLista2 [rl] rr1)++
+                   (paresLista2 rr1 [rl])++
+                   (paresLista2 [rl] [rl])
+\end{codigo}
+
+\end{itemize}
+
+           
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%Apéndices
