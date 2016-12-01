@@ -1,6 +1,6 @@
 \chapter{Introducción}
 
-La reescritura es una técnica que consiste en reemplazar terminos de
+La reescritura es una técnica que consiste en reemplazar términos de
 una expresión con términos equivalentes. Por ejemplo, dadas las reglas
 $x * 0 \Rightarrow 0$ y $x + 0 \Rightarrow 0$ pueden usarse para
 simplificar la siguiente expresión:
@@ -9,7 +9,7 @@ simplificar la siguiente expresión:
 x + (\underline{x*0}) \longrightarrow \underline{x + 0} \longrightarrow x
 \]
 
-Pero no solo se puede aplicar para ecuaciones. Se puede usar para
+Pero no sólo se puede aplicar para ecuaciones. Se puede usar para
 demostrar enunciados. Por ejemplo, dadas las reglas
 $s(M) \leq s(N) \Rightarrow M \leq N$ y
 $0 \leq N \Rightarrow \texttt{True}$ pueden aplicarse a:
@@ -25,7 +25,7 @@ En definitiva, podemos aplicar reescritura a cualquier tipo de
 expresión (ya sea lógica, ecuacional, etc) siempre y cuando se pueda
 hacer una sustitución. Esta sustitución se hace de término a término.
 
-Sin embargo, debemos formalizar que entendemos por término. Un término
+Sin embargo, debemos formalizar qué entendemos por término. Un término
 estará construido por variables, símbolos constantes y símbolos de
 funciones. Al estar constituidos por funciones, una representación
 natural de los términos se realiza mediante árboles. Por ejemplo el
@@ -81,7 +81,7 @@ elementos que contengan. Por ejemplo,
 
 Este diagrama de árbol representa para cada rama una aplicación de las
 distintas reglas. Podemos hacernos dos preguntas fundamentales, si
-este árbol sera finito y si todas las hojas son la misma, es decir,
+este árbol será finito y si todas las hojas son la misma; es decir,
 siguiendo cualquier rama, llegar hasta el mismo término. Estas dos
 preguntas son los principales problemas de la reescritura.
 
