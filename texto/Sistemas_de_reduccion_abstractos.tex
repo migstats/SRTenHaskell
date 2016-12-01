@@ -205,9 +205,9 @@ imprescindibles a la hora de estudiar los sistemas de reescritura.
     $\textbf{Church-Rosser}$        & $si $ x \xleftrightarrow{*} y \Leftrightarrow x \downarrow y \\ 
     $\textbf{confluente}$   & $si $ y_1 \xleftarrow{*} x \xrightarrow{*} y_2 \Rightarrow y_1 \downarrow y_2\\ 
     $\textbf{semi-confluente}$      & $si $ y_1 \leftarrow x \xrightarrow{*} y_2 \Rightarrow y_1 \downarrow y_2\\ 
-    $\textbf{terminante}$   & $si no hay una cadena infinita $ a_0 \rightarrow a_1 \rightarrow \dots \\ 
+    $\textbf{terminadora}$   & $si no hay una cadena infinita $ a_0 \rightarrow a_1 \rightarrow \dots \\ 
     $\textbf{normalizado}$  & $si cada elemento tiene forma normal$\\ 
-    $\textbf{convergente}$  & $si es confluente y terminante$
+    $\textbf{convergente}$  & $si es confluente y terminadora$
   \end{array}     
   $
 \end{defi}
@@ -321,14 +321,14 @@ expresaremos como la siguiente regla:
 % INCLUIR UN EJEMPLO
 
 \begin{teor}  
-  Si $\rightarrow$ es terminante, entonces (IBF) se verifica.
+  Si $\rightarrow$ es terminadora, entonces (IBF) se verifica.
 \end{teor}
 
 \begin{teor}  
-  Si (IBF) se verifica, entonces $\rightarrow$ es terminante.
+  Si (IBF) se verifica, entonces $\rightarrow$ es terminadora.
 \end{teor}
 
-Hemos llegado a que la definición de una relación terminante, es equivalente a
+Hemos llegado a que la definición de una relación terminadora, es equivalente a
 comprobar que verifica (IBF). Esta propiedad será importante a la hora de
 resolver el problema de la terminación, en el capítulo (??).
 
@@ -351,36 +351,36 @@ globalmente finita es equivalente a decir que la relación
 $\xrightarrow{+}$ es una ramificación finita.
 
 \begin{lema} \label{ramfin} 
-  Una relación de ramificación finita es globalmente finita si es terminante.
+  Una relación de ramificación finita es globalmente finita si es terminadora.
 \end{lema}
 
 \begin{demo}
   Usaremos la propiedad (IBF). Sea $\rightarrow$ una relación de
-  ramificación finita y terminante. Vamos a probar que cada elemento
+  ramificación finita y terminadora. Vamos a probar que cada elemento
   del conjunto de los sucesores es finito. Como es cierto para cada
   sucesor directo por hipótesis, aplicando (IBF) llegamos a que su
   conjunto de sucesores es finito, y por tanto globalmente finito.
 \end{demo}
 
 \begin{lema} 
-  Una relación acíclica es terminante si es globalmente finita.
+  Una relación acíclica es terminadora si es globalmente finita.
 \end{lema}
 
 \section{Resultados sobre la terminación}
 
 Uno de los métodos que estudiaremos para probar que $\rightarrow$ es
-terminante, se basa en (IBF). A partir de $(A,\rightarrow)$, definiremos un
-sistema de reducción abstracto terminante $(B,>)$. Definiremos una función
+terminadora, se basa en (IBF). A partir de $(A,\rightarrow)$, definiremos un
+sistema de reducción abstracto terminadora $(B,>)$. Definiremos una función
 $\varphi : A \rightarrow B$ que debe tener la propiedad de monotonía, (ie
 $x \rightarrow x' \Rightarrow \varphi(x) > \varphi(x') $). En esta sección
-demostraremos que si esta aplicación existe, $\rightarrow$ es terminante.
+demostraremos que si esta aplicación existe, $\rightarrow$ es terminadora.
 
-\textbf{Fundamento:} Sea $\rightarrow$ terminante. Si no lo fuera, habría una
+\textbf{Fundamento:} Sea $\rightarrow$ terminadora. Si no lo fuera, habría una
 cadena $x_0 \rightarrow x_1 \rightarrow \dots$, y esta induciría a
 $\varphi(x_0) > \varphi(x_1) > \dots$.
 
 \begin{lema}
-  Una reducción de ramificación finita $(A,\rightarrow)$ es terminante syss
+  Una reducción de ramificación finita $(A,\rightarrow)$ es terminadora syss
   existe una aplicación $\varphi : A \rightarrow \mathbb{N}$, que verifique
   $x \rightarrow x' \Rightarrow \varphi(x) > \varphi(x').$
 \end{lema}
@@ -388,11 +388,11 @@ $\varphi(x_0) > \varphi(x_1) > \dots$.
 \begin{demo}
   La implicación hacia la derecha es trivial. Al existir una aplicación
   $\varphi$ que verifique la monotonía, nos da una cadena de $x_i$, y dicha
-  cadena es trivialmente terminante.
+  cadena es trivialmente terminadora.
 
   Para la demostración de la implicación contraria, supondremos que
   $\varphi(x)$, es el número de sucesores de $x$. Debe ser finito por el lema
-  \ref{ramfin}. Como $\rightarrow$ es terminante, y por tanto acíclico (ya que
+  \ref{ramfin}. Como $\rightarrow$ es terminadora, y por tanto acíclico (ya que
   no debe tener ningún elemento que $x \xrightarrow{+} x$), para todo
   $x \rightarrow x' \Rightarrow \varphi(x) > \varphi(x')$ (ie, $x'$ tiene menos
   sucesores que $x$).
@@ -413,13 +413,13 @@ $\varphi(x_0) > \varphi(x_1) > \dots$.
 \end{lema}
 
 \begin{teor}
-  El producto lexicográfico de dos relaciones terminantes, es terminante.
+  El producto lexicográfico de dos relaciones terminadoras, es terminadora.
 \end{teor}
 
 \begin{demo}
-  Por reducción a lo absurdo. Supondremos que $>_A$ y $>_B$ es terminante y que
+  Por reducción a lo absurdo. Supondremos que $>_A$ y $>_B$ es terminadora y que
   la cadena $(a_0,b_0) > (a_1,b_1) > \dots$ es infinita. Como $>_A$ es
-  terminante, debe existir un $k$, tal que $a_i = a_{i+1}$ con $i\geq k$. Pero
+  terminadora, debe existir un $k$, tal que $a_i = a_{i+1}$ con $i\geq k$. Pero
   esto indica que $>_B$ tiene una cadena infinita, y esto contradice la
   terminación de $>_B$.
 \end{demo}
@@ -450,7 +450,7 @@ elementos, a $n$ elementos.
 
 \begin{lema}
   Si $>$ es un orden estricto, entonces $>^*_{lex}$ es un orden estricto. Si $>$ es
-  terminante, $>^*_{lex}$ también lo es.
+  terminadora, $>^*_{lex}$ también lo es.
 \end{lema}
 
 Otra variación del orden lexicográfico será la siguiente.
@@ -470,7 +470,7 @@ Otra variación del orden lexicográfico será la siguiente.
 
 \section{Multiconjuntos y su orden}\label{ormult}
 
-Una manera de construir órdenes terminantes es mediante los multiconjuntos. La
+Una manera de construir órdenes terminadores es mediante los multiconjuntos. La
 definición totalmente informal es que se tratan de conjuntos con elementos
 repetidos. Formalmente, los definiremos como sigue,
 
@@ -536,7 +536,7 @@ e $Y$ se pueden determinar de varias formas.
 La propiedad más importante de este capítulo es la siguiente.
 
 \begin{teor}
-  $>_{mul}$ es terminante syss $>$ es terminante
+  $>_{mul}$ es terminadora syss $>$ es terminadora
 \end{teor}
 
 \begin{lema}\label{lemordsyss}
@@ -640,7 +640,7 @@ confluente. No obstante, nos da un resultado importante en relación con la
 terminación.
 
 \begin{lema} 
-  Una relación terminante es confluente, si es localmente confluente.
+  Una relación terminadora es confluente, si es localmente confluente.
 \end{lema}
 
 \begin{defi}
