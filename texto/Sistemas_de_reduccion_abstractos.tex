@@ -78,8 +78,8 @@ A partir de una reducción $\rightarrow$ se pueden calcular diferentes clausuras
      \xrightarrow{-1} & := & \left\lbrace (y,x) | x\rightarrow y \right\rbrace  & $\textbf{Inversa}$ \\ 
      \leftarrow      & := & \xrightarrow{-1} & $\textbf{Inversa}$ \\ 
      \leftrightarrow         & := & \rightarrow \bigcup \leftarrow & $\textbf{Clausura simétrica}$ \\ 
-     \xleftrightarrow{+}     & := & \left( \leftrightarrow \right)^{+} & $\textbf{Clausura transitiva simetrica}$ \\ 
-     \xleftrightarrow{*}     & := & \left( \leftrightarrow \right)^{*} & $\textbf{Clausura reflexiva transitiva simetrica}$
+     \xleftrightarrow{+}     & := & \left( \leftrightarrow \right)^{+} & $\textbf{Clausura transitiva simétrica}$ \\ 
+     \xleftrightarrow{*}     & := & \left( \leftrightarrow \right)^{*} & $\textbf{Clausura reflexiva transitiva simétrica}$
    \end{array} 
    $
 \end{defi}
@@ -273,7 +273,7 @@ existencia de una reducción. Por ejemplo, en Church Rosser nos indica que si $ 
 A partir de las anteriores definiciones, vamos a demostrar una serie
 de propiedades que las relacionan entre sí.
 
-\begin{teor}
+\begin{teor} \label{teor:conflu}
   Las siguientes condiciones son equivalentes,
   \begin{enumerate}
   \item $\rightarrow$ tiene la propiedad de Church--Rosser.
@@ -310,7 +310,7 @@ de propiedades que las relacionan entre sí.
 
 \section{Inducción bien fundada}
 
-El principo de la inducción bien fundada (IBF) se trata de una generalización
+El principio de la inducción bien fundada (IBF) se trata de una generalización
 de la inducción en $(\mathbb{N},>)$ para $(A,\rightarrow)$.  Formalmente, la
 expresaremos como la siguiente regla:
 \begin{equation*}
@@ -355,10 +355,10 @@ $\xrightarrow{+}$ es una ramificación finita.
 \end{lema}
 
 \begin{demo}
-  Usaremos la propiedad (IBM). Sea $\rightarrow$ una relación de
+  Usaremos la propiedad (IBF). Sea $\rightarrow$ una relación de
   ramificación finita y terminante. Vamos a probar que cada elemento
   del conjunto de los sucesores es finito. Como es cierto para cada
-  sucesor directo por hipótesis, aplicando (IBM) llegamos a que su
+  sucesor directo por hipótesis, aplicando (IBF) llegamos a que su
   conjunto de sucesores es finito, y por tanto globalmente finito.
 \end{demo}
 
@@ -468,8 +468,6 @@ Otra variación del orden lexicográfico será la siguiente.
   Si $>$ es un orden estricto, también lo es $>_{Lex}$.
 \end{lema}
 
-%RECHECK EL PARRAFO SOBRE EL PRODUCTO LEXICOGRAFICO
-
 \section{Multiconjuntos y su orden}\label{ormult}
 
 Una manera de construir órdenes terminantes es mediante los multiconjuntos. La
@@ -528,7 +526,7 @@ viene a decir es que si $x_1, \dots, x_m$ son elementos de $M$, y
 $y_1, \dots, y_m$ son elementos de $N$, $X$ e $Y$ vienen definidos como
 \[ \underbrace{x_1, \dots, x_i}_{X} 
    \underbrace{x_{i+1}, \dots, x_m, \dots, y_1, \dots, y_n}_{Y} \] 
-y deben cumplir que para todo $y \in Y. \exists x \in X. x>y$. Nótese que $X$
+y deben cumplir que para todo $y \in Y. \exists x \in X. x>y$. Notase que $X$
 e $Y$ se pueden determinar de varias formas.
 
 \begin{lema}
@@ -538,7 +536,7 @@ e $Y$ se pueden determinar de varias formas.
 La propiedad más importante de este capítulo es la siguiente.
 
 \begin{teor}
-  $>_{mul}$ es terminante syys $>$ es terminante
+  $>_{mul}$ es terminante syss $>$ es terminante
 \end{teor}
 
 \begin{lema}\label{lemordsyss}
@@ -637,13 +635,9 @@ ordenMulticonj = compare
   \] 
 \end{defi}      
 
-% HARRISON DA ESTA DEFINICIÓN COMO DEBILMENTE CONFLUENTE
-
 La definición de localmente confluente es mucho mas débil que la de
 confluente. No obstante, nos da un resultado importante en relación con la
 terminación.
-
-% UN EJEMPLO DE LOCALMENTE CONFLUENTE QUE NO SEA CONFLUENTE
 
 \begin{lema} 
   Una relación terminante es confluente, si es localmente confluente.
@@ -714,3 +708,7 @@ $y_1 \xrightarrow{*} z_2 \xleftarrow{=} y_2$
 %%% mode: latex
 %%% TeX-master: "SRT_en_Haskell"
 %%% End:
+
+%  LocalWords:  ie lex aaaa aaa abba multiconjunto mul List Ordering
+%  LocalWords:  EQ LT GT ordLex ys let abs of where ordenMulticonj
+%  LocalWords:  fromOccurList Multiconj Ord MultiSet

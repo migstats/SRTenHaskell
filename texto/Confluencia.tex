@@ -468,9 +468,9 @@ import Terminos
 \item \texttt{(indiceMaximo t)} \index{\texttt{indiceMaximo}}es el mayor índice que aparece en
   \texttt{t}. Por ejemplo,
 \begin{sesion}
-ghci> indiceMaximo (V ("x",3))
+>>> indiceMaximo (V ("x",3))
 3
-ghci> indiceMaximo (T "w" [V("x",4), V("z", 200), V("y", 1)])
+>> indiceMaximo (T "w" [V("x",4), V("z", 200), V("y", 1)])
 200
 \end{sesion}
 
@@ -486,9 +486,9 @@ indiceMaximo (T _ ts) = maximum (map indiceMaximo ts)
   es el termino resultante tras sumar a todos los índices de
   \texttt{t} el entero \texttt{n}. Por ejemplo,
 \begin{sesion}
-ghci> renombraTermino 5 (V ("x",3)) 
+>>> renombraTermino 5 (V ("x",3)) 
 V ("x",8)
-ghci> renombraTermino 3 (T "w" [V("x",4), V("z", 200), V("y", 1)])
+>>> renombraTermino 3 (T "w" [V("x",4), V("z", 200), V("y", 1)])
 T "w" [V ("x",7),V ("z",203),V ("y",4)]
 \end{sesion}
 

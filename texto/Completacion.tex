@@ -166,9 +166,9 @@ las siguientes.
     $\texttt{Deducir} $ & \dfrac{E,R}{E \cup \{s \approx t \}, R} & $Si $ s \leftarrow_R u \rightarrow_R t \\ \\
     $\texttt{Orientar}$ & \dfrac{E \cup \{s \approx' t\},R}{E,R \cup \{s \rightarrow t\}} & $Si $ s > t \\ \\
     $\texttt{Eliminar}$ & \dfrac{E \cup \{s \approx s\}, R}{E,R} & \\ \\
-    $\texttt{Simplificar identidad}$   & \dfrac{E \cup \{ s\approx' t\},R}{E \cup \{ u \approx t\},R} & $Si $ s \rightarrow_R\\ \\
-    $\texttt{D-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t}{E,R \cup \{s \rightarrow u\}} & $Si $ t \rightarrow_R u   \\ \\
-    $\texttt{I-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t}{E \cup \{u \approx t \}, R} & $Si $ s \xrightarrow{\sqsupset}_R u
+    $\texttt{Simplificar identidad}$   & \dfrac{E \cup \{ s\approx' t\},R}{E \cup \{ u \approx t\},R} & $Si $ s \rightarrow_R u\\ \\
+    $\texttt{D-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t \} }{E,R \cup \{s \rightarrow u\}} & $Si $ t \rightarrow_R u   \\ \\
+    $\texttt{I-simplificar regla}$    & \dfrac{E, R \cup \{s \rightarrow t \} }{E \cup \{u \approx t \}, R} & $Si $ s \xrightarrow{\sqsupset}_R u
   \end{array} 
 \]
 
@@ -503,7 +503,8 @@ orienta ord ((s,t):ee,ss,rr)
 >>> let ord = ordenCamLex (ordenPorLista ["a","b","c","x","y","z"])
 >>> completa ord [(V("x",1),V("x",1))]
 []
->>> completa ord [(V ("y",1),V ("y",2)),(T "f" [V("y",1),V("y",2)], V ("x",2))]
+>>> completa ord [(V ("y",1),V ("y",2)),
+                  (T "f" [V("y",1),V("y",2)], V ("x",2))]
 *** Exception: Error con la funcion ord
 >>> completa ord [(T "f" [V("x",1),V("x",2)], V ("x",2))]
 [(T "f" [V ("x",1),V ("x",2)],V ("x",2))]

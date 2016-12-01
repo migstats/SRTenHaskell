@@ -9,7 +9,7 @@ siguiente definición.
   Dado un conjunto de identidades $E$ y una ecuación $s \approx t$, diremos que la ecuación es, \\
   $\begin{array}{llll}
     $\textbf{Válida}$        &  $ en $E$ syss s $s \approx_E t  \\
-    $\textbf{Satisfacible}$  &  $ en $E$ syss hay una sustitución $\sigma$ tal que $\sigma(s) \approx_E \sigma(t) \\
+    $\textbf{Satisfactible}$  &  $ en $E$ syss hay una sustitución $\sigma$ tal que $\sigma(s) \approx_E \sigma(t) \\
    \end{array} 
   $
 \end{defi}
@@ -18,8 +18,7 @@ En la siguiente sección obtendremos varias propiedades interesantes sobre $\app
 
 \section{Estudio de $\approx_E$}
 
-%FALTA REFERENCIA AQUI
-En el teorema 1.2, vimos que $\xleftrightarrow{*}$ era
+En el teorema \ref{teor:conflu}, vimos que $\xleftrightarrow{*}$ era
 decidible si $\rightarrow_E$ si es convergente. De esta manera
 podíamos computar $\downarrow_E$. Por ello es importante saber si
 podemos decidir si un término implica a otro término. Esto se llama el
@@ -28,16 +27,15 @@ existe una sustitución $\sigma(l) = s$, y computar $\sigma$ si
 existe. 
 
 Comprobaremos que el problema del emparejamiento y de la
-satisfacibilidad están muy relacionados.
+satisfactibilidad están muy relacionados.
 
 \begin{teor} \label{teor:3.1}
-  Si $E$ es finito y $\rightarrow_E$ es covergente, entonces
+  Si $E$ es finito y $\rightarrow_E$ es convergente, entonces
   $\approx_E$ es decidible.
 \end{teor}
 
 \begin{demo}
-%REFERENCIA
-  Por el teorema 1.2, sabemos que $s \xleftrightarrow{*}_E t$ syss
+  Por el teorema \ref{teor:conflu}, sabemos que $s \xleftrightarrow{*}_E t$ syss
   $s\downarrow_E = t\downarrow_E$.  La forma normal del operador
   $\downarrow_E$ es computable, pues podemos decidir si un termino $u$
   es forma normal, y si no lo fuese, podemos computar un $u'$ tal que
@@ -70,7 +68,7 @@ palabra restringido a términos básicos $s,t$.
   implica que el problema de la palabra para E sea indecidible.
 \end{ejem}
 
-\section{Sistemas de reescritura de terminos}
+\section{Sistemas de reescritura de términos}
 
 En esta sección vamos a introducir la definición de regla y sistema de
 reescritura, así como una propiedad.
@@ -108,15 +106,15 @@ reescritura. Por inducción de las reglas de derivación,
 $\xrightarrow{*}_R$ y $\xrightarrow{+}_R$ también son relaciones de
 reescritura. Para $\xleftrightarrow{*}_R$ lo demuestra el teorema \ref{teor:2.1}
 
-\section{Unificación sintática}
+\section{Unificación sintáctica}
 
 En esta sección nos centraremos en estudiar la unificación. La
-unificación es el proceso de resolver la satisfacibilidad de un
+unificación es el proceso de resolver la satisfactibilidad de un
 problema. Dado $E$, $s$ y $t$, hay que encontrar una sustitución
 $\sigma$ tal que $\sigma s \approx _E \sigma t$. Si $s$ y $t$ son
 básicos, el problema pasaría a ser un problema de palabras básicas. En
 esta sección estudiaremos el caso especial $E = \emptyset$ que es
-importante para algunos algorítmos simbólicos de computación. El que
+importante para algunos algoritmos simbólicos de computación. El que
 especialmente nos importa es un algoritmo que comprueba la confluencia
 a partir de pares críticos, que veremos mas adelante.
 
@@ -180,7 +178,7 @@ $\sigma = {x \mapsto y}$.
   Una sustitución $\sigma$ es \textbf{idempotente} si $\sigma = \sigma \sigma$.
 \end{defi}
 
-\begin{lema} \label{lema:3.2} Una sustitución $\sigma$ es indempotente
+\begin{lema} \label{lema:3.2} Una sustitución $\sigma$ es idempotente
   syss $\Dom(\sigma) \cap \VRan(\sigma) = \emptyset $
 \end{lema}
 
@@ -193,9 +191,9 @@ problema de la unificación.
 \end{teor}
 
 \begin{demo} %volver a mirar esta demo
-  El lema \ref{lema:3.1} nos dice que los UMG son unicos respecto a
+  El lema \ref{lema:3.1} nos dice que los UMG son únicos respecto a
   una sustitución $p$ inyectiva y biyectiva para las variables. Por
-  ello, incluso para los idempotentes UMGs no serán únicos.
+  ello, incluso para los idempotentes UMG no serán únicos.
 \end{demo}
 
 \section{Unificación por transformación}
@@ -335,13 +333,12 @@ terminación de $\Longrightarrow$.
   Si $S$ es resoluble, $\Unify(S)$ no falla.
 \end{lema}
 
-% HAY UN PARRAFO AQUI, PERO CREO QUE NO SE USARA MAS ADELANTE
 \section{Implementación de la unificación y la reescritura de términos
   en Haskell}
 
 En esta sección vamos a implementar en el lenguaje de programación
-funcional Haskell los algorítmos de este capítulo. Usaremos algunas
-funciones del capítulo anterior, que se encuentran en la libreria
+funcional Haskell los algoritmos de este capítulo. Usaremos algunas
+funciones del capítulo anterior, que se encuentran en la librería
 \texttt{Terminos.hs}.
 
 Empezamos implementando los errores. Estos son causados por
@@ -364,7 +361,7 @@ Un sistema de ecuaciones es una lista de ecuaciones \index{\texttt{Sistema}}
 type Sistema = [Ecuacion]
 \end{codigo}
 
-\subsection{Algorítmo de unificiación}
+\subsection{Algoritmo de unificación}
 
 \index{\texttt{unificacion}} \texttt{(unificacion t1 t2)} es
 \begin{itemize}
