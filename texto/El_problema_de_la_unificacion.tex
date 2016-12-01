@@ -346,27 +346,27 @@ funciones del capítulo anterior, que se encuentran en la libreria
 
 Empezamos implementando los errores. Estos son causados por
 \texttt{UNIFICACION} (si el sistema no tiene solución) o
-\texttt{REGLA} (si durante la reescritura no se puede aplicar ninguna
-regla más).
+\texttt{REGLA}\index{\texttt{ERROR}}(si durante la reescritura no se
+puede aplicar ninguna regla más).
 \begin{codigo}
 data ERROR = UNIFICACION
            | REGLA
            deriving (Eq, Show)
 \end{codigo}
 
-Una ecuación es un par de términos
+Una ecuación es un par de términos \index{\texttt{Ecuacion}}
 \begin{codigo}
 type Ecuacion = (Termino,Termino)
 \end{codigo}
 
-Un sistema de ecuaciones es una lista de ecuaciones
+Un sistema de ecuaciones es una lista de ecuaciones \index{\texttt{Sistema}}
 \begin{codigo}
 type Sistema = [Ecuacion]
 \end{codigo}
 
 \subsection{Algorítmo de unificiación}
 
-\index{\texttt{(unificacion t1 t2)}} \texttt{(unificacion t1 t2)} es
+\index{\texttt{unificacion}} \texttt{(unificacion t1 t2)} es
 \begin{itemize}
 \item \texttt{(Right s)} si los términos \texttt{t1} y \texttt{t2} son
   unificables y \texttt{s} es un unificador del máxima generalidad de
@@ -398,7 +398,7 @@ unificacion t1 t2 = unificacionS [(t1,t2)] []
  
 
 
-\index{\texttt{(unificacionS es s)}} \texttt{(unificacionS es s)} es
+\index{\texttt{unificacionS}} \texttt{(unificacionS es s)} es
 \begin{itemize}
 \item \texttt{(Right s')} si el sistema \texttt{s(es)}, obtenido
   aplicando la sustitución \texttt{s} a la ecuaciones de \texttt{es},
@@ -440,7 +440,7 @@ unificacionS ((T f ts1, T g ts2):ts) s
   | otherwise = Left UNIFICACION
 \end{codigo}
 
-\index{\texttt{(reglaElimina x t es s)}} \texttt{(reglaElimina x t es s)} es
+\index{\texttt{reglaElimina}} \texttt{(reglaElimina x t es s)} es
 \begin{itemize}
 \item \texttt{(Left UNIFICACION)}, si \texttt{x} ocurre en \texttt{t}.
 \item \texttt{(Right s')} es la solución del sistema obtenido al
@@ -480,7 +480,7 @@ reglaElimina x t es s
 
 \subsection{Equiparación de términos}
 
-\index{\texttt{(equiparacion t1 t2)}} \texttt{(equiparacion t1 t2)} es
+\index{\texttt{equiparacion}} \texttt{(equiparacion t1 t2)} es
 \begin{itemize}
 \item \texttt{(Right s)} si \texttt{t1} y es una instancia de \texttt{t1} y \texttt{s} es un equiparador
   del máxima generalidad de \texttt{t1} con \texttt{t2}.
@@ -505,7 +505,7 @@ equiparacion :: Termino -> Termino -> Either ERROR Sustitucion
 equiparacion t1 t2 = equiparacionS [(t1,t2)] []
 \end{codigo}
 
-\index{\texttt{(equiparacionS es s)}} \texttt{(equiparacionS es s)} es
+\index{\texttt{equiparacionS}} \texttt{(equiparacionS es s)} es
 \begin{itemize}
 \item \texttt{(Right s')} si la derecha de las ecuaciones de
   \texttt{s(es)} y es una instancia de la izquierda y \texttt{s'} es
@@ -541,7 +541,7 @@ equiparacionS ((T f ts1, T g ts2):es) s
 
 \subsection{Reescritura de términos}
 
-\index{\texttt{(reescribe es t)}} \texttt{(reescribe es t)} es
+\index{\texttt{reescribe}} \texttt{(reescribe es t)} es
 \begin{itemize}
 \item \texttt{(Right s')}, donde \texttt{s'} es el término obtenido
   reescribiendo \texttt{t} con la primera regla de es que con la que
@@ -580,7 +580,7 @@ reescribe ((l,r):es) t
           elimR (Right x) = x
 \end{codigo}
  
-\index{\texttt{(formaNormal es t)}} \texttt{(formaNormal es t)} es la forma normal de \texttt{t} respecto
+\index{\texttt{formaNormal}} \texttt{(formaNormal es t)} es la forma normal de \texttt{t} respecto
 de \texttt{es}. Por ejemplo,
 
 \begin{sesion}

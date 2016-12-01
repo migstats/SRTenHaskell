@@ -465,7 +465,7 @@ import Terminos
 \end{codigo}
 
 \begin{itemize}
-\item \texttt{(indiceMaximo t)} es el mayor índice que aparece en
+\item \texttt{(indiceMaximo t)} \index{\texttt{indiceMaximo}}es el mayor índice que aparece en
   \texttt{t}. Por ejemplo,
 \begin{sesion}
 ghci> indiceMaximo (V ("x",3))
@@ -482,8 +482,9 @@ indiceMaximo (V (_,i)) = i
 indiceMaximo (T _ ts) = maximum (map indiceMaximo ts)
 \end{codigo}
 
-\item \texttt{(renombraTermino n t)} es el termino resultante tras sumar a
-  todos los índices de \texttt{t} el entero \texttt{n}. Por ejemplo,
+\item \texttt{(renombraTermino n t)}\index{\texttt{renombraTermino}}
+  es el termino resultante tras sumar a todos los índices de
+  \texttt{t} el entero \texttt{n}. Por ejemplo,
 \begin{sesion}
 ghci> renombraTermino 5 (V ("x",3)) 
 V ("x",8)
@@ -499,7 +500,7 @@ renombraTermino n (V (x,i)) = V(x,i+n)
 renombraTermino n (T f ts) = T f (map (renombraTermino n) ts)
 \end{codigo}
 
-\item \texttt{(parCritico c (l1,r1) (l2,r2)} calcula el par crítico de la
+\item \texttt{(parCritico c (l1,r1) (l2,r2)} \index{\texttt{parCritico}} calcula el par crítico de la
   regla $\texttt{l1} \rightarrow \texttt{r1}$ y
   $\texttt{l2} \rightarrow \texttt{r2}$. Por ejemplo,
 \begin{sesion}
@@ -525,7 +526,7 @@ parCritico c (l1, r1) (l2, r2)
           elimR (Right a) = a
 \end{codigo}
 
-\item \texttt{(paresCriticos rlista (l,r))} calcula la lista de todos
+\item \texttt{(paresCriticos rlista (l,r))} \index{\texttt{paresCriticos}}calcula la lista de todos
   los pares críticos formados al unificar \texttt{rlista} hacia la
   izquierda con un subtérmino \texttt{l}, donde \texttt{l
     $\rightarrow$ r} es una regla. Por ejemplo,
@@ -568,7 +569,7 @@ paresCriticos rlista (l,r) =
                  rlista) + 1
 \end{codigo}
 
-\item \texttt{(paresLista r)} es la lista de todos los pares críticos
+\item \texttt{(paresLista r)} \index{\texttt{paresLista}}es la lista de todos los pares críticos
   de \texttt{r}, incluyendo los triviales. Por ejemplo,
 
 \begin{sesion}
@@ -589,7 +590,7 @@ paresLista :: [(Termino, Termino)] -> [(Termino, Termino)]
 paresLista r1 = paresLista2 r1 r1
 \end{codigo}
 
-\item \texttt{(paresLista2 r1 r2)} es la lista de todos los pares
+\item \texttt{(paresLista2 r1 r2)} \index{\texttt{paresLista2}}es la lista de todos los pares
   críticos al unificar los términos a la izquierda de \texttt{r1} con un
   subtérmino a la izquierda con \texttt{r2}. Por ejemplo,
 

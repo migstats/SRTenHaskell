@@ -68,7 +68,7 @@ Por ejemplo, $x_3$ se representa como \texttt{("x",3)}.
 \end{itemize}
 
 Como un término es una variable o un término compuesto, definimos el
-tipo de dato \texttt{Termino} de la siguiente manera,
+tipo de dato \texttt{Termino}\index{\texttt{Termino}} de la siguiente manera,
 \begin{codigo}
 data Termino = V Nvariable
              | T String [Termino]
@@ -101,7 +101,7 @@ Por ejemplo el término $f(i(i(e)),f(i(e),x)) \in \Sigma_G$, tiene como
 conjunto de variables $\{x\}$.  
 
 Para su implementación en Haskell definiremos la función
-\texttt{conjuntoVar t} que devuelve la lista de variables del término
+\texttt{conjuntoVar t}\index{\texttt{conjuntoVar}}que devuelve la lista de variables del término
 \texttt{t}.
 
 \begin{sesion}
@@ -136,7 +136,7 @@ conjuntoVar (T _ ts) = concatMap conjuntoVar ts
 
 Por ejemplo el término $f(i(i(e)),f(i(e),x)) \in \Sigma_G$, tiene
 longitud 8.  
-En Haskell, creamos la función \texttt{longitudTerm t} que
+En Haskell, creamos la función \texttt{longitudTerm t}\index{\texttt{longitudTerm}} que
 calcula la longitud del término \texttt{t}
 
 \begin{sesion}
@@ -172,7 +172,7 @@ longitudTerm (T _ xs) = 1 + sum (map longitudTerm xs)
 
 Por ejemplo el término $f(i(i(e)),f(i(e),x)) \in \Sigma_G$, tiene
 tamaño 5.  La función que calcula el tamaño de un término \texttt{t},
-la llamaremos \texttt{tamanoTerm t}.
+la llamaremos \texttt{tamanoTerm t}\index{\texttt{tamanoTerm}}.
 
 \begin{sesion}
 ghci> tamanoTerm (V ("x",2))
@@ -241,7 +241,7 @@ El conjunto de $\Pos(s)$ serán cadenas de numeros naturales
 positivos. Por ejemplo,
 $\Pos f(f(i(i(e)),f(i(x),x))) = \{ \epsilon,1,11,111,2,21,211,22 \}$.
 
-La implementaremos en Haskell bajo el nombre de la función \texttt{conjuntoPos t}.
+La implementaremos en Haskell bajo el nombre de la función \texttt{conjuntoPos t}\index{\texttt{conjuntoPos}}.
 
 \begin{sesion}
 ghci> conjuntoPos (V ("x",1))
@@ -282,7 +282,7 @@ De la misma manera, podemos extrapolar este concepto a los árboles. Un
 término $t$ es subtérmino del término $s$, si el árbol generado por el
 término $t$ es un subárbol para el árbol generado por $s$. 
 
-Implementamos la funcion \texttt{esSubtermino t s} que comprueba si $t$ es
+Implementamos la funcion \texttt{esSubtermino t s} \index{\texttt{esSubtermino}}que comprueba si $t$ es
 subtérmino de $s$. Por ejemplo,
 
 \begin{sesion}
@@ -303,7 +303,7 @@ esSubtermino t s = t == s
 \end{codigo}
 
 Una función que usaremos en los capítulos siguientes es
-\texttt{ocurre v t}, que es la función \texttt{esSubtermino}
+\texttt{ocurre v t}\index{\texttt{ocurre}}, que es la función \texttt{esSubtermino}
 restringido a variables. A partir de ahora diremos que $v$ ocurre en
 $t$ si la variable $v$ es subtérmino de $t$. Por ejemplo,
 
@@ -357,7 +357,7 @@ Sea $p \in Pos(s)$. Denotamos $s[t]_p$ como,
 \end{defi}
 
 La función que calcule el término resultante la llamaremos
-\texttt{sustPosSubtermino}. Debemos tener en cuenta que la de
+\texttt{sustPosSubtermino}\index{\texttt{sustPosSubtermino}}. Debemos tener en cuenta que la de
 definición depende de la posición, por ello añadiremos una excepción
 si $p$ no esta bien definido. Por ejemplo,
 
@@ -412,7 +412,8 @@ En definitiva, las sustituciones son de la forma
 $$\sigma = \{ x_1 \mapsto \sigma(x_1), \dots, x_n \mapsto \sigma(x_n)\}$$ 
 entendiendo que las restantes variables se aplican en ellas mismas.
 
-La implementación del tipo de dato \texttt{Sustitucion} en Haskell es,
+La implementación del tipo de dato
+\texttt{Sustitucion}\index{\texttt{Sustitucion}} en Haskell es,
 
 \begin{codigo}
   type Sustitucion = [(Nvariable,Termino)]
@@ -428,7 +429,7 @@ se representa por
 \end{sesion}
 
 Para comprobar si una variable está en el dominio de una sustitución, definimos
-la función \texttt{enDominio}, tal que \texttt{(enDominio x s)} se verifica si
+la función \texttt{enDominio}\index{\texttt{enDominio}}, tal que \texttt{(enDominio x s)} se verifica si
 \texttt{x} está en el dominio de \texttt{s}. Por ejemplo,
 
 \begin{sesion}
@@ -452,7 +453,7 @@ enDominio :: Nvariable -> Sustitucion -> Bool
 enDominio v = any (\(x,_) -> v == x)
 \end{codigo}
 
-Con la función \texttt{(aplicaVar s v)}, calculamos el término
+Con la función \texttt{(aplicaVar s v)}\index{\texttt{aplicaVar}}, calculamos el término
 obtenido tras aplicar una sustitución \texttt{s} a una variable
 \texttt{v}. Por ejemplo,
 
@@ -499,7 +500,7 @@ A partir de ahora, entenderemos $\sigma$ como una sustitución
 extendida, a menos que se indique lo contrario.
 
 Para la computación de esta definición usamos la función
-\texttt{(aplicaTerm s t)}, que es el término obtenido tras aplicar la
+\texttt{(aplicaTerm s t)}\index{\texttt{aplicaTerm}}, que es el término obtenido tras aplicar la
 sustitución \texttt{s} al término \texttt{t}. Por ejemplo,
 
 \begin{sesion}

@@ -408,7 +408,7 @@ La definición es recursiva y esta bien definida.
 
 A continuación implementaremos el orden de caminos lexicográfico en
 Haskell. Para realizar los ejemplos de esta función, primero
-implementaremos \texttt{ordenPorLista xs a b}, que es el resultado de
+implementaremos \texttt{ordenPorLista xs a b}\index{\texttt{ordenPorLista}}, que es el resultado de
 comparar $a$ y $b$, tal que $a > b$ syss $a$ aparece antes en $x$s que
 $b$. Por ejemplo,
 
@@ -436,7 +436,7 @@ ordenPorLista (x:xs) a b
   | otherwise = ordenPorLista xs a b
 \end{codigo}
 
-Definiremos \texttt{ordCamLex ord s t}, que es el resultado de
+Definiremos \texttt{ordCamLex ord s t}\index{\texttt{ordCamLex}}, que es el resultado de
 comparar $s$ y $t$ términos, con el orden de caminos lexicográfico
 inducido por \texttt{ord}. Por ejemplo
 
@@ -481,7 +481,7 @@ ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
 
 La implementación de la anterior sección se puede generalizar, a lo
 que llamaremos órdenes de caminos recursivos. Para mayor claridad
-crearemos la función \texttt{ordenTerminoLex t s}, que es es el
+crearemos la función \texttt{ordenTermino t s}\index{\texttt{ordenTermino}}, que es es el
 resultado de comparar el nombre delelemento de la posición vacía
 mediante el orden alfabético. Por ejemplo,
 
@@ -506,7 +506,7 @@ ordenTermino (T a _) (T b _) = compare a b
 
 La generalización se basa en añadir un argumento adiccional a la
 función, éste se encarga de especificar que orden se aplica en el
-apartado (OCL2c). Por ejemplo,
+apartado (OCL2c). Por ejemplo, \index{\texttt{ordenCamRec}}
 
 \begin{sesion}
 ghci> let stat f (ordenTermino) t s = ordLex ordenTermino t s 
