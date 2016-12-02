@@ -22,7 +22,7 @@ máquinas de Turing. Supondremos, sin perdida de generalidad, que el
 modelo es no determinista de una banda finita en ambas direcciones.
 
 \begin{defi} 
-  Una máquina de Turing no determinista $M$ viene dada por,
+  Una \textbf{máquina de Turing} no determinista $M$ viene dada por,
   \begin{enumerate}
   \item Un alfabeto $\Gamma := \{s_0, \dots, s_n \}$ de símbolos,
     donde $s_0$ es considerado el espacio en blanco.
@@ -88,7 +88,7 @@ A continuación, enunciamos una definición que relaciona términos con
 máquinas de Turing.
 
 \begin{defi}
-  Sea $x_0$ una variable fija. Un término de configuración en
+  Sea $x_0$ una variable fija. Un \textbf{término de configuración} en
   $\Sigma_M$ es cualquier término de la forma,
 \[
   \overrightarrow{l}(\overrightarrow{s_{i_k}}(\dots
@@ -116,7 +116,7 @@ siguiente definición, adaptaremos un sistema de reescritura para una
 máquina de Turing.
 
 \begin{defi}
-  Un sistema de reescritura $R_M$ consiste en las siguientes reglas de
+  Un \textbf{sistema de reescritura} $R_M$ consiste en las siguientes reglas de
   reescritura,
 \begin{itemize}
 \item Para cada transición $(q, s_i, q', s_j, r) \in \Delta$, $R_M$
@@ -293,7 +293,7 @@ propiedades a $>$.
 
 \begin{defi}
   Sea $\Sigma$ una signatura y $V$ un conjunto numerable de
-  variables. Un orden estricto $>$ es un orden de reescritura syss
+  variables. Un orden estricto $>$ es un \textbf{orden de reescritura} syss
   \begin{enumerate}
   \item Es compatible con las $Sigma$-operaciones: para todo
     $s_1,s_2 \in T(\Sigma, V)$, todo $n \geq 0$ y
@@ -352,8 +352,8 @@ daremos dos órdenes construidos a partir de estos a modo de ejemplo en
 las siguientes subsecciones. Empezamos por la definición,
 
 \begin{defi}
-  Sea $>$ un orden estricto en $T(\Sigma, V)$ es un orden de
-  simplificación, syss es un orden de reescritura que para todo
+  Sea $>$ un orden estricto en $T(\Sigma, V)$ es un \textbf{orden de
+  simplificación}, syss es un orden de reescritura que para todo
   término $t \in T(\Sigma, V)$ y todas las posiciones
   $p \in \Pos(t) - \{ \epsilon \}$ entonces $t > t|_p$.
 \end{defi}
@@ -377,7 +377,7 @@ por estos dos últimos.
 
 \begin{defi}
   Sea $\Sigma$ una signatura finita y $>$ un orden estricto de
-  $\Sigma$. El orden de caminos lexicográficos $>_{ocl}$, se define
+  $\Sigma$. El \textbf{orden de caminos lexicográficos} $>_{ocl}$, se define
   como, $s>_{ocl}t$ syss ocurre alguno de los siguientes casos,
   \begin{itemize}
   \item (OCL1) $t \in \Var(s)$ y $s \not = t$ ó

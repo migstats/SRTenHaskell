@@ -69,7 +69,7 @@ es confluente mediante el siguiente resultado,
 En esta sección estudiaremos la decibilidad para sistemas de
 reescritura finitos que sean localmente confluentes.
 
-La necesidad de los pares críticos surge de la importancia a la hora
+La necesidad de los \textbf{pares críticos} surge de la importancia a la hora
 de aplicar las reglas de un sistema de reescritura. Para entender
 mejor este concepto, plantearemos el siguiente ejemplo. Sea $s$ un
 término, $R := \{ l_1 \rightarrow r_1, l_2 \rightarrow r_2 \}$ donde
@@ -388,7 +388,7 @@ separadas estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
   umg de $l_1|_p =^? l_2$. Esto determinará el par crítico $\langle
   \theta r_1, (\theta l_1) [\theta r_2 ]_p \rangle$.
   % DIBUJO DEL ARBOL
-  Si dos reglas dan lugar a un par crítico, diremos que se solapan.
+  Si dos reglas dan lugar a un par crítico, diremos que se \textbf{solapan}.
 \end{defi}
 
 % EJEMPLO
@@ -632,17 +632,17 @@ estudiaremos desde otra perspectiva usando nuevamente los pares
 críticos.
 
 \begin{defi}
-  Una regla de reescritura $l \rightarrow r$ es lineal por la
-  izquierda (respectivamente lineal por la derecha) si ninguna
+  Una regla de reescritura $l \rightarrow r$ es \textbf{lineal por la
+  izquierda} (respectivamente \textbf{lineal por la derecha}) si ninguna
   variable ocurre dos veces en $l$ (respectivamente $r$). Si una regla
-  es lineal por la izquierda y por la derecha diremos que es lineal. 
+  es lineal por la izquierda y por la derecha diremos que es \textbf{lineal}. 
 \end{defi}
 
 Y ampliamos la definición para sistemas de reescritura.
 
 \begin{defi}
-  Un sistema de reescritura es lineal por la izquierda
-  (respectivamente por la derecha) si todas sus reglas son lineales por
+  Un sistema de reescritura es \textbf{lineal por la izquierda}
+  (respectivamente \textbf{por la derecha}) si todas sus reglas son lineales por
   la izquierda (respectivamente por la derecha)
 \end{defi}
 
@@ -651,7 +651,7 @@ definimos una restricción que nos servirá para demostrar la
 confluencia fuerte.
 
 \begin{defi}
-  Los términos $s_1$ y $s_2$ es fuertemente unible respecto
+  Los términos $s_1$ y $s_2$ son \textbf{fuertemente unibles} respecto
   $\rightarrow$ si existen términos $t_1$ y $t_2$ tal que
   $s_1 \xrightarrow{=} t_1 \xleftarrow{*} s_2$ y $s_1 \xrightarrow{*}
   t_2 \xleftarrow{=} s_2$
@@ -664,10 +664,10 @@ confluencia fuerte.
 
 El siguiente resultado se conoce como el lema de confluencia fuerte.
 
-\begin{defi}
+\begin{lema}
   Si $R$ es lineal y cada par crítico de $R$ es fuertemente unible,
   entonces $R$ es fuertemente confluente.
-\end{defi}
+\end{lema}
 
 \begin{demo}
   La prueba se hará reduciendo cada uno de los casos que estudiamos en
@@ -693,7 +693,7 @@ confluencia.
 % EJEMPLO
 
 \begin{defi}
-  Un sistema de reescritura es ortogonal si es lineal por la izquierda
+  Un sistema de reescritura es \textbf{ortogonal} si es lineal por la izquierda
   y no tiene pares críticos
 \end{defi}
 
@@ -794,7 +794,7 @@ $\rightrightarrows$ con la que obtenemos la situación \ref{fig:pararb2}.
 \end{figure}
 
 \begin{defi}
-  Diremos que un conjunto de posiciones es paralelo si $p||q$ para
+  Diremos que un conjunto de posiciones es \textbf{paralelo} si $p||q$ para
   todo $p, q \in P$, donde $P$ es un subconjunto de todas las posibles
   posiciones paralelas.
 \end{defi}
@@ -805,7 +805,7 @@ Dado un término $t_p$ para cada $p \in P$, definimos la notación,
 \begin{defi}
   Si para cada $p \in P$ tenemos la regla $l_p \rightarrow r_p in R$ y
   para cada sustitución $\sigma_p$ tal que $s|_p = \sigma_p l_p$
-  llamaremos reducción paralela a
+  llamaremos \textbf{reducción paralela} a
   $s \rightrightarrows^P_R s[\sigma_p r_p]_{p \in P}$
 \end{defi}
 

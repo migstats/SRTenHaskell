@@ -226,7 +226,7 @@ Usando la idea del procedimiento de completación que hemos comentado
 antes, formalizamos su definición.
 
 \begin{defi}
-  Un procedimiento de completación es un programa que acepta un
+  Un \textbf{procedimiento de completación} es un programa que acepta un
   conjunto finito de identidades $E_0$, un orden de reducción $>$, y
   usa las reglas para generar una secuencia (finita o infinita),
 
@@ -235,8 +235,8 @@ antes, formalizamos su definición.
     R_3) \vdash_C \dots
   \]
   donde $R_0 := \emptyset$.  Además definimos $E_\omega$ como el
-  conjunto de identidades persistentes y $R_\omega$ como el conjunto
-  de reglas persistentes,
+  \textbf{conjunto de identidades persistentes} y $R_\omega$ como el \textbf{conjunto
+  de reglas persistentes},
 
   \[
     E_\omega := \bigcup_{i \geq 0} \bigcap_{j \geq i} E_j
@@ -257,12 +257,12 @@ Por último, la definición siguiente recoge la importancia de los pares
 críticos a la hora de analizar los procedimientos de completación.
 
 \begin{defi}
-  Una secuencia de completación se dirá justa syss
+  Una secuencia de completación se dirá \textbf{justa} syss
 
   \[
 \texttt{paresCriticos}(R_\omega) \subseteq \bigcup_{i\geq 0} E_i
 \]
-Un procedimiento de completación es justo syss cada secuencia de éxito
+Un procedimiento de completación es \textbf{justo} syss cada secuencia de éxito
 es justa.
 \end{defi}
 

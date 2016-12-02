@@ -16,7 +16,7 @@ funciones podemos usar en cada contexto y qué aridad tienen, introducimos el
 concepto de signatura.
 
 \begin{defi} 
-  Una signatura $\Sigma$ es una familia de conjuntos de símbolos de
+  Una \textbf{signatura} $\Sigma$ es una familia de conjuntos de símbolos de
   funciones $\{ \Sigma_n \}$, donde para cada símbolo
   $f \in \Sigma_n$, $f$ tiene aridad $n$. Los elementos $\Sigma^{(0)}$
   se llaman símbolos constantes.
@@ -30,8 +30,8 @@ Con esta idea, podemos introducir el concepto de términos.
 
 \begin{defi}
   Sea $\Sigma$ una signatura, y $X$ un conjunto numerable de variables
-  tal que, $\Sigma \cap X = \emptyset$. El conjunto de los términos de
-  primer orden denotado por $T(\Sigma,X)$ de los $\Sigma$--términos en
+  tal que, $\Sigma \cap X = \emptyset$. El \textbf{conjunto de los términos de
+  primer orden} denotado por $T(\Sigma,X)$ de los $\Sigma$--términos en
   $X$ se define inductivamente como,
   \begin{itemize}
   \item $X \subseteq T(\Sigma,X)$
@@ -84,7 +84,7 @@ Por ejemplo,
 \end{itemize}
 
 A continuación definimos algunos conceptos importantes sobre los
-términos.\begin{defi} El conjunto de variables de un término $t$, denotado por
+términos.\begin{defi} \textbf{El conjunto de variables de un término} $t$, denotado por
   $V(t)$, se define de manera recursiva como,
   \begin{equation*}
     V(t)=
@@ -121,7 +121,7 @@ conjuntoVar (V x)    = [x]
 conjuntoVar (T _ ts) = concatMap conjuntoVar ts
 \end{codigo}
 
-\begin{defi} La longitud de un término $t$, denotado por $l(t)$, se
+\begin{defi} La \textbf{longitud} de un término $t$, denotado por $l(t)$, se
   define de manera recursiva como,
   \begin{equation*}
     l(t)=
@@ -156,7 +156,7 @@ longitudTerm (V _)    = 1
 longitudTerm (T _ xs) = 1 + sum (map longitudTerm xs)
 \end{codigo}
 
-\begin{defi} El tamaño de un término $t$, denotado por $\abs{t} $, se
+\begin{defi} El \textbf{tamaño} de un término $t$, denotado por $\abs{t} $, se
   define de manera recursiva como,
   \begin{equation*}
     \abs{t}=
@@ -226,7 +226,7 @@ concepto de término.
 
 \begin{defi}
   Sea $\Sigma$ una signatura, $X$ un conjunto de variables disjuntas
-  de $\Sigma$, y $s \in T(\Sigma, X)$. El conjunto posiciones
+  de $\Sigma$, y $s \in T(\Sigma, X)$. El \textbf{conjunto de posiciones}
   $\Pos (s)$ se define de manera recursiva como,
 \begin{itemize}
 
@@ -268,7 +268,7 @@ conjuntoPos (T _ (xs)) = conjuntoPos' (reverse zs)
 
 A continuación, introducimos la noción de subtérmino.
 \begin{defi}
-  Sea $s \in T(\Sigma, X)$ y $p \in \Pos (s)$. El subtérmino de $s$ en
+  Sea $s \in T(\Sigma, X)$ y $p \in \Pos (s)$. El \textbf{subtérmino} de $s$ en
   la posición $p$, denotado por $s|_p$ se define por inducción
   \begin{equation*}
     \begin{array}{rcl}
@@ -401,11 +401,11 @@ $\tilde{\sigma}(t) = f(i(x))$. Formalmente la definiremos como sigue,
 
 \begin{defi} 
   Sea $\Sigma$ una signatura y $X$ un conjunto infinito numerable de
-  variables. Una $T(\Sigma, X)$--sustitución, es una función
+  variables. Una \textbf{$T(\Sigma, X)$--sustitución}, es una función
   $\sigma : X \rightarrow T(\Sigma, X)$ tal que $\sigma(x) \neq x$
   para un número finito de variables $x \in X$. El conjunto de
-  variables donde $\sigma(x) \neq x$ se le llama dominio de
-  $\sigma$. Lo denotaremos por $\Dom (\sigma)$.
+  variables donde $\sigma(x) \neq x$ se le llama \textbf{dominio de
+  $\sigma$}. Lo denotaremos por $\Dom (\sigma)$.
 \end{defi}
 
 En definitiva, las sustituciones son de la forma
@@ -538,7 +538,7 @@ A continuación, introducimos un nuevo concepto imprescindible para la reescritu
 
 \begin{defi}
   Sea $\Sigma$ una signatura y $X$ un conjunto finito numerable de variables
-  disjuntas de $\sigma$. Una identidad es un par
+  disjuntas de $\sigma$. Una \textbf{identidad} es un par
   $(s,t) \in T(\Sigma, X) \times T(\Sigma, X)$. Las denotaremos por
   $s \approx t$, donde $s$ lo denominaremos el lado izquierdo y $t$ el lado
   derecho.
@@ -553,8 +553,8 @@ $f(f(a,b),c) \approx f(a,f(b,c))$.
 Podemos relacionar este concepto con lo que hemos visto en el capítulo 1.
 
 \begin{defi}
-  Sea $E$ un conjunto de identidades de $\Sigma$. La relación de
-  reducción $\rightarrow_E \subseteq T(\Sigma, V) \times T(\Sigma, V)$
+  Sea $E$ un conjunto de identidades de $\Sigma$. La \textbf{relación de
+  reducción} $\rightarrow_E \subseteq T(\Sigma, V) \times T(\Sigma, V)$
   se define como,
   \[
     s \rightarrow_E t \hspace{.3cm} syss \hspace{.3cm} \exists(l,r)
@@ -589,17 +589,17 @@ $\xleftrightarrow{*}_E$ que usaremos en capítulos posteriores.
 \begin{defi} 
   Sea $\equiv$ una relación binaria en $T(\Sigma,V)$
   \begin{enumerate}
-  \item La relación $\equiv$ es cerrada bajo sustituciones syss $s \equiv t$
+  \item La relación $\equiv$ es \textbf{cerrada bajo sustituciones} syss $s \equiv t$
     implica $\sigma(s) \equiv \sigma(t)$, para todo $s,t$ y $\sigma$. 
-  \item La relación $\equiv$ es cerrada bajo $\Sigma$--operaciones syss $s_1
+  \item La relación $\equiv$ es \textbf{cerrada bajo $\Sigma$--operaciones} syss $s_1
     \equiv t_1, \dots, s_n \equiv t_n$ implica $f(s_1, \dots, s_n) \equiv
     f(t_1, \dots, t_n)$, para todo $n \geq 0, f, s_1, \dots s_n, t_1, \dots
     t_n.$ 
-  \item La relación $\equiv$ es compatible con $\Sigma$--operaciones syss $ s
+  \item La relación $\equiv$ es \textbf{compatible con $\Sigma$--operaciones} syss $ s
     \equiv t$ implica $f(s_1, \dots, s_{i-1},s, s_{i+1},\dots, s_n) \equiv
     f(s_1, \dots, s_{i-1},t, s_{i+1},\dots, s_n)$ para todo $n \geq 0, f, i =
     1, \dots, n,$ y $s_1, \dots, s_{i-1},s,t, s_{i+1},\dots, s_n$. 
-  \item La relación $\equiv$ es compatible con el $\Sigma$--contexto syss $s
+  \item La relación $\equiv$ es \textbf{compatible con el $\Sigma$--contexto} syss $s
     \equiv s'$ implica $t[s]_p \equiv t[s']_p$ para todo $t$ y $p$. 
   \end{enumerate}       
 \end{defi}
@@ -683,11 +683,11 @@ contexto, es lo que llamamos lógica ecuacional. Las reglas se pueden escribir a
 
 \[
   \begin{array}{lc}
-    $Reflexiva$     & \dfrac{}{E \vdash t \approx t} \\ \\
-    $Sim\'{e}trica$         & \dfrac{E \vdash s \approx t}{E \vdash t \approx s} \\ \\
-    $Transitiva$    & \dfrac{E \vdash s \approx t  \hspace{.8cm}   E \vdash t \approx u}{E \vdash s \approx u} \\ \\
-    $Sustitución$   & \dfrac{E \vdash s\approx t}{E \vdash \sigma(s)\approx \sigma(t)} \\ \\
-    \Sigma$--operaciones$    & \dfrac{E \vdash s_1\approx t_1 \hspace{.8cm} \dots \hspace{.8cm} E \vdash s_n\approx t_n}{E \vdash f(s_1, \dots, s_n) \approx f(t_1,\dots,t_n)}
+    $\textbf{Reflexiva}$     & \dfrac{}{E \vdash t \approx t} \\ \\
+    $\textbf{Sim\'{e}trica}$         & \dfrac{E \vdash s \approx t}{E \vdash t \approx s} \\ \\
+    $\textbf{Transitiva}$    & \dfrac{E \vdash s \approx t  \hspace{.8cm}   E \vdash t \approx u}{E \vdash s \approx u} \\ \\
+    $\textbf{Sustitución}$   & \dfrac{E \vdash s\approx t}{E \vdash \sigma(s)\approx \sigma(t)} \\ \\
+    \Sigma$\textbf{--operaciones}$    & \dfrac{E \vdash s_1\approx t_1 \hspace{.8cm} \dots \hspace{.8cm} E \vdash s_n\approx t_n}{E \vdash f(s_1, \dots, s_n) \approx f(t_1,\dots,t_n)}
   \end{array} 
 \]
 

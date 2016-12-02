@@ -403,8 +403,8 @@ $\varphi(x_0) > \varphi(x_1) > \dots$.
 \section{Orden lexicográfico}\label{orlexi}
 
 \begin{defi} 
-  Dados dos órdenes estrictos $(A, >_A)$ y $(B, >_B)$, el producto
-  lexicográfico $>_{A \times B}$ en $ A \times B$ se define por
+  Dados dos órdenes estrictos $(A, >_A)$ y $(B, >_B)$, \textbf{el producto
+  lexicográfico} $>_{A \times B}$ en $ A \times B$ se define por
   \[(x,y) >_{A \times B} (x',y') :\Leftrightarrow (x >_A x') \vee (x = x' \wedge y >_B y').\]
 \end{defi}
 
@@ -428,8 +428,8 @@ A continuación, extrapolaremos la idea del producto lexicográfico de dos
 elementos, a $n$ elementos.
 
 \begin{defi}
-  Dado $n$ órdenes estrictos $(A_i,>_i)$, $i=1,\dots,n$ su producto
-  lexicográfico $>_{1..n}$ se define por
+  Dado $n$ órdenes estrictos $(A_i,>_i)$, $i=1,\dots,n$ su \textbf{producto
+  lexicográfico} $>_{1..n}$ se define por
   \[(x_1,\dots,x_n) >_{1..n}  (y_1,\dots,y_n) :\Leftrightarrow 
     \exists k \geq n. (\forall i < k. x_i = y_i) \wedge x_k >_k y_k.\]
 \end{defi} 
@@ -442,7 +442,7 @@ elementos, a $n$ elementos.
 %EJEMPLO DE VECTORES EN COMPARATIVA CON UN ARBOL
 
 \begin{defi}
-  Dado un orden estricto $(A,>)$, el orden lexicográfico $>^*_{lex}$ en $A^*$
+  Dado un orden estricto $(A,>)$, el \textbf{orden lexicográfico} $>^*_{lex}$ en $A^*$
   se define por
   \[x >^*_{lex} y :\Leftrightarrow (|x| > |y|) \vee (|x| = |y| \wedge x >^{|x|}_{lex} y).\]
   Donde $|x|$ es la longitud de $x$.
@@ -475,7 +475,7 @@ definición totalmente informal es que se tratan de conjuntos con elementos
 repetidos. Formalmente, los definiremos como sigue,
 
 \begin{defi}
-  Un multiconjunto $M$ sobre un conjunto $A$ es una función
+  Un \textbf{multiconjunto} $M$ sobre un conjunto $A$ es una función
   $M : A \rightarrow \mathbb{N}$, tal que $M(x)$ es el número de veces que
   aparece repetido $x$. Un multiconjunto es finito si $\{x \in A : M(x) > 0\}$
   es finito. Mediante $\mathcal{M}(A)$ se denotará el conjunto de todos los
@@ -511,8 +511,8 @@ Ya podemos definir un orden para los multiconjuntos a partir de la anterior
 definición.
 
 \begin{defi} 
-  Dado un orden estricto $>$ en un conjunto A, definimos el orden de los
-  multiconjuntos $>_{mul}$ en $\mathcal{M}(A)$ como, $M >_{mul} N$ syss existe
+  Dado un orden estricto $>$ en un conjunto A, definimos el \textbf{orden de los
+  multiconjuntos} $>_{mul}$ en $\mathcal{M}(A)$ como, $M >_{mul} N$ syss existe
   $X, Y \in \mathcal{M}(A)$, tales que,
   \begin{itemize}
   \item $\emptyset \neq X \subseteq M$,
@@ -629,7 +629,7 @@ ordenMulticonj = compare
 \section{Resultados sobre la confluencia}
 
 \begin{defi} 
-  Diremos que una relación $\rightarrow$ es localmente confluente si
+  Diremos que una relación $\rightarrow$ es \textbf{localmente confluente} si
   \[
     y_1 \leftarrow x \rightarrow y_2 \Rightarrow y_1 \downarrow y_2
   \] 
@@ -644,7 +644,7 @@ terminación.
 \end{lema}
 
 \begin{defi}
-  Una relación $\rightarrow$ es fuertemente confluente si,
+  Una relación $\rightarrow$ es \textbf{fuertemente confluente} si,
   \[
     y_1 \leftarrow x \rightarrow y_2 \Rightarrow 
     \exists z.  y_1 \xrightarrow{*} z \xleftarrow{=} y_2
@@ -679,7 +679,7 @@ $y_1 \xrightarrow{*} z_2 \xleftarrow{=} y_2$
 
 
 \begin{defi}
-  Una relación $\rightarrow$ tiene la propiedad del diamante si
+  Una relación $\rightarrow$ tiene la \textbf{propiedad del diamante} si
   \[
     y_1 \leftarrow x \rightarrow y_2 \Rightarrow \exists z. y_1 \rightarrow z \leftarrow y_2. 
   \]
