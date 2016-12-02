@@ -1,4 +1,4 @@
-\chapter{Terminación}
+\chapter{Terminación} \label{cap:term}
 
 Como hemos podido comprobar en los anteriores capítulos, es importante
 que nuestros sistemas de reescritura tengan la propiedad de la
@@ -227,7 +227,7 @@ En esta subsección vamos a analizar un SRT particular $R$, donde sus
 reglas hacia la derecha son términos básicos. A estos SRT les
 llamaremos básicos hacia la derecha, y probaremos que son terminadores.
 
-\begin{lema}
+\begin{lema} \label{globfin}
   Sea $R$ un SRT finito básico hacia la derecha. Entonces son
   equivalentes,
   \begin{enumerate}
@@ -263,9 +263,9 @@ $t_{i+j}$ y por tanto, obtenemos la segunda proposición.
 \end{demo}
 
 Luego si $R$ termina entonces $\rightarrow_R$ es globalmente finita,
-ya que es una ramificación finita por el corolario \ref{globfin} y el
-lema \ref{ramfin}. Por tanto todas las reducciones terminarían y, al
-ser finitas, lo hacen en un numero finito de pasos. Con esta idea,
+ya que es una ramificación finita por el lema \ref{globfin} y el lema
+\ref{ramfin}. Por tanto todas las reducciones terminarían y, al ser
+finitas, lo hacen en un numero finito de pasos. Con esta idea,
 obtenemos el resultado clave de esta subsección.
 
 \begin{teor}

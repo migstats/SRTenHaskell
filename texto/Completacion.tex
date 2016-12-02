@@ -394,7 +394,7 @@ La implementación del algoritmo de Huet se realizará por partes.
 
 \begin{itemize}
 
-\item \texttt{(minRegla rl n r1 r2)} \index{minRegla} divide un
+\item \texttt{(minRegla rl n r1 r2)} \index{\texttt{minRegla}} divide un
   conjunto de reglas en dos, donde uno tiene el tamaño de \texttt{r1}. Por
   ejemplo,
   \begin{sesion}
@@ -426,7 +426,7 @@ minRegla rl n ((l,r):r1) r2
     where m = longitudTerm l + longitudTerm r
   \end{codigo}
 
-\item \texttt{(escogeRegla r)} \index{escogeRegla} calcula la regla
+\item \texttt{(escogeRegla r)} \index{\texttt{escogeRegla}} calcula la regla
   que hay que aplicar durante el algoritmo de Huet. Por ejemplo,
 
   \begin{sesion}
@@ -448,7 +448,7 @@ escogeRegla ((l,r):r1) = minRegla (l,r)
                          r1 []
   \end{codigo}
 
-\item \texttt{(anadeRegla (l,r) e s r)} \index{anadeRegla} es el paso
+\item \texttt{(anadeRegla (l,r) e s r)} \index{\texttt{anadeRegla}} es el paso
   (e) del algoritmo de Huet.
 
   \begin{codigo}
@@ -477,7 +477,7 @@ simpl l r s r1 ((g,d):u) e1 u1
              d1 = formaNormal ((l,r):(r1++s)) d
 \end{codigo}
 
-\item \texttt{(orienta ord trip)} \index{orienta} es el segundo bucle
+\item \texttt{(orienta ord trip)} \index{\texttt{orienta}} es el segundo bucle
   del algoritmo de Huet.
 
   \begin{codigo}
@@ -497,7 +497,7 @@ orienta ord ((s,t):ee,ss,rr)
           t1 = formaNormal (rr++ss) t
   \end{codigo}
 
-\item \texttt{(completa ord ee)} \index{completa} es el resultado de aplicar a ee, el algoritmo de completación de Huet. Por ejemplo,
+\item \texttt{(completa ord ee)} \index{\texttt{completa}} es el resultado de aplicar a ee, el algoritmo de completación de Huet. Por ejemplo,
 
   \begin{sesion}
 >>> let ord = ordenCamLex (ordenPorLista ["a","b","c","x","y","z"])
