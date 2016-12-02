@@ -4,7 +4,7 @@ Durante los anteriores capítulos hemos estudiado la decibilidad para
 el problema de la terminación y confluencia. Hemos probado que ambos
 problemas son indecidibles para el caso general. En este capítulo
 vamos a estudiar un procedimiento, para que dado un sistema de
-reescritura, modificar sus elementos para lograr que sea terminadora y
+reescritura, modificar sus elementos para lograr que sea terminante y
 confluente. Formalmente queremos construir un prodecimiento para el
 problema de la palabra para un sistema finito de identidades $E$.
 
@@ -18,10 +18,10 @@ por $>$. La confluencia se verifica pues $R$ no tiene pares críticos.
 Para estudiar este conjunto hemos aplicado condiciones suficientes, es
 decir, podemos tener un sistema de identidades al que no podamos
 aplicar las propiedades que hemos estudiado, y sin embargo sea
-terminadora y/o confluente. La idea detrás de los algorítmos es añadir
+terminante y/o confluente. La idea detrás de los algorítmos es añadir
 reglas que no cambien la estructura equacional de $E$.
 
-Por ejemplo, supongamos que tenemos un sistema $E$ que es terminadora
+Por ejemplo, supongamos que tenemos un sistema $E$ que es terminante
 pero no confluente. Eso quiere decir que existen pares críticos en el
 sistema de reescritura $R$ asociado a $E$. Si añadimos alguna regla
 adiccional, podemos conseguir que esos pares críticos sean unibles.
@@ -111,7 +111,7 @@ solución para el problema de la palabra.
 \begin{demo}
   (1) $R_n$ es finito pues se construye mediante iteraciones finitas,
   donde cada interacción añade reglas $l \rightarrow r$ que satisfacen
-  $l > r$. Por tanto por construcción $R_n$ es terminadora. Además es
+  $l > r$. Por tanto por construcción $R_n$ es terminante. Además es
   confluente pues todos sus pares críticos son unibles.
 
   Por doble inclusión probaremos $\approx_{R_n} = \approx_E$.  La
@@ -177,7 +177,7 @@ $s \approx t \in E$ ó $t \approx s \in R$. Denotaremos
 $(E,R) \vdash_C (E',R')$ si $(E,R)$ se puede transformar en $(E', R')$
 aplicando alguna regla anterior.
 
-Las reglas generan un sistema terminador de reescritura terminadora,
+Las reglas generan un sistema terminante de reescritura terminante,
 pues todas están orientadas con el orden de reducción $>$, de lo que
 deducimos el siguiente resultado.
 
@@ -186,7 +186,7 @@ deducimos el siguiente resultado.
 \end{lema}
 
 Una consecuencia directa de este lema es dado un sistema de
-reescritura $R$ del par $(E,R)$ es terminador si este par se ha
+reescritura $R$ del par $(E,R)$ es terminante si este par se ha
 obtenido por uno inicial de la forma $(E_0, \emptyset)$ aplicando las reglas.
 
 El siguiente resultado demuestra que las reglas no cambian la

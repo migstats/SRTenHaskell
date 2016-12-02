@@ -4,7 +4,7 @@ En este capítulo estudiaremos el problema de determinar si un sistema
 de reescritura es confluente. En la primera sección vamos a demostrar
 que este problema es indecidible para el caso general. Sin embargo en
 las secciones posteriores, estudiaremos que ocurre para un sistema
-terminador. Para este caso el problema será decidible. Por último
+terminante. Para este caso el problema será decidible. Por último
 veremos que podemos decir para los sistemas que no terminan.
 
 \section{Estudio sobre el problema de decisión}
@@ -419,7 +419,7 @@ siguiente sección.
 Algunas propiedades directas de este teorema,
 
 \begin{coro}\label{parcritcor}
-  Un sistema de términos terminador es confluente syss todos sus pares
+  Un sistema de términos terminante es confluente syss todos sus pares
   críticos se vuelven a unir
 \end{coro}
 
@@ -427,7 +427,7 @@ Pero si además pedimos que sea un sistema finito, obtenemos el
 siguiente resultado.
 
 \begin{coro}
-  La confluencia de un sistema de reescritura finito y terminador es
+  La confluencia de un sistema de reescritura finito y terminante es
   decidible.
 \end{coro}
 
@@ -626,8 +626,8 @@ paresLista2 r1 r2 = concat(map(paresCriticos r1) r2)
 \section{Ortogonalidad}
 
 En la sección anterior hemos analizado una técnica para determinar la
-confluencia para sistemas terminadores. En esta nos dedicaremos a
-analizar el problema para sistemas no terminadores. Para ello la
+confluencia para sistemas terminantes. En esta nos dedicaremos a
+analizar el problema para sistemas no terminantes. Para ello la
 estudiaremos desde otra perspectiva usando nuevamente los pares
 críticos.
 
