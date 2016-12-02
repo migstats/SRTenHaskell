@@ -178,7 +178,7 @@ frame=single}
    \end{titlepage}
    \pagestyle{tfg}
    \renewcommand{\chaptermark}[1]{\markright{\thechapter.\space ##1}}
-   \renewcommand{\sectionmark}[1]{}
+   \renewcommand{\sectionmark}[1]{\markright{\thesection.\space ##1}}
    \renewcommand{\subsectionmark}[1]{}
   }
 \makeatother
@@ -392,7 +392,7 @@ headpunct={.}
 %%  Índice                                                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\addcontentsline{toc}{chapter}{Indice de definiciones}
+\addcontentsline{toc}{chapter}{Índice de definiciones}
 
 \printindex
 
