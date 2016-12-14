@@ -1,0 +1,14 @@
+\frametitle{Implementación de los pares críticos}
+\begin{lstlisting}[frame=single]
+parCritico :: (Termino -> Termino)
+           -> (Termino, Termino)
+           -> (Termino, Termino)
+           -> [(Termino, Termino)]
+parCritico c (l1, r1) (l2, r2)
+    | sigma1 == Left UNIFICACION = []
+    | otherwise = [(sigma r1, sigma (c r2))]
+    where sigma1 = unificacion l1 l2
+          sigma = aplicaTerm (elimR(sigma1))
+          elimR (Right a) = a
+\end{lstlisting}
+

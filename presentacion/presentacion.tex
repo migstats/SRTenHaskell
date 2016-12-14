@@ -1,0 +1,349 @@
+\documentclass{beamer}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate} 
+\usepackage{mathrsfs}
+\usepackage{pgf,tikz}
+\usepackage{listings}    
+
+% Tema %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{Warsaw}
+\usecolortheme{seahorse}
+\useoutertheme{shadow}
+
+% Título %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Sistemas de reescritura]{Sistemas de reescritura desde el punto
+  de vista de la programación funcional}
+\author[Miguel Ángel Porras Naranjo]{Miguel Ángel Porras Naranjo}
+
+\institute[Dpto. Ciencias de la Computación e Inteligencia
+Artificial]{Tutorizado por José Antonio Alonso y María José Hidalgo}
+
+% Documento %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\lstset{language=Haskell}
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Índice}
+  \tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}
+  \frametitle{Introducción}
+
+  \begin{block}{}
+    La \textbf{reescritura} es una técnica que consiste en reemplazar
+    términos de una expresión con \textbf{términos equivalentes}.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introducción}
+  \begin{block}{Ejemplo}
+    Dadas las reglas $x * 0 \Rightarrow 0$ y $x+0 \Rightarrow x$,
+    aplicadas a la siguiente expresión,
+
+    \[x +(x*0) \longrightarrow x+0 \longrightarrow x \]
+  \end{block}
+
+  \begin{block}{Ejemplo}
+    Dadas las reglas
+    $\neg (P \wedge Q) \Rightarrow \neg P \vee \neg Q$ y
+    $\neg (\neg P) \Rightarrow P$, reescribimos el siguiente término,
+
+    \[\neg (\neg (\neg ((\neg P) \wedge Q))) \longrightarrow \neg
+      ((\neg P) \wedge Q) \longrightarrow \neg (\neg P) \vee \neg Q
+      \longrightarrow P \vee \neg Q\]
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introducción}
+  \begin{block}{}
+    Los \textbf{sistemas de reescritura} se pueden aplicar a cualquier
+    tipo de expresión (ya sea de lógica, ecuacional, etc) y podemos
+    decidir que reglas se pueden usar. Pero antes debemos formalizar
+    como deben ser estas expresiones.
+  \end{block}
+
+  \begin{block}{Definición}
+    Un \textbf{término} esta construido por \textbf{variables},
+    \textbf{símbolos constantes} y \textbf{símbolos de funciones}.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introducción}
+  \begin{block}{}
+    El término $f(i(e), f(x,e))$ se representa por,
+    \begin{figure}[h] \centering
+      \begin{tikzpicture} \node [circle,draw]{$f$} child {node
+          [circle,draw]{$i$} child{node[circle,draw]{$e$}}} child
+        {node [circle,draw]{$f$} child {node [circle,draw]{$x$}} child
+          {node [circle,draw]{$e$}} };
+      \end{tikzpicture}
+    \end{figure}
+
+    Donde $i,f$ representa un símbolo de función de aridad 1 y 2
+    respectivamente, $e$ representa un símbolo constante y $x$
+    representa una variable.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Introducción}
+  \begin{block}{}
+    Los ejemplos anteriores se pueden escribir como términos,
+    \[
+      \begin{array}{rcl}
+        x +(x*0) & \longrightarrow  & +(x,*(x,0)) \\ \\
+        P \vee \neg Q & \longrightarrow & \vee(P, \neg(Q)) \\ \\
+      \end{array} 
+    \]
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introducción}
+
+  Los nombres de variables son pares formados por un nombre y un
+  índice.
+  \begin{lstlisting}[frame=single]
+type Nvariable = (String,Int)
+  \end{lstlisting}
+
+  Por ejemplo, $x_3$ se representa como \texttt{("x",3)}.
+
+  Definimos el tipo de dato \texttt{Termino} de la siguiente manera,
+
+  \begin{lstlisting}[frame=single]
+data Termino = V Nvariable
+             | T String [Termino]
+             deriving (Eq, Show)
+  \end{lstlisting}
+  Por ejemplo,
+  \begin{itemize}
+  \item $x_2$ se representa por \texttt{(V ("x", 2))}
+  \item $f(x_2,g(x_2))$ se representa por \texttt{(T "f" [V ("x", 2),
+      T "g" [V ("x", 2)]])}
+  \end{itemize}
+\end{frame}
+
+\section{Sistemas de reescritura}
+
+\begin{frame}
+  \frametitle{Sistemas de reescritura}
+  \begin{block}{Definición}
+    Un \textbf{sistema de reescritura de términos} es un conjunto de
+    sustituciones termino a término. A estas sustituciones las
+    llamaremos \textbf{reglas}.
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sistemas de reescritura}
+  \begin{block}{}
+    Estos conjuntos de reglas determinan ciertas propiedades según los
+    elementos que contengan. Por ejemplo,
+    \begin{figure}[h]
+      \centering
+      \begin{tikzpicture}[sibling distance=10em]
+        \node [draw]{$a^{2*0} + b*0$} child { node[draw]{$a^0 + b*0$}
+          child{node[draw]{$1 + b*0$}} child{node[draw]{$a^0 + 0$}} }
+        child { node [draw]{$a^{2*0} + 0$} child {node
+            [draw]{$a^0 + 0$}} child {node [draw]{$a^{2*0}$}} };
+      \end{tikzpicture}
+    \end{figure}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sistemas de reescritura}
+  \begin{block}{Problemas}
+    \begin{itemize}
+    \item ¿El árbol es finito?
+    \item ¿Todas las hojas del árbol son la misma?
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\subsection{Terminación}
+
+\begin{frame}
+  \frametitle{Terminación}
+  \begin{block}{Definición}
+    Diremos que un sistema de reescritura \textbf{termina}, si no podemos
+    aplicar ninguna regla más.
+  \end{block}
+
+  \begin{block}{}
+    Tener un mayor número de reglas no siempre es mejor. Por ejemplo
+    para las reglas, $x+0 \Rightarrow x$ y $x \Rightarrow x+0$,
+
+    \[ x + 0 \longrightarrow x \longrightarrow x+0 \longrightarrow x
+      \longrightarrow x+0 \dots \]
+  \end{block}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Terminación}
+  \begin{block}{Teorema}
+    El problema de la terminación es \textbf{indecidible} para el caso
+    general.
+  \end{block}
+
+  \begin{block}{}
+    Se puede conseguir la decibilidad con varias hipótesis de partida.
+  \end{block}
+\end{frame}
+
+\subsection{Confluencia}
+\begin{frame}
+  \frametitle{Confluencia}
+  \begin{block}{Definición}
+    Diremos que un sistema de reescritura es \textbf{confluente}, si
+    sea cual sea el orden en el que apliquemos las reglas, llegamos al
+    mismo resultado.
+  \end{block}
+
+  \begin{block}{}
+    Para analizar si un sistema es confluente o no, debemos estudiar el
+    momento en el que se crea una ramificación del árbol. La idea
+    intuitiva es ver si la sustitución que se hace en cada rama se
+    solapa entre sí. A estos puntos los llamaremos \textbf{pares
+    críticos}.
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Implementación de los pares críticos}
+\begin{lstlisting}[frame=single]
+parCritico :: (Termino -> Termino)
+           -> (Termino, Termino)
+           -> (Termino, Termino)
+           -> [(Termino, Termino)]
+parCritico c (l1, r1) (l2, r2)
+    | sigma1 == Left UNIFICACION = []
+    | otherwise = [(sigma r1, sigma (c r2))]
+    where sigma1 = unificacion l1 l2
+          sigma = aplicaTerm (elimR(sigma1))
+          elimR (Right a) = a
+\end{lstlisting}
+ 
+\end{frame}
+\subsection{Completación}
+
+\begin{frame}
+  \frametitle{Completación}
+
+  \begin{block}{Definición}
+    Podemos modificar el conjunto reglas de los reescritura para que
+    se verifiquen estas dos propiedades. A este proceso se le llama
+    \textbf{completación}. Los cambios que se realizan al conjunto de
+    reglas van desde eliminar alguna regla, hasta añadir propias.
+  \end{block}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algoritmo de completación}
+
+  \textbf{Input:} Un conjunto finito $E$ de $\Sigma$-identidades y un
+  orden de reducción > en $T(\Sigma, V)$.
+
+  \textbf{Output:} Si el procedimiento termina; un sistema de
+  reescritura $R$ finito y convergente que es equivalente a $E$. En
+  caso contrario devuelve un \texttt{Error}.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algoritmo de completación}
+
+\textbf{Inicialización:}
+Si existe una identidad $(s \equiv t) \in E$ tal que
+$s \not = t, s \not > t$ y $t \not > s$, entonces termina con
+\texttt{Error}.
+En otro caso,
+$i := 0$
+$R_0 := \{l \rightarrow r | (l \equiv r) \in E \cup E^{-1} \wedge l > r \}$.
+
+\texttt{Mientras} $R_i \not = R_{i-1}$
+
+$R_{i+1} := R_i$;
+
+Para todo $\langle s, t \rangle \in$ \texttt{ParesCriticos($R_i$)}:
+
+$>$ Reducir $s,t$ a forma normal $s', t'$
+
+$>$ Si $s' \not = t'$, $s' \not > t'$ y $t' \not > s'$ terminar con \texttt{Error}
+
+$>$ Si $s' > t'$ entonces $R_{i+1} := R_{i+1} \cup \{s' \rightarrow t'\}$
+
+$>$ Si $t' > s'$ entonces $R_{i+1} := R_{i+1} \cup \{t' \rightarrow s'\}$
+
+$i := i+1$
+
+Devuelve $R_i$
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Conclusiones del algoritmo de completación}
+  \begin{block}{}
+    Este algoritmo no es muy eficiente pues calcula los pares críticos
+    cada vez que añade o elimina una regla.
+  \end{block}
+
+  \begin{block}{}
+    Un mejor algoritmo para la completación es el de \textbf{Huet}.
+  \end{block}
+\end{frame}
+
+\section{Sistemas utilizados}
+
+\begin{frame}
+  \frametitle{Sistemas utilizados}
+  \begin{center}
+    \includegraphics[width=.3\textwidth]{ubuntu.png}
+    \hspace{.2cm}
+    \raisebox{.1\height}{\includegraphics[width=.2\textwidth]{emacs.png}}
+    \hspace{.2cm}
+    \raisebox{.35\height}{\includegraphics[width=.4\textwidth]{haskell.png}}
+  \end{center}
+
+  \begin{center}
+    \includegraphics[width=.3\textwidth]{git.png}
+    \hspace{.2cm}
+    \includegraphics[width=.4\textwidth]{github.png}
+  \end{center}
+
+  \begin{block}{}
+    \begin{center}
+      \url{http://github.com/migpornar/SRTenHaskell}
+    \end{center}
+  \end{block}
+\end{frame}
+
+\section{Bibliografía}
+
+\begin{frame}[allowframebreaks]
+        \frametitle{Bibliografía}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{presentacion.bib}
+\end{frame}
+
+
+\end{document}
+
