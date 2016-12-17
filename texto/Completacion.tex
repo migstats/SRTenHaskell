@@ -1,12 +1,13 @@
 \chapter{Completación}
 
-Durante los anteriores capítulos hemos estudiado la decibilidad para
+Durante los anteriores capítulos hemos estudiado la decidibilidad para
 el problema de la terminación y confluencia. Hemos probado que ambos
 problemas son indecidibles para el caso general. En este capítulo
 vamos a estudiar un procedimiento, para que dado un sistema de
 reescritura, modificar sus elementos para lograr que sea terminante y
-confluente. Formalmente queremos construir un prodecimiento para el
-problema de la palabra para un sistema finito de identidades $E$.
+confluente. Formalmente queremos construir un prodecimiento para
+resolver el problema de la palabra de un sistema finito de
+identidades $E$.
 
 Supongamos que tenemos un conjunto
 $E := \{ x + 0 \equiv x, x + s(y) \equiv s(x+y) \}$. El sistema de
@@ -19,14 +20,14 @@ Para estudiar este conjunto hemos aplicado condiciones suficientes, es
 decir, podemos tener un sistema de identidades al que no podamos
 aplicar las propiedades que hemos estudiado, y sin embargo sea
 terminante y/o confluente. La idea detrás de los algorítmos es añadir
-reglas que no cambien la estructura equacional de $E$.
+reglas que no cambien la estructura ecuacional de $E$.
 
 Por ejemplo, supongamos que tenemos un sistema $E$ que es terminante
 pero no confluente. Eso quiere decir que existen pares críticos en el
 sistema de reescritura $R$ asociado a $E$. Si añadimos alguna regla
 adiccional, podemos conseguir que esos pares críticos sean unibles.
 
-Hay que tener en cuenta que al añadir reglas adiccionales se crearán
+Hay que tener en cuenta que al añadir reglas adicionales se crearán
 nuevos pares críticos. Este proceso continuará hasta que no existan
 más pares críticos.
 
@@ -149,7 +150,8 @@ solución para el problema de la palabra.
 
 El anterior algoritmo suele generar un gran número de reglas. Solo hay
 que ver que para cada par crítico surgen varias. Además hay que hacer
-el calculo de los pares críticos en cada paso, lo que hace que el algoritmo sea muy costoso tanto para el tiempo como para la memoria.
+el cálculo de los pares críticos en cada paso, lo que hace que el
+algoritmo sea muy costoso tanto para el tiempo como para la memoria.
 
 Para mejorar el algoritmo de completación, necesitamos varios
 resultados que nos aseguren de que el proceso es correcto. En la
@@ -277,7 +279,7 @@ Huet resuelve el problema de completación.
 \section{Algoritmo de Huet}
 
 El algoritmo que vamos a enunciar es una extensión no trivial del
-algorítmo básico de completación.
+algoritmo básico de completación.
 
 \textbf{Algoritmo de Huet} \hrulefill
 
@@ -363,7 +365,7 @@ Debemos comprobar que si el algoritmo devuelve un \texttt{Error}, el
 procedimiento de completación falla
 
 \begin{lema}
-Una cadena del algoritmo de Huet falla syss termina con output \texttt{Fail}.
+Una cadena del algoritmo de Huet falla syss termina con output \texttt{Error}.
 \end{lema}
 
 \begin{demo}
@@ -372,7 +374,7 @@ Una cadena del algoritmo de Huet falla syss termina con output \texttt{Fail}.
   simplificación y orientación, entonces $E_\omega \not = \emptyset$.
   Si el procedimiento no termina con \texttt{Error}, entonces no hay
   identidades y por ello, el bucle interior siempre termina. Por ello
-  vamos a asociar cada iteracción del bucle como un multiconjunto de
+  vamos a asociar cada iteración del bucle como un multiconjunto de
   pares,
 
   \[
@@ -384,7 +386,7 @@ Una cadena del algoritmo de Huet falla syss termina con output \texttt{Fail}.
   componente por el producto del orden lexicográfico.
 
   Como los multiconjuntos $K_i$ están ordenados usando una extensión
-  de este orden de pares, este esta bien fundando y $K_i >
+  del orden de pares, estos están bien fundandos y $K_i >
   K_{i+1}$. Por tanto el bucle termina y se demuestra el resultado.
 \end{demo}
 

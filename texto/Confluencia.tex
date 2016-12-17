@@ -3,9 +3,9 @@
 En este capítulo estudiaremos el problema de determinar si un sistema
 de reescritura es confluente. En la primera sección vamos a demostrar
 que este problema es indecidible para el caso general. Sin embargo en
-las secciones posteriores, estudiaremos que ocurre para un sistema
+las secciones posteriores, estudiaremos qué ocurre para un sistema
 terminante. Para este caso el problema será decidible. Por último
-veremos que podemos decir para los sistemas que no terminan.
+veremos qué podemos decir para los sistemas que no terminan.
 
 \section{Estudio sobre el problema de decisión}
   
@@ -38,12 +38,12 @@ es confluente mediante el siguiente resultado,
     pueden ser usadas. Por tanto $\rightarrow_R = \leftrightarrow_E$ y
     $s \approx_E t$.
 
-  \item $(\Rightarrow)$ Vamos a probar que para términos $u, v$, si
+  \item $(\Leftarrow)$ Vamos a probar que para términos $u, v$, si
     $u \rightarrow_{R_{st}} v$ entonces $v^t \xrightarrow{*}_R u^t$,
     donde $u^t$ denota el resultado de sustituir las constantes $a$ en
     $u$ por $t$.
 
-    Supongamos que $u \rightarrow_{R{_st}} v$. Distinguimos que reglas
+    Supongamos que $u \rightarrow_{R{_st}} v$. Distinguimos qué reglas
     se usan.
     \begin{itemize}
     \item Si usamos $u \rightarrow_R v$, reemplazamos $a$ por $t$ para
@@ -231,8 +231,8 @@ llegamos a la figura \ref{fig:caso1d}.
 \end{figure}
 
   
-\item \textbf{Caso 2}. Si $p_1$ es un prefijo de $p_2$, tal y como se
-  muestra en la figura \ref{fig:caso2}
+\item \textbf{Caso 2}. Si $p_1$ es un prefijo de $p_2$, tal y cómo se
+  muestra en la figura \ref{fig:caso2}.
 
 \begin{figure}[h]
   \centering
@@ -278,8 +278,8 @@ llegamos a la figura \ref{fig:caso1d}.
 \end{figure}
 
 
-A partir del dibujo, podemos distinguir dos casos según como de
-separadas estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
+A partir del dibujo, podemos distinguir dos casos según cómo de
+separados estén los términos $\sigma_1 l_1$ y $\sigma_2 l_2$.
 
   \begin{itemize}
 
@@ -455,7 +455,7 @@ siguiente resultado.
 
 \section{Implementación de los pares críticos}
 
-Se implementarán una función para calcular los pares críticos. Antes
+Se implementará una función para calcular los pares críticos. Antes
 de poder definirla, se necesitarán varias funciones auxiliares. El
 código se puede encontrar en el fichero \texttt{ParesCriticos.hs}.
 
@@ -483,7 +483,7 @@ indiceMaximo (T _ ts) = maximum (map indiceMaximo ts)
 \end{codigo}
 
 \item \texttt{(renombraTermino n t)}\index{\texttt{renombraTermino}}
-  es el termino resultante tras sumar a todos los índices de
+  es el término resultante tras sumar a todos los índices de
   \texttt{t} el entero \texttt{n}. Por ejemplo,
 \begin{sesion}
 >>> renombraTermino 5 (V ("x",3)) 
@@ -680,7 +680,7 @@ El siguiente resultado se conoce como el lema de confluencia fuerte.
   \item Caso 2.1. Se simplifica mediante la restricción de linealidad
 
   \item Caso 2.2. Como todos los pares críticos son fuertemente
-    unible, la instancia de un par crítico es fuertemente unible
+    unibles, la instancia de un par crítico es fuertemente unible
 
   \end{itemize}
 
@@ -803,7 +803,7 @@ Dado un término $t_p$ para cada $p \in P$, definimos la notación,
 \[ s[t_p]_{p\in P} : = s[t_{p_1}]_{p_1} \dots [t_{p_n}]_{p_n} \]
 
 \begin{defi}
-  Si para cada $p \in P$ tenemos la regla $l_p \rightarrow r_p in R$ y
+  Si para cada $p \in P$ tenemos la regla $l_p \rightarrow r_p \in R$ y
   para cada sustitución $\sigma_p$ tal que $s|_p = \sigma_p l_p$
   llamaremos \textbf{reducción paralela} a
   $s \rightrightarrows^P_R s[\sigma_p r_p]_{p \in P}$

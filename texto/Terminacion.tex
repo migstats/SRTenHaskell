@@ -4,7 +4,7 @@ Como hemos podido comprobar en los anteriores capítulos, es importante
 que nuestros sistemas de reescritura tengan la propiedad de la
 terminación. Sin embargo, en la primera sección de este capítulo
 demostraremos que el problema de decidir si un sistema de reescritura
-es terminante, es indecidible. Aunque en casos mas restringidos si
+es terminante, es indecidible. Aunque en casos mas restringidos sí
 podremos decidir sobre la terminación del sistema de reescritura. En
 la segunda sección definiremos los órdenes de reducción, obteniendo
 una propiedad con ellos para verificar la terminación. En el resto
@@ -62,7 +62,7 @@ De aquí surge el problema de la parada. Nos interesa saber si dado una
 maquina de Turing $M$ y una configuración de la máquina $K$,
 termina. Es decir, que no ocurre $K \vdash_M K_1 \vdash_M K_2 \dots$.
 
-Volviendo al tema de la reescritura, en nuestro es caso el problema es
+Volviendo al tema de la reescritura, en nuestro caso el problema es
 un poco más difícil. Como podemos aplicar toda regla en cada momento,
 no tenemos una configuración $K$ como en el problema de la
 parada. Pero si planteamos el problema suponiendo que no partimos de
@@ -173,7 +173,7 @@ que queríamos. El problema de la terminación pide que todas las
 reducciones desde todos los posibles términos sean terminantes. Puede
 darse el caso que tengamos una configuración de términos que termine,
 pero una reducción no terminante que empiece por un término que no
-este en la configuración inicial. Por tanto el problema no esta
+esté en la configuración inicial. Por tanto el problema no está
 resuelto todavía. El siguiente lema asegura que este caso no puede
 ocurrir.
 
@@ -217,7 +217,7 @@ ocurrir.
 \end{demo}
 
 Finalmente, por el lema \ref{lema:4.1}, obtenemos el objetivo principal
-de esta sección, la indecibilidad para el problema de terminación de
+de esta sección, la indecidibilidad para el problema de terminación de
 los sistemas de reescritura.
 
 
@@ -265,7 +265,7 @@ $t_{i+j}$ y por tanto, obtenemos la segunda proposición.
 Luego si $R$ termina entonces $\rightarrow_R$ es globalmente finita,
 ya que es una ramificación finita por el lema \ref{globfin} y el lema
 \ref{ramfin}. Por tanto todas las reducciones terminarían y, al ser
-finitas, lo hacen en un numero finito de pasos. Con esta idea,
+finitas, lo hacen en un número finito de pasos. Con esta idea,
 obtenemos el resultado clave de esta subsección.
 
 \begin{teor}
@@ -341,13 +341,13 @@ reducción.
 %\end{defi}
 
 A partir de aquí podemos dar varios métodos para dar una repuesta al
-problema. En las secciones posteriores nos centraremos en los ordenes
+problema. En las secciones posteriores nos centraremos en los órdenes
 de simplificación, orden de camino lexicográfico y orden de camino
 recursivo, y daremos una implementación de ambos.
 
 \section{Órdenes de simplificación}
 
-En esta sección definiremos que son los órdenes de simplificación y
+En esta sección definiremos qué son los órdenes de simplificación y
 daremos dos órdenes construidos a partir de estos a modo de ejemplo en
 las siguientes subsecciones. Empezamos por la definición,
 
@@ -408,7 +408,7 @@ La definición es recursiva y esta bien definida.
 
 A continuación implementaremos el orden de caminos lexicográfico en
 Haskell. Para realizar los ejemplos de esta función, primero
-implementaremos \texttt{ordenPorLista xs a b}\index{\texttt{ordenPorLista}}, que es el resultado de
+implementaremos \newline \texttt{ordenPorLista xs a b}\index{\texttt{ordenPorLista}}, que es el resultado de
 comparar $a$ y $b$, tal que $a > b$ syss $a$ aparece antes en $x$s que
 $b$. Por ejemplo,
 
@@ -482,7 +482,7 @@ ordenCamLex ord s@(T f ss) t@(T g ts) --OCL2
 La implementación de la anterior sección se puede generalizar, a lo
 que llamaremos órdenes de caminos recursivos. Para mayor claridad
 crearemos la función \texttt{ordenTermino t s}\index{\texttt{ordenTermino}}, que es es el
-resultado de comparar el nombre delelemento de la posición vacía
+resultado de comparar el nombre del elemento de la posición vacía
 mediante el orden alfabético. Por ejemplo,
 
 \begin{sesion}
@@ -505,7 +505,7 @@ ordenTermino (T a _) (T b _) = compare a b
 \end{codigo}
 
 La generalización se basa en añadir un argumento adicional a la
-función, éste se encarga de especificar que orden se aplica en el
+función, éste se encarga de especificar qué orden se aplica en el
 apartado (OCL2c). Por ejemplo, \index{\texttt{ordenCamRec}}
 
 \begin{sesion}

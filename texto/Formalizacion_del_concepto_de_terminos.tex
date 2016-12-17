@@ -101,7 +101,7 @@ Por ejemplo el término $f(i(i(e)),f(i(e),x)) \in \Sigma_G$, tiene como
 conjunto de variables $\{x\}$.  
 
 Para su implementación en Haskell definiremos la función
-\texttt{conjuntoVar t}\index{\texttt{conjuntoVar}}que devuelve la lista de variables del término
+\texttt{conjuntoVar t}\index{\texttt{conjuntoVar}} que devuelve la lista de variables del término
 \texttt{t}.
 
 \begin{sesion}
@@ -556,11 +556,10 @@ Podemos relacionar este concepto con lo que hemos visto en el capítulo 1.
   Sea $E$ un conjunto de identidades de $\Sigma$. La \textbf{relación de
   reducción} $\rightarrow_E \subseteq T(\Sigma, V) \times T(\Sigma, V)$
   se define como,
-  \[
-    s \rightarrow_E t \hspace{.3cm} syss \hspace{.3cm} \exists(l,r)
-    \in E, p \in \Pos (s), \sigma \text{ una sustitución tal que } s|_p = \sigma(l) \text{ y } t=
-    s[\sigma(r)]_p.
-  \]
+ 
+  $ s \rightarrow_E$ syss $\exists(l,r) \in E, p \in \Pos (s), \sigma$
+  una sustitución tal que
+  $s|_p = \sigma(l) \text{ y } t= s[\sigma(r)]_p.  $
 \end{defi}
 
 Volviendo al ejemplo de grupos, su conjunto de identidades es,
@@ -596,7 +595,7 @@ $\xleftrightarrow{*}_E$ que usaremos en capítulos posteriores.
     f(t_1, \dots, t_n)$, para todo $n \geq 0, f, s_1, \dots s_n, t_1, \dots
     t_n.$ 
   \item La relación $\equiv$ es \textbf{compatible con $\Sigma$--operaciones} syss $ s
-    \equiv t$ implica $f(s_1, \dots, s_{i-1},s, s_{i+1},\dots, s_n) \equiv
+    \equiv t$ implica \newline $f(s_1, \dots, s_{i-1},s, s_{i+1},\dots, s_n) \equiv
     f(s_1, \dots, s_{i-1},t, s_{i+1},\dots, s_n)$ para todo $n \geq 0, f, i =
     1, \dots, n,$ y $s_1, \dots, s_{i-1},s,t, s_{i+1},\dots, s_n$. 
   \item La relación $\equiv$ es \textbf{compatible con el $\Sigma$--contexto} syss $s

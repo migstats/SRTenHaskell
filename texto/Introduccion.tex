@@ -16,7 +16,7 @@ $s(M) \leq s(N) \Rightarrow M \leq N$ y
 $0 \leq N \Rightarrow \texttt{True}$ pueden aplicarse a:
 
 \[
-  s(0) \leq s(x) \longrightarrow 0 \leq s(x) \longrightarrow
+  s(0) \leq s(x) \longrightarrow 0 \leq x \longrightarrow
   \texttt{True}
 \]
 
@@ -30,7 +30,7 @@ Sin embargo, debemos formalizar qué entendemos por término. Un \textbf{términ
 estará construido por \textbf{variables, símbolos constantes y símbolos de
 funciones}. Al estar constituidos por funciones, una representación
 natural de los términos se realiza mediante árboles. Por ejemplo el
-término $f(i(e),f(x,e))$ se representa como,
+término $f(i(e),f(x,e))$ se representa según la figura \ref{fig:0.1}.
 
 \begin{figure}[h]
   \centering
@@ -42,6 +42,8 @@ término $f(i(e),f(x,e))$ se representa como,
         [circle,draw]{$x$}} child {node
         [circle,draw]{$e$}} };
   \end{tikzpicture}
+  \caption{Representación de $f(i(e),f(x,e))$}
+  \label{fig:0.1}
 \end{figure}
 
 Donde $i,f$ representa un símbolo de función de aridad 1 y 2
@@ -150,9 +152,13 @@ confluente es indecidible. Sin embargo, a partir del estudio de pares
 críticos y ortogonalidad, podremos dar varios resultados sobre la
 confluencia.
 
-Por último, en el capítulo 6, enunciaremos dos algoritmos de
+En el capítulo 6, enunciaremos dos algoritmos de
 \textbf{completación}. Para ambos, estudiaremos su funcionamiento y si son
 correctos.
+
+Por último, para la realización de este trabajo han sido de gran
+utilidad las referencias \cite{Nipkow} y \cite{Harrison}. Si se quiere
+ampliar más la información, es recomendable leer estos dos libros.
 
 %%% Local Variables:
 %%% mode: latex

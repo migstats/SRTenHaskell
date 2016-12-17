@@ -85,7 +85,7 @@ A partir de una reducción $\rightarrow$ se pueden calcular diferentes clausuras
 \end{defi}
 
 \begin{ejem}
-  A partir de la reducción:
+  A partir de la reducción \ref{fig:1},
   \begin{figure}[h]
           \centering
           \begin{tikzpicture}
@@ -101,11 +101,11 @@ A partir de una reducción $\rightarrow$ se pueden calcular diferentes clausuras
           \draw [-latex](v3) (v2) edge  node [auto] {} (v3);
           \draw [-latex](v4) (v2) edge  node [auto] {} (v4);
           \draw [-latex](v5) (v4) edge  node [auto] {} (v5);
-          
-  
-          \end{tikzpicture}
+        \end{tikzpicture}
+        \caption{$\rightarrow$}
+          \label{fig:1}
   \end{figure}    
-  Las relaciones según la definición anterior son,
+  las relaciones según la definición anterior son \ref{fig:2} y \ref{fig:3}.
   \begin{figure}[h]
           \centering
           \begin{tikzpicture}
@@ -129,6 +129,7 @@ A partir de una reducción $\rightarrow$ se pueden calcular diferentes clausuras
           
           \end{tikzpicture}
           \caption{$\xrightarrow{+}$}
+          \label{fig:2}
   \end{figure}            
   \begin{figure}[h]
           \centering
@@ -157,6 +158,7 @@ A partir de una reducción $\rightarrow$ se pueden calcular diferentes clausuras
           
           \end{tikzpicture}
           \caption{$\xrightarrow{*}$}
+          \label{fig:3}
   \end{figure}            
 \end{ejem}
 
@@ -177,16 +179,6 @@ imprescindibles a la hora de estudiar los sistemas de reescritura.
   Diremos que $x$ esta en su \textbf{forma normal} si $x$ no es reducible.
 \end{defi}
 
-%\begin{defi} 
-%  Diremos que $\pmb{y}$ \textbf{es la forma normal de} $\pmb{x}$ si
-%  $x \xrightarrow{*} y$, donde $y$ es una forma normal. Si $x$ tiene una única
-%  forma normal, lo denotaremos por $x \downarrow$.
-%\end{defi}
-
-%\begin{defi} 
-%  Diremos que $y$ es un \textbf{sucesor directo} de $x$ si $x \rightarrow y$.
-%\end{defi}
-
 \begin{defi} 
   Diremos que $y$ es un \textbf{sucesor} de $x$ si $x \xrightarrow{+} y$
 \end{defi}      
@@ -195,8 +187,6 @@ imprescindibles a la hora de estudiar los sistemas de reescritura.
   Diremos que $x$ e $y$ son \textbf{confluentes} si hay algún $z$ tal que
   $x\xrightarrow{*}z \xleftarrow{*} y$. Lo denotaremos por $x \downarrow y$.
 \end{defi}      
-
-%Ejemplos 2.1.2 1)
 
 \begin{defi} 
   Llamaremos a una reducción $\rightarrow$, \\
@@ -289,7 +279,20 @@ de propiedades que las relacionan entre sí.
   $y_1 \downarrow y_2$.  
 
   La implicación $(2 \Rightarrow 3)$ es trivial.
-%FALTA
+
+  Para $(3 \Rightarrow 1)$, si $\rightarrow$ es semi--confluente y
+  $x \xleftrightarrow{*}$ se verifica, vamos a probar que
+  $x \downarrow y$ por inducción de la longitud de la cadena
+  $x \xrightarrow{*} y$.  Si partimos con $x = y$, el resultado es
+  trivial. Si $x \xleftrightarrow{*} y \leftrightarrow y'$ sabemos que
+  $x \downarrow y$ por las hipótesis de inducción. Vamos a probar
+  $x \downarrow y'$ por casos.
+  \begin{itemize}
+  \item $y \leftarrow y'$: $x \downarrow y'$ parte directamente de
+    $x \downarrow y$.
+  \item $y \rightarrow y'$: cierto pues la semi--confluencia implica
+    $z \downarrow y'$ y por tanto $x \downarrow y'$.
+  \end{itemize}
 \end{demo}
 
 % Consecuencias directas del teorema
@@ -526,7 +529,7 @@ viene a decir es que si $x_1, \dots, x_m$ son elementos de $M$, y
 $y_1, \dots, y_m$ son elementos de $N$, $X$ e $Y$ vienen definidos como
 \[ \underbrace{x_1, \dots, x_i}_{X} 
    \underbrace{x_{i+1}, \dots, x_m, \dots, y_1, \dots, y_n}_{Y} \] 
-y deben cumplir que para todo $y \in Y. \exists x \in X. x>y$. Notase que $X$
+y deben cumplir que para todo $y \in Y. \exists x \in X. x>y$. Nótese que $X$
 e $Y$ se pueden determinar de varias formas.
 
 \begin{lema}
